@@ -26,7 +26,7 @@ setup(name='collective.dms.mailcontent',
         "Programming Language :: Python",
         ],
       keywords='',
-      author='"C\xc3\xa9dric Messiant"',
+      author='Cédric Messiant',
       author_email='cedricmessiant@ecreall.com',
       url='http://svn.plone.org/svn/collective/',
       license='gpl',
@@ -39,6 +39,11 @@ setup(name='collective.dms.mailcontent',
           'setuptools',
           # -*- Extra requirements: -*-
       ],
+      extras_require={
+          'test': ['plone.app.testing',
+                   'ecreall.helpers.testing',
+                   ],
+          },
       entry_points="""
       # -*- Entry points: -*-
       """,
