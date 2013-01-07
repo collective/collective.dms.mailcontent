@@ -5,4 +5,4 @@ Changelog
 --------------------
 
 - Package created using templer
-  ["Cédric Messiant"]
+  [cedricmessiant]
