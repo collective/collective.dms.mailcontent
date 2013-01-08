@@ -10,6 +10,7 @@ from collective.dms.basecontent.relateddocs import RelatedDocs
 #from plone.supermodel import model
 
 from collective.dms.basecontent.dmsdocument import IDmsDocument, DmsDocument
+from collective.contact.content.schema import ContactList, ContactChoice
 
 
 from . import _
@@ -33,6 +34,10 @@ class IDmsIncomingMail(IDmsDocument):
         required=False
         )
 
+    sender = ContactChoice(
+        title=_(u'Sender'),
+        required=True)
+
     in_reply_to = RelatedDocs(
         title=_(u"In Reply To"),
         required=False,
@@ -53,6 +58,10 @@ class IDmsOutgoingMail(IDmsDocument):
         title=_(u"Internal Reference Number"),
         required=False
         )
+
+    recipients = ContactList(
+        title=_(u'Recipients'),
+        required=True)
 
     in_reply_to = RelatedDocs(
         title=_(u"In Reply To"),
