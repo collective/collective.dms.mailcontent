@@ -14,6 +14,8 @@
   <include package="plone.app.relationfield" />
   <include package="collective.dms.basecontent" />
 
+  <adapter factory=".dmsmail.RelatedDocsFieldWidget" />
+
   <genericsetup:registerProfile
       name="default"
       title="collective.dms.mailcontent"

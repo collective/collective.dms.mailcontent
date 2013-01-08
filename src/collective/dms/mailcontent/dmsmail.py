@@ -1,9 +1,12 @@
 from zope import schema
 #from zope.component import adapts
-from zope.interface import implements
+from zope.interface import implements, implementer
+from zope.component import adapter
+from z3c.form.interfaces import IFormLayer, IFieldWidget
+from z3c.form.widget import FieldWidget
 
 from z3c.relationfield.schema import RelationChoice, RelationList
-
+from z3c.relationfield.interfaces import IRelationList
 
 #from plone.dexterity.content import Container
 from plone.dexterity.schema import DexteritySchemaPolicy
@@ -14,17 +17,32 @@ from plone.formwidget.contenttree import (
 #    ContentTreeFieldWidget,
     ObjPathSourceBinder,
     )
+from plone.formwidget.autocomplete.widget import AutocompleteMultiSelectionWidget
 
 from collective.dms.basecontent.dmsdocument import IDmsDocument, DmsDocument
 
 from . import _
 
+class IRelatedDocs(IRelationList):
+    """"""
+
+@adapter(IRelatedDocs, IFormLayer)
+@implementer(IFieldWidget)
+def RelatedDocsFieldWidget(field, request):
+    return FieldWidget(field, AutocompleteMultiSelectionWidget(request))
+
 
 class RelatedDocs(RelationList):
+    implements(IRelatedDocs)
+
     def __init__(self, portal_types, **kwargs):
         RelationList.__init__(self,
-                        value_type=RelationChoice(title=u'', source=ObjPathSourceBinder()),
+                        value_type=RelationChoice(
+                            title=u'',
+                            source=ObjPathSourceBinder(
+                                portal_type=portal_types)),
                         **kwargs)
+
 
 
 class IDmsIncomingMail(IDmsDocument):
