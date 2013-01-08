@@ -14,8 +14,6 @@
   <include package="plone.app.relationfield" />
   <include package="collective.dms.basecontent" />
 
-  <adapter factory=".dmsmail.RelatedDocsFieldWidget" />
-
   <genericsetup:registerProfile
       name="default"
       title="collective.dms.mailcontent"
@@ -33,10 +31,5 @@
       factory=".dmsmail.DmsOutgoingMailSchemaPolicy"
       name="schema_policy_dmsoutgoingmail"
       />
-
-  <utility component="plone.app.relationfield.source.CMFContentSearchSource"
-           name="collective.dms.cmfcontentsearch"
-           provides="zope.schema.interfaces.IVocabularyFactory"
-           />
 
 </configure>
