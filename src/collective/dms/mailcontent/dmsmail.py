@@ -86,7 +86,7 @@ class IDmsOutgoingMail(IDmsDocument):
     in_reply_to = RelatedDocs(
         title=_(u"In Reply To"),
         required=False,
-        portal_types=('dmsoutgoingmail',))
+        portal_types=('dmsincomingmail',))
 
 
 class DmsOutgoingMail(DmsDocument):
