@@ -1,13 +1,19 @@
 from zope import schema
-from zope.component import adapts
+#from zope.component import adapts
 from zope.interface import implements
 
-from plone.app.content.interfaces import INameFromTitle
+from z3c.relationfield.schema import RelationChoice, RelationList
 
-from plone.dexterity.content import Container
+
+#from plone.dexterity.content import Container
 from plone.dexterity.schema import DexteritySchemaPolicy
 
-from plone.supermodel import model
+#from plone.supermodel import model
+
+from plone.formwidget.contenttree import (
+#    ContentTreeFieldWidget,
+    ObjPathSourceBinder,
+    )
 
 from collective.dms.basecontent.dmsdocument import IDmsDocument, DmsDocument
 
@@ -31,6 +37,10 @@ class IDmsIncomingMail(IDmsDocument):
         required=False
         )
 
+    related_items = RelationList(title=u"Related Items (Relations field)",
+                           required=False,
+                           value_type=RelationChoice(title=u"Multiple",
+                                source=ObjPathSourceBinder()))
 
 class DmsIncomingMail(DmsDocument):
     """ """
@@ -46,6 +56,11 @@ class IDmsOutgoingMail(IDmsDocument):
         title=_(u"Internal Reference Number"),
         required=False
         )
+
+    related_items = RelationList(title=u"Related Items (Relations field)",
+                           required=False,
+                           value_type=RelationChoice(title=u"Related",
+                           vocabulary="plone.formwidget.relations.cmfcontentsearch"))
 
 
 class DmsOutgoingMail(DmsDocument):

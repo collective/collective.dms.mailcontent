@@ -42,6 +42,7 @@ setup(name='collective.dms.mailcontent',
       install_requires=[
           'setuptools',
           'collective.dms.basecontent',
+#          'plone.app.relationfield',
           'five.grok',
       ],
       extras_require={
