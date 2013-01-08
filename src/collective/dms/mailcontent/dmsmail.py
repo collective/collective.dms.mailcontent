@@ -57,11 +57,6 @@ class IDmsOutgoingMail(IDmsDocument):
         required=False
         )
 
-    related_items = RelationList(title=u"Related Items (Relations field)",
-                           required=False,
-                           value_type=RelationChoice(title=u"Related",
-                           vocabulary="plone.formwidget.relations.cmfcontentsearch"))
-
 
 class DmsOutgoingMail(DmsDocument):
     """ """
