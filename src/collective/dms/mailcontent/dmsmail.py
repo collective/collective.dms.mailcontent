@@ -20,6 +20,13 @@ from collective.dms.basecontent.dmsdocument import IDmsDocument, DmsDocument
 from . import _
 
 
+class RelatedDocs(RelationList):
+    def __init__(self, portal_types, **kwargs):
+        RelationList.__init__(self,
+                        value_type=RelationChoice(title=u'', source=ObjPathSourceBinder()),
+                        **kwargs)
+
+
 class IDmsIncomingMail(IDmsDocument):
     """ """
 
@@ -37,10 +44,11 @@ class IDmsIncomingMail(IDmsDocument):
         required=False
         )
 
-    related_items = RelationList(title=u"Related Items (Relations field)",
-                           required=False,
-                           value_type=RelationChoice(title=u"Multiple",
-                                source=ObjPathSourceBinder()))
+    in_reply_to = RelatedDocs(
+        title=_(u"In Reply To"),
+        required=False,
+        portal_types=('dmsoutgoingmail',))
+
 
 class DmsIncomingMail(DmsDocument):
     """ """
@@ -56,6 +64,11 @@ class IDmsOutgoingMail(IDmsDocument):
         title=_(u"Internal Reference Number"),
         required=False
         )
+
+    in_reply_to = RelatedDocs(
+        title=_(u"In Reply To"),
+        required=False,
+        portal_types=('dmsoutgoingmail',))
 
 
 class DmsOutgoingMail(DmsDocument):
