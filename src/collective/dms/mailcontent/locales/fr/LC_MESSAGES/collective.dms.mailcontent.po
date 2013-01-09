@@ -1,0 +1,49 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2013-01-09 12:31+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: fr\n"
+"Language-Name: French\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: collective.dms.mailcontent\n"
+"X-is-fallback-for: fr-fr fr-be fr-ca\n"
+
+#: ./dmsmail.py:28
+msgid "External Reference Number"
+msgstr "Référence externe"
+
+#: ./dmsmail.py:42
+msgid "In Reply To"
+msgstr "Réponse à"
+
+#: ./dmsmail.py:33
+msgid "Internal Reference Number"
+msgstr "Référence interne"
+
+#: ./dmsmail.py:55
+msgid "Mail Date"
+msgstr "Date du courrier"
+
+#: ./dmsmail.py:23
+msgid "Original Mail Date"
+msgstr "Date du courrier"
+
+#: ./dmsmail.py:25
+msgid "Reception Date"
+msgstr "Date de réception"
+
+#: ./dmsmail.py:63
+msgid "Recipients"
+msgstr "Destinataires"
+
+#: ./dmsmail.py:38
+msgid "Sender"
+msgstr "Expéditeur"
+

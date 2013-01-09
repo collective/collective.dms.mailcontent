@@ -9,6 +9,8 @@
 
   <grok:grok package="." />
 
+  <i18n:registerTranslations directory="locales" />
+
   <include package="plone.app.dexterity" />
   <include package="plone.supermodel" />
   <include package="plone.app.relationfield" />
