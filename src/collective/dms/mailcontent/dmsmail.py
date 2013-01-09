@@ -15,6 +15,7 @@ from collective.contact.content.schema import ContactList, ContactChoice
 
 from . import _
 
+from plone.autoform import directives as form
 
 
 class IDmsIncomingMail(IDmsDocument):
@@ -43,6 +44,16 @@ class IDmsIncomingMail(IDmsDocument):
         required=False,
         portal_types=('dmsoutgoingmail',))
 
+    form.order_before(sender='treating_groups')
+    form.order_before(original_mail_date='treating_groups')
+    form.order_before(reception_date='treating_groups')
+    form.order_before(internal_reference_no='treating_groups')
+    form.order_before(external_reference_no='treating_groups')
+    form.order_before(in_reply_to='treating_groups')
+
+    form.order_after(related_docs='recipient_groups')
+    form.order_after(notes='related_docs')
+
 
 class DmsIncomingMail(DmsDocument):
     """ """
@@ -67,6 +78,14 @@ class IDmsOutgoingMail(IDmsDocument):
         title=_(u"In Reply To"),
         required=False,
         portal_types=('dmsincomingmail',))
+
+    form.order_before(recipients='treating_groups')
+    form.order_before(mail_date='treating_groups')
+    form.order_before(internal_reference_no='treating_groups')
+    form.order_before(in_reply_to='treating_groups')
+
+    form.order_after(related_docs='recipient_groups')
+    form.order_after(notes='related_docs')
 
 
 class DmsOutgoingMail(DmsDocument):
