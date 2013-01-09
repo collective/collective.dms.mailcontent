@@ -1,0 +1,33 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2013-01-09 07:42+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: plone\n"
+"X-is-fallback-for: en-au en-ca en-gb en-us\n"
+
+#: ./profiles/default/types/dmsincomingmail.xml
+msgid "Incoming Mail"
+msgstr ""
+
+#: ./profiles/default/types/dmsincomingmail.xml
+msgid "Incoming dms mail document"
+msgstr ""
+
+#: ./profiles/default/types/dmsoutgoingmail.xml
+msgid "Outgoing Mail"
+msgstr ""
+
+#: ./profiles/default/types/dmsoutgoingmail.xml
+msgid "Outgoing dms mail document"
+msgstr ""
+
