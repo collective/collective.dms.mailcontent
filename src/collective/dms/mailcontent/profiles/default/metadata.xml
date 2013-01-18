@@ -4,5 +4,6 @@
   <dependencies>
     <dependency>profile-plone.app.dexterity:default</dependency>
     <dependency>profile-collective.dms.basecontent:default</dependency>
+    <dependency>profile-collective.contact.content:default</dependency>
   </dependencies>
 </metadata>
