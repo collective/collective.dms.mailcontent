@@ -1,3 +1,4 @@
+import datetime
 from zope import schema
 #from zope.component import adapts
 from zope.interface import implements
@@ -12,11 +13,10 @@ from collective.dms.basecontent.relateddocs import RelatedDocs
 from collective.dms.basecontent.dmsdocument import IDmsDocument, DmsDocument
 from collective.contact.content.schema import ContactList, ContactChoice
 
-
 from . import _
 
 from plone.autoform import directives as form
-
+from plone.directives.form import default_value
 
 class IDmsIncomingMail(IDmsDocument):
     """ """
@@ -54,6 +54,10 @@ class IDmsIncomingMail(IDmsDocument):
     form.order_after(related_docs='recipient_groups')
     form.order_after(notes='related_docs')
 
+@default_value(field=IDmsIncomingMail['reception_date'])
+def receptionDefaultValue(data):
+    # To get hold of the folder, do: context = data.context
+    return datetime.date.today()
 
 class DmsIncomingMail(DmsDocument):
     """ """
