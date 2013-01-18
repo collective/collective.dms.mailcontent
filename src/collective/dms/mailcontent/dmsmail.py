@@ -59,7 +59,7 @@ def receptionDateDefaultValue(data):
     # return the day date
     return datetime.date.today()
 
-@default_value(field=IDmsIncomingMail['original_mail_date'])
+#@default_value(field=IDmsIncomingMail['original_mail_date'])
 def originalMailDateDefaultValue(data):
     # return 3 days before
     return datetime.date.today()-datetime.timedelta(3)
