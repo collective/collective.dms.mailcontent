@@ -55,9 +55,15 @@ class IDmsIncomingMail(IDmsDocument):
     form.order_after(notes='related_docs')
 
 @default_value(field=IDmsIncomingMail['reception_date'])
-def receptionDefaultValue(data):
-    # To get hold of the folder, do: context = data.context
+def receptionDateDefaultValue(data):
+    # return the day date
     return datetime.date.today()
+
+@default_value(field=IDmsIncomingMail['original_mail_date'])
+def originalMailDateDefaultValue(data):
+    # return 3 days before
+    return datetime.date.today()-datetime.timedelta(3)
+
 
 class DmsIncomingMail(DmsDocument):
     """ """
