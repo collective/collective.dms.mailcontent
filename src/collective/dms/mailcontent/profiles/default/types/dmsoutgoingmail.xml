@@ -25,7 +25,6 @@
  <property name="behaviors">
   <element value="plone.app.content.interfaces.INameFromTitle"/>
   <element value="plone.app.dexterity.behaviors.metadata.IDublinCore"/>
-  <element value="collective.dexteritytextindexer.behavior.IDexterityTextIndexer" />
 </property>
  <property name="schema">collective.dms.mailcontent.dmsmail.IDmsOutgoingMail</property>
  <!-- DO NOT use a model_source or it removes manually added fields while reapplying the profile -->
