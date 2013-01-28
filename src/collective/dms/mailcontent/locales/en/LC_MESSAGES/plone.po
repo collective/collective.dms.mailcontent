@@ -15,6 +15,10 @@ msgstr ""
 "Domain: plone\n"
 "X-is-fallback-for: en-au en-ca en-gb en-us\n"
 
+#: ../profiles/default/controlpanel.xml
+msgid "Dms Mail settings"
+msgstr ""
+
 #: ./profiles/default/types/dmsincomingmail.xml
 msgid "Incoming Mail"
 msgstr ""

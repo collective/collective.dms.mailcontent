@@ -2,7 +2,8 @@ import datetime
 from zope import schema
 #from zope.component import adapts
 from zope.interface import implements, Interface
-from zope.component import getUtility
+from zope.component import getUtility, getMultiAdapter
+from zope.component.interfaces import ComponentLookupError
 from zope.app.container.interfaces import IObjectAddedEvent
 from plone.registry.interfaces import IRegistry
 from five import grok
@@ -72,8 +73,18 @@ def originalMailDateDefaultValue(data):
 def internalReferenceDefaultValue(data):
     # return a generated internal reference number
     registry = getUtility(IRegistry)
+    # we get the following mail number, stored in registry
     number = registry.get('collective.dms.mailcontent.dmsmail.IDmsIncomingMailInternalReferenceDefaultConfig.incoming_mail_number') or 1
-    return number
+    # we get the portal
+    try:
+        portal_state = getMultiAdapter((data.context, data.request), name=u'plone_portal_state')
+        settings_view = getMultiAdapter((portal_state.portal(), data.request), name=u'dmsmailcontent-settings')
+    except ComponentLookupError:
+        return 'Error getting view...'
+    # we evaluate the expression
+    expression = registry.get('collective.dms.mailcontent.dmsmail.IDmsIncomingMailInternalReferenceDefaultConfig.tal_expression')
+    value = settings_view.evaluateTalExpression(expression, portal_state.portal(), number)
+    return value
 
 class DmsIncomingMail(DmsDocument):
     """ """
