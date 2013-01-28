@@ -1,7 +1,11 @@
 import datetime
 from zope import schema
 #from zope.component import adapts
-from zope.interface import implements
+from zope.interface import implements, Interface
+from zope.component import getUtility
+from zope.app.container.interfaces import IObjectAddedEvent
+from plone.registry.interfaces import IRegistry
+from five import grok
 
 #from plone.dexterity.content import Container
 from plone.dexterity.schema import DexteritySchemaPolicy
@@ -64,11 +68,36 @@ def originalMailDateDefaultValue(data):
     # return 3 days before
     return datetime.date.today()-datetime.timedelta(3)
 
+@default_value(field=IDmsIncomingMail['internal_reference_no'])
+def internalReferenceDefaultValue(data):
+    # return a generated internal reference number
+    registry = getUtility(IRegistry)
+    number = registry.get('collective.dms.mailcontent.dmsmail.IDmsIncomingMailInternalReferenceDefaultConfig.incoming_mail_number') or 1
+    return number
 
 class DmsIncomingMail(DmsDocument):
     """ """
     implements(IDmsIncomingMail)
 
+class IDmsIncomingMailInternalReferenceDefaultConfig(Interface):
+    """
+    Configuration of internal reference default value expression for incoming mail
+    """
+
+    incoming_mail_number = schema.Int(
+        title=_(u'Number of next incoming mail'),
+        description=_(u"This value is used as 'number' variable in linked tal expression"))
+
+    tal_expression = schema.TextLine(
+        title=_(u"Incoming mail internal reference default value expression"),
+        description=_(u"Tal expression where you can use portal, number as variable")
+        )
+
+@grok.subscribe(IDmsIncomingMail, IObjectAddedEvent)
+def incrementIncomingMailNumber(incomingmail, event):
+    """ Increment the value in registry """
+    registry = getUtility(IRegistry)
+    registry['collective.dms.mailcontent.dmsmail.IDmsIncomingMailInternalReferenceDefaultConfig.incoming_mail_number'] += 1
 
 class IDmsOutgoingMail(IDmsDocument):
     """ """

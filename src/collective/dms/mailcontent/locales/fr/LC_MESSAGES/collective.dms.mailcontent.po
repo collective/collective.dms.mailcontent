@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-01-09 12:31+0000\n"
+"POT-Creation-Date: 2013-01-28 14:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,35 +15,51 @@ msgstr ""
 "Domain: collective.dms.mailcontent\n"
 "X-is-fallback-for: fr-fr fr-be fr-ca\n"
 
-#: ./dmsmail.py:28
+#: ../dmsmail.py:33
 msgid "External Reference Number"
 msgstr "Référence externe"
 
-#: ./dmsmail.py:42
+#: ../dmsmail.py:47
 msgid "In Reply To"
 msgstr "Réponse à"
 
-#: ./dmsmail.py:33
+#: ../dmsmail.py:92
+msgid "Incoming mail internal reference default value expression"
+msgstr "Expression Tal pour la valeur par défaut du champ référence interne du courrier entrant"
+
+#: ../dmsmail.py:38
 msgid "Internal Reference Number"
 msgstr "Référence interne"
 
-#: ./dmsmail.py:55
+#: ../dmsmail.py:105
 msgid "Mail Date"
 msgstr "Date du courrier"
 
-#: ./dmsmail.py:23
+#: ../dmsmail.py:88
+msgid "Number of next incoming mail"
+msgstr "Numéro du prochain courrier entrant"
+
+#: ../dmsmail.py:28
 msgid "Original Mail Date"
 msgstr "Date du courrier"
 
-#: ./dmsmail.py:25
+#: ../dmsmail.py:30
 msgid "Reception Date"
 msgstr "Date de réception"
 
-#: ./dmsmail.py:63
+#: ../dmsmail.py:113
 msgid "Recipients"
 msgstr "Destinataires"
 
-#: ./dmsmail.py:38
+#: ../dmsmail.py:43
 msgid "Sender"
 msgstr "Expéditeur"
+
+#: ../dmsmail.py:93
+msgid "Tal expression where you can use portal, number as variable"
+msgstr "Expression Tal où les variables portal, number peuvent être utilisées"
+
+#: ../dmsmail.py:89
+msgid "This value is used as 'number' variable in linked tal expression"
+msgstr "Cette valeur est utilisée en tant que variable 'number' dans l'expression Tal liée"
 
