@@ -16,7 +16,7 @@
   <include package="plone.supermodel" />
   <include package="plone.app.relationfield" />
   <include package="collective.dms.basecontent" />
-  <include package="collective.contact.content" />
+  <include package="collective.contact.core" />
 
   <genericsetup:registerProfile
       name="default"

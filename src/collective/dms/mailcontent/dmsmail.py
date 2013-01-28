@@ -15,7 +15,7 @@ from collective.dms.basecontent.relateddocs import RelatedDocs
 #from plone.supermodel import model
 
 from collective.dms.basecontent.dmsdocument import IDmsDocument, DmsDocument
-from collective.contact.content.schema import ContactList, ContactChoice
+from collective.contact.core.schema import ContactList, ContactChoice
 
 from . import _
 
