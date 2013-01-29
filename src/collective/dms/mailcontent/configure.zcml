@@ -37,13 +37,13 @@
       />
 
   <browser:resource
-      name="dmsmail_icon.png"
-      image="dmsmail_icon.png"
+      name="dmsincomingmail_icon.png"
+      image="dmsincomingmail_icon.png"
       />
 
   <browser:resource
-      name="dmsmail_orange_icon.png"
-      image="dmsmail_orange_icon.png"
+      name="dmsoutgoingmail_icon.png"
+      image="dmsoutgoingmail_icon.png"
       />
 
 
