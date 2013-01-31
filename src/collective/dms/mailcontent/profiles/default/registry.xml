@@ -1,8 +1,6 @@
 <registry>
 
-    <records interface="collective.dms.mailcontent.dmsmail.IDmsIncomingMailInternalReferenceDefaultConfig">
-        <value key="incoming_mail_number">1</value>
-        <value key="tal_expression">python:'in/'+number</value>
+    <records interface="collective.dms.mailcontent.browser.settings.IDmsMailConfig">
     </records>
 
 </registry>

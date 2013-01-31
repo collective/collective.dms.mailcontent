@@ -1,7 +1,7 @@
 import datetime
 from zope import schema
 #from zope.component import adapts
-from zope.interface import implements, Interface
+from zope.interface import implements
 from zope.interface import Invalid
 from zope.component import getUtility, getMultiAdapter
 from zope.component.interfaces import ComponentLookupError
@@ -103,7 +103,7 @@ def internalReferenceDefaultValue(data):
     # return a generated internal reference number
     registry = getUtility(IRegistry)
     # we get the following mail number, stored in registry
-    number = registry.get('collective.dms.mailcontent.dmsmail.IDmsIncomingMailInternalReferenceDefaultConfig.incoming_mail_number') or 1
+    number = registry.get('collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number') or 1
     # we get the portal
     try:
         portal_state = getMultiAdapter((data.context, data.request), name=u'plone_portal_state')
@@ -111,7 +111,7 @@ def internalReferenceDefaultValue(data):
     except ComponentLookupError:
         return 'Error getting view...'
     # we evaluate the expression
-    expression = registry.get('collective.dms.mailcontent.dmsmail.IDmsIncomingMailInternalReferenceDefaultConfig.tal_expression')
+    expression = registry.get('collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_talexpression')
     value = settings_view.evaluateTalExpression(expression, portal_state.portal(), number)
     return value
 
@@ -119,25 +119,11 @@ class DmsIncomingMail(DmsDocument):
     """ """
     implements(IDmsIncomingMail)
 
-class IDmsIncomingMailInternalReferenceDefaultConfig(Interface):
-    """
-    Configuration of internal reference default value expression for incoming mail
-    """
-
-    incoming_mail_number = schema.Int(
-        title=_(u'Number of next incoming mail'),
-        description=_(u"This value is used as 'number' variable in linked tal expression"))
-
-    tal_expression = schema.TextLine(
-        title=_(u"Incoming mail internal reference default value expression"),
-        description=_(u"Tal expression where you can use portal, number as variable")
-        )
-
 @grok.subscribe(IDmsIncomingMail, IObjectAddedEvent)
 def incrementIncomingMailNumber(incomingmail, event):
     """ Increment the value in registry """
     registry = getUtility(IRegistry)
-    registry['collective.dms.mailcontent.dmsmail.IDmsIncomingMailInternalReferenceDefaultConfig.incoming_mail_number'] += 1
+    registry['collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number'] += 1
 
 class IDmsOutgoingMail(IDmsDocument):
     """ """

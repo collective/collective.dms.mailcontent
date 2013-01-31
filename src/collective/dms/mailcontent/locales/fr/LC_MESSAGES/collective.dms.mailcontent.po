@@ -29,7 +29,7 @@ msgstr "Réponse à"
 
 #: ../dmsmail.py:132
 msgid "Incoming mail internal reference default value expression"
-msgstr "Expression Tal pour la valeur par défaut du champ référence interne du courrier entrant"
+msgstr "Courrier entrant: expression Tal pour la valeur par défaut du champ référence interne"
 
 #: ../dmsmail.py:65
 msgid "Internal Reference Number"
@@ -41,7 +41,7 @@ msgstr "Date du courrier"
 
 #: ../dmsmail.py:128
 msgid "Number of next incoming mail"
-msgstr "Numéro du prochain courrier entrant"
+msgstr "Courrier entrant: numéro du prochain courrier"
 
 #: ../dmsmail.py:55
 msgid "Original Mail Date"
