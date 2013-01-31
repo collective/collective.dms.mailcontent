@@ -2,15 +2,16 @@ import datetime
 from zope import schema
 #from zope.component import adapts
 from zope.interface import implements, Interface
+from zope.interface import Invalid
 from zope.component import getUtility, getMultiAdapter
 from zope.component.interfaces import ComponentLookupError
 from zope.app.container.interfaces import IObjectAddedEvent
 from plone.registry.interfaces import IRegistry
 from five import grok
-
+from Products.CMFPlone.utils import getToolByName
 #from plone.dexterity.content import Container
 from plone.dexterity.schema import DexteritySchemaPolicy
-
+from z3c.form import validator
 from collective.dms.basecontent.relateddocs import RelatedDocs
 
 #from plone.supermodel import model
@@ -22,6 +23,31 @@ from . import _
 
 from plone.autoform import directives as form
 from plone.directives.form import default_value
+
+def validateIndexValueUniqueness(context, portal_type, index_name, value):
+    """
+        check at 'portal_type' 'context' creation if 'index' 'value' is uniqueness
+    """
+    catalog = getToolByName(context, 'portal_catalog')
+    brains = catalog.searchResults(**{index_name:value})
+    if context.portal_type != portal_type:
+        # we create the dmsincomingmail, the context is the container
+        if brains:
+            raise Invalid(_(u"This value is already used"))
+    else:
+        # we edit the type, the context is itself
+        # if multiple brains (normally not possible), we are sure there are other objects with same index value
+        if len(brains) >1 or (len(brains)== 1 and brains[0].UID != context.UID()):
+            raise Invalid(_(u"This value is already used"))
+
+class InternalReferenceIncomingMailValidator(validator.SimpleFieldValidator):
+    def validate(self, value):
+        #we call the already defined validators
+        #super(InternalReferenceValidator, self).validate(value)
+        #import ipdb; ipdb.set_trace()
+        validateIndexValueUniqueness(self.context, 'dmsincomingmail', 'internal_reference_no', value)
+
+
 
 class IDmsIncomingMail(IDmsDocument):
     """ """
@@ -37,7 +63,7 @@ class IDmsIncomingMail(IDmsDocument):
 
     internal_reference_no = schema.TextLine(
         title=_(u"Internal Reference Number"),
-        required=False
+        required=False,
         )
 
     sender = ContactChoice(
@@ -58,6 +84,9 @@ class IDmsIncomingMail(IDmsDocument):
 
     form.order_after(related_docs='recipient_groups')
     form.order_after(notes='related_docs')
+
+validator.WidgetValidatorDiscriminators(InternalReferenceIncomingMailValidator, field=IDmsIncomingMail['internal_reference_no'])
+grok.global_adapter(InternalReferenceIncomingMailValidator)
 
 @default_value(field=IDmsIncomingMail['reception_date'])
 def receptionDateDefaultValue(data):
