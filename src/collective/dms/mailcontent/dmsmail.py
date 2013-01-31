@@ -163,6 +163,11 @@ class IDmsOutgoingMail(IDmsDocument):
     form.order_after(related_docs='recipient_groups')
     form.order_after(notes='related_docs')
 
+@default_value(field=IDmsOutgoingMail['mail_date'])
+def mailDateDefaultValue(data):
+    # return the day date
+    return datetime.date.today()
+
 @default_value(field=IDmsOutgoingMail['internal_reference_no'])
 def internalReferenceOutgoingMailDefaultValue(data):
     """
