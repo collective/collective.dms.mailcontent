@@ -24,6 +24,15 @@ class IDmsMailConfig(Interface):
         description=_(u"Tal expression where you can use portal, number as variable")
         )
 
+    outgoingmail_number = schema.Int(
+        title=_(u'Number of next outgoing mail'),
+        description=_(u"This value is used as 'number' variable in linked tal expression"))
+
+    outgoingmail_talexpression = schema.TextLine(
+        title=_(u"Outgoing mail internal reference default value expression"),
+        description=_(u"Tal expression where you can use portal, number as variable")
+        )
+
 class SettingsEditForm(RegistryEditForm):
     """
     Define form logic

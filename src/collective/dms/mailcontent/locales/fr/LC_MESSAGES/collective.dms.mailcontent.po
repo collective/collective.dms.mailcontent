@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-01-31 10:55+0000\n"
+"POT-Creation-Date: 2013-01-31 12:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Domain: collective.dms.mailcontent\n"
 "X-is-fallback-for: fr-fr fr-be fr-ca\n"
 
-#: ../browser/settings.py:18
+#: ../browser/settings.py:41
 msgid "Dms Mail settings"
 msgstr "Configuration du courrier"
 
@@ -27,31 +27,39 @@ msgstr "Référence externe"
 msgid "In Reply To"
 msgstr "Réponse à"
 
-#: ../dmsmail.py:132
+#: ../browser/settings.py:23
 msgid "Incoming mail internal reference default value expression"
-msgstr "Courrier entrant: expression Tal pour la valeur par défaut du champ référence interne"
+msgstr "Courrier entrant: expression Tal définissant la valeur par défaut du champ référence interne"
 
 #: ../dmsmail.py:65
 msgid "Internal Reference Number"
 msgstr "Référence interne"
 
-#: ../dmsmail.py:145
+#: ../dmsmail.py:139
 msgid "Mail Date"
 msgstr "Date du courrier"
 
-#: ../dmsmail.py:128
+#: ../browser/settings.py:19
 msgid "Number of next incoming mail"
 msgstr "Courrier entrant: numéro du prochain courrier"
+
+#: ../browser/settings.py:28
+msgid "Number of next outgoing mail"
+msgstr "Courrier sortant: numéro du prochain courrier"
 
 #: ../dmsmail.py:55
 msgid "Original Mail Date"
 msgstr "Date du courrier"
 
+#: ../browser/settings.py:32
+msgid "Outgoing mail internal reference default value expression"
+msgstr "Courrier sortant: expression Tal définissant la valeur par défaut du champ référence interne"
+
 #: ../dmsmail.py:57
 msgid "Reception Date"
 msgstr "Date de réception"
 
-#: ../dmsmail.py:153
+#: ../dmsmail.py:147
 msgid "Recipients"
 msgstr "Destinataires"
 
@@ -59,7 +67,7 @@ msgstr "Destinataires"
 msgid "Sender"
 msgstr "Expéditeur"
 
-#: ../dmsmail.py:133
+#: ../browser/settings.py:24
 msgid "Tal expression where you can use portal, number as variable"
 msgstr "Expression Tal où les variables portal, number peuvent être utilisées"
 
@@ -67,7 +75,11 @@ msgstr "Expression Tal où les variables portal, number peuvent être utilisées
 msgid "This value is already used"
 msgstr "Cette valeur est déjà utilisée !"
 
-#: ../dmsmail.py:129
+#: ../browser/settings.py:20
 msgid "This value is used as 'number' variable in linked tal expression"
 msgstr "Cette valeur est utilisée en tant que variable 'number' dans l'expression Tal liée"
+
+#: ../setuphandlers.py:17
+msgid "collective.dms.mailcontent"
+msgstr ""
 

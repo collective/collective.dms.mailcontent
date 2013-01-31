@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-01-31 10:55+0000\n"
+"POT-Creation-Date: 2013-01-31 12:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Domain: collective.dms.mailcontent\n"
 "X-is-fallback-for: en-au en-ca en-gb en-us\n"
 
-#: ../browser/settings.py:18
+#: ../browser/settings.py:41
 msgid "Dms Mail settings"
 msgstr ""
 
@@ -27,7 +27,7 @@ msgstr ""
 msgid "In Reply To"
 msgstr ""
 
-#: ../dmsmail.py:132
+#: ../browser/settings.py:23
 msgid "Incoming mail internal reference default value expression"
 msgstr ""
 
@@ -35,23 +35,31 @@ msgstr ""
 msgid "Internal Reference Number"
 msgstr ""
 
-#: ../dmsmail.py:145
+#: ../dmsmail.py:139
 msgid "Mail Date"
 msgstr ""
 
-#: ../dmsmail.py:128
+#: ../browser/settings.py:19
 msgid "Number of next incoming mail"
+msgstr ""
+
+#: ../browser/settings.py:28
+msgid "Number of next outgoing mail"
 msgstr ""
 
 #: ../dmsmail.py:55
 msgid "Original Mail Date"
 msgstr ""
 
+#: ../browser/settings.py:32
+msgid "Outgoing mail internal reference default value expression"
+msgstr ""
+
 #: ../dmsmail.py:57
 msgid "Reception Date"
 msgstr ""
 
-#: ../dmsmail.py:153
+#: ../dmsmail.py:147
 msgid "Recipients"
 msgstr ""
 
@@ -59,7 +67,7 @@ msgstr ""
 msgid "Sender"
 msgstr ""
 
-#: ../dmsmail.py:133
+#: ../browser/settings.py:24
 msgid "Tal expression where you can use portal, number as variable"
 msgstr ""
 
@@ -67,7 +75,11 @@ msgstr ""
 msgid "This value is already used"
 msgstr ""
 
-#: ../dmsmail.py:129
+#: ../browser/settings.py:20
 msgid "This value is used as 'number' variable in linked tal expression"
+msgstr ""
+
+#: ../setuphandlers.py:17
+msgid "collective.dms.mailcontent"
 msgstr ""
 
