@@ -24,12 +24,13 @@ from . import _
 from plone.autoform import directives as form
 from plone.directives.form import default_value
 
+
 def validateIndexValueUniqueness(context, portal_type, index_name, value):
     """
         check at 'portal_type' 'context' creation if 'index' 'value' is uniqueness
     """
     catalog = getToolByName(context, 'portal_catalog')
-    brains = catalog.searchResults(**{index_name:value})
+    brains = catalog.searchResults(**{index_name: value})
     if context.portal_type != portal_type:
         # we create the dmsincomingmail, the context is the container
         if brains:
@@ -37,8 +38,9 @@ def validateIndexValueUniqueness(context, portal_type, index_name, value):
     else:
         # we edit the type, the context is itself
         # if multiple brains (normally not possible), we are sure there are other objects with same index value
-        if len(brains) >1 or (len(brains)== 1 and brains[0].UID != context.UID()):
+        if len(brains) > 1 or (len(brains) == 1 and brains[0].UID != context.UID()):
             raise Invalid(_(u"This value is already used"))
+
 
 class InternalReferenceIncomingMailValidator(validator.SimpleFieldValidator):
     def validate(self, value):
@@ -46,7 +48,6 @@ class InternalReferenceIncomingMailValidator(validator.SimpleFieldValidator):
         #super(InternalReferenceValidator, self).validate(value)
         #import ipdb; ipdb.set_trace()
         validateIndexValueUniqueness(self.context, 'dmsincomingmail', 'internal_reference_no', value)
-
 
 
 class IDmsIncomingMail(IDmsDocument):
@@ -85,18 +86,22 @@ class IDmsIncomingMail(IDmsDocument):
     form.order_after(related_docs='recipient_groups')
     form.order_after(notes='related_docs')
 
-validator.WidgetValidatorDiscriminators(InternalReferenceIncomingMailValidator, field=IDmsIncomingMail['internal_reference_no'])
+validator.WidgetValidatorDiscriminators(InternalReferenceIncomingMailValidator,
+                                        field=IDmsIncomingMail['internal_reference_no'])
 grok.global_adapter(InternalReferenceIncomingMailValidator)
+
 
 @default_value(field=IDmsIncomingMail['reception_date'])
 def receptionDateDefaultValue(data):
     # return the day date
     return datetime.date.today()
 
+
 #@default_value(field=IDmsIncomingMail['original_mail_date'])
 def originalMailDateDefaultValue(data):
     # return 3 days before
-    return datetime.date.today()-datetime.timedelta(3)
+    return datetime.date.today() - datetime.timedelta(3)
+
 
 def evaluateInternalReference(context, request, number_registry_name, talexpression_registry_name):
     # return a generated internal reference number
@@ -114,6 +119,7 @@ def evaluateInternalReference(context, request, number_registry_name, talexpress
     value = settings_view.evaluateTalExpression(expression, portal_state.portal(), number)
     return value
 
+
 @default_value(field=IDmsIncomingMail['internal_reference_no'])
 def internalReferenceIncomingMailDefaultValue(data):
     """
@@ -123,17 +129,17 @@ def internalReferenceIncomingMailDefaultValue(data):
                               'collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number',
                               'collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_talexpression')
 
+
 class DmsIncomingMail(DmsDocument):
     """ """
     implements(IDmsIncomingMail)
+
 
 @grok.subscribe(IDmsIncomingMail, IObjectAddedEvent)
 def incrementIncomingMailNumber(incomingmail, event):
     """ Increment the value in registry """
     registry = getUtility(IRegistry)
     registry['collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number'] += 1
-
-
 
 
 class IDmsOutgoingMail(IDmsDocument):
@@ -163,10 +169,12 @@ class IDmsOutgoingMail(IDmsDocument):
     form.order_after(related_docs='recipient_groups')
     form.order_after(notes='related_docs')
 
+
 @default_value(field=IDmsOutgoingMail['mail_date'])
 def mailDateDefaultValue(data):
     # return the day date
     return datetime.date.today()
+
 
 @default_value(field=IDmsOutgoingMail['internal_reference_no'])
 def internalReferenceOutgoingMailDefaultValue(data):
@@ -177,6 +185,7 @@ def internalReferenceOutgoingMailDefaultValue(data):
                               'collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number',
                               'collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_talexpression')
 
+
 class InternalReferenceOutgoingMailValidator(validator.SimpleFieldValidator):
     def validate(self, value):
         #we call the already defined validators
@@ -184,8 +193,10 @@ class InternalReferenceOutgoingMailValidator(validator.SimpleFieldValidator):
         #import ipdb; ipdb.set_trace()
         validateIndexValueUniqueness(self.context, 'dmsoutgoingmail', 'internal_reference_no', value)
 
-validator.WidgetValidatorDiscriminators(InternalReferenceOutgoingMailValidator, field=IDmsOutgoingMail['internal_reference_no'])
+validator.WidgetValidatorDiscriminators(InternalReferenceOutgoingMailValidator,
+                                        field=IDmsOutgoingMail['internal_reference_no'])
 grok.global_adapter(InternalReferenceOutgoingMailValidator)
+
 
 @grok.subscribe(IDmsOutgoingMail, IObjectAddedEvent)
 def incrementOutgoingMailNumber(outgoingmail, event):
