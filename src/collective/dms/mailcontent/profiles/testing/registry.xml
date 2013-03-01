@@ -1,0 +1,14 @@
+<registry>
+    <record name="collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number">
+        <value>10</value>
+    </record>
+    <record name="collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_talexpression">
+        <value>python:'test-in/'+number</value>
+    </record>
+    <record name="collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number">
+        <value>10</value>
+    </record>
+    <record name="collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_talexpression">
+        <value>python:'test-out/'+number</value>
+    </record>
+</registry>

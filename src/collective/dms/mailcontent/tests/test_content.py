@@ -2,12 +2,13 @@
 
 import unittest2 as unittest
 import datetime
-
+from zope.component import getUtility
+from zope.interface import Invalid
 from plone.app.testing import setRoles, TEST_USER_ID
+from plone.dexterity.utils import createContentInContainer
+from plone.registry.interfaces import IRegistry
 from collective.dms.mailcontent.testing import INTEGRATION
 from collective.dms.mailcontent import dmsmail
-from plone.dexterity.utils import createContentInContainer
-from zope.interface import Invalid
 
 
 class TestContentTypes(unittest.TestCase):
@@ -48,3 +49,9 @@ class TestDmsmailMethods(TestContentTypes):
                                           **{'internal_reference_no': '12345', 'title': 'Test 2'})
         self.assertRaisesRegexp(Invalid, u"This value is already used", dmsmail.validateIndexValueUniqueness,
                                 *[imail2, 'dmsincomingmail', 'internal_reference_no', '12345'])
+
+    def test_evaluateInternalReference(self):
+        self.assertEquals(dmsmail.evaluateInternalReference(self.portal, self.portal.REQUEST,
+                              'collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number',
+                              'collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_talexpression'),
+                          'test-in/10')
