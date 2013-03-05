@@ -20,7 +20,7 @@
   <element value="view"/>
  </property>
  <property name="default_view_fallback">False</property>
- <property name="add_permission">cmf.AddPortalContent</property>
+ <property name="add_permission">collective.dms.mailcontent.dmsincomingmail.add</property>
  <property name="klass">collective.dms.mailcontent.dmsmail.DmsIncomingMail</property>
  <property name="behaviors">
   <element value="plone.app.content.interfaces.INameFromTitle"/>

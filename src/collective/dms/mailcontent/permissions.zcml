@@ -1,0 +1,15 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="collective.dms.mailcontent">
+
+    <permission
+        id="collective.dms.mailcontent.dmsincomingmail.add"
+        title="collective.dms.mailcontent: Add Incoming Mail"
+        />
+
+    <permission
+        id="collective.dms.mailcontent.dmsoutgoingmail.add"
+        title="collective.dms.mailcontent: Add Outgoing Mail"
+        />
+
+</configure>

@@ -6,6 +6,8 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="collective.dms.mailcontent">
 
+  <include file="permissions.zcml" />
+
   <include package="five.grok" />
 
   <grok:grok package="." />
