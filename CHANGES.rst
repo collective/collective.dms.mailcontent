@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.0-dev (unreleased)
---------------------
+0.1 (2013-03-06)
+----------------
 
 - Package created using templer
   [cedricmessiant]
