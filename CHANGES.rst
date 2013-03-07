@@ -1,10 +1,10 @@
 Changelog
 =========
 
-0.2 (unreleased)
-----------------
+0.1.1 (2013-03-07)
+------------------
 
-- Nothing changed yet.
+- Added missing file in egg
 
 
 0.1 (2013-03-06)
