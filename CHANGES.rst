@@ -1,10 +1,10 @@
 Changelog
 =========
 
-0.2 (unreleased)
-----------------
+0.1.2 (2013-03-08)
+------------------
 
-- Nothing changed yet.
+- Corrected MANIFEST.in
 
 
 0.1.1 (2013-03-07)
