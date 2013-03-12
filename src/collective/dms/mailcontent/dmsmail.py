@@ -131,13 +131,13 @@ def internalReferenceIncomingMailDefaultValue(data):
 
 
 @indexer(IDmsIncomingMail)
-def internalReferenceNoIndexer(obj):
+def internalReferenceNoIndexerForIncomingMail(obj):
     """
         specific indexer method to avoid acquisition of dmsincomingmail contained elements.
-        internal_reference_number is the fake attribute name
+        internal_reference_number is a fake attribute name
     """
     return obj.internal_reference_no
-grok.global_adapter(internalReferenceNoIndexer, name="internal_reference_number")
+grok.global_adapter(internalReferenceNoIndexerForIncomingMail, name="internal_reference_number")
 
 
 class DmsIncomingMail(DmsDocument):
@@ -217,6 +217,16 @@ def incrementOutgoingMailNumber(outgoingmail, event):
 class DmsOutgoingMail(DmsDocument):
     """ """
     implements(IDmsOutgoingMail)
+
+
+@indexer(IDmsOutgoingMail)
+def internalReferenceNoIndexerForOutgoingMail(obj):
+    """
+        specific indexer method to avoid acquisition of dmsoutgoingmail contained elements.
+        internal_reference_number is a fake attribute name
+    """
+    return obj.internal_reference_no
+grok.global_adapter(internalReferenceNoIndexerForOutgoingMail, name="internal_reference_number")
 
 
 class DmsIncomingMailSchemaPolicy(DexteritySchemaPolicy):
