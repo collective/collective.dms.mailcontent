@@ -11,6 +11,7 @@ from five import grok
 from Products.CMFPlone.utils import getToolByName
 #from plone.dexterity.content import Container
 from plone.dexterity.schema import DexteritySchemaPolicy
+from plone.indexer import indexer
 from z3c.form import validator
 from collective.dms.basecontent.relateddocs import RelatedDocs
 
@@ -46,8 +47,7 @@ class InternalReferenceIncomingMailValidator(validator.SimpleFieldValidator):
     def validate(self, value):
         #we call the already defined validators
         #super(InternalReferenceValidator, self).validate(value)
-        #import ipdb; ipdb.set_trace()
-        validateIndexValueUniqueness(self.context, 'dmsincomingmail', 'internal_reference_no', value)
+        validateIndexValueUniqueness(self.context, 'dmsincomingmail', 'internal_reference_number', value)
 
 
 class IDmsIncomingMail(IDmsDocument):
@@ -130,6 +130,16 @@ def internalReferenceIncomingMailDefaultValue(data):
                               'collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_talexpression')
 
 
+@indexer(IDmsIncomingMail)
+def internalReferenceNoIndexer(obj):
+    """
+        specific indexer method to avoid acquisition of dmsincomingmail contained elements.
+        internal_reference_number is the fake attribute name
+    """
+    return obj.internal_reference_no
+grok.global_adapter(internalReferenceNoIndexer, name="internal_reference_number")
+
+
 class DmsIncomingMail(DmsDocument):
     """ """
     implements(IDmsIncomingMail)
@@ -190,8 +200,7 @@ class InternalReferenceOutgoingMailValidator(validator.SimpleFieldValidator):
     def validate(self, value):
         #we call the already defined validators
         #super(InternalReferenceValidator, self).validate(value)
-        #import ipdb; ipdb.set_trace()
-        validateIndexValueUniqueness(self.context, 'dmsoutgoingmail', 'internal_reference_no', value)
+        validateIndexValueUniqueness(self.context, 'dmsoutgoingmail', 'internal_reference_number', value)
 
 validator.WidgetValidatorDiscriminators(InternalReferenceOutgoingMailValidator,
                                         field=IDmsOutgoingMail['internal_reference_no'])

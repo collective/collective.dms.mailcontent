@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <object name="portal_catalog">
-    <index name="internal_reference_no" meta_type="FieldIndex">
-        <indexed_attr value="internal_reference_no"/>
+    <index name="internal_reference_number" meta_type="FieldIndex">
+        <indexed_attr value="internal_reference_number"/>
     </index>
-    <column value="internal_reference_no"/>
+    <column value="internal_reference_number"/>
 </object>

@@ -34,21 +34,25 @@ class TestDmsmailMethods(TestContentTypes):
                                                                              'title': 'Test 1'})
         #test with container as context, value doesn't exist
         self.assertEquals(dmsmail.validateIndexValueUniqueness(self.portal, 'dmsincomingmail',
-                                                               'internal_reference_no', '54321'), None)
+                                                               'internal_reference_number', '54321'), None)
         #test with container as context, value exists
         self.assertRaisesRegexp(Invalid, u"This value is already used", dmsmail.validateIndexValueUniqueness,
-                                *[self.portal, 'dmsincomingmail', 'internal_reference_no', '12345'])
+                                *[self.portal, 'dmsincomingmail', 'internal_reference_number', '12345'])
         #test with object as context, value doesn't exist
         self.assertEquals(dmsmail.validateIndexValueUniqueness(imail1, 'dmsincomingmail',
-                                                               'internal_reference_no', '54321'), None)
+                                                               'internal_reference_number', '54321'), None)
         #test with object as context, value exists on the same object
         self.assertEquals(dmsmail.validateIndexValueUniqueness(imail1, 'dmsincomingmail',
-                                                               'internal_reference_no', '12345'), None)
+                                                               'internal_reference_number', '12345'), None)
+        #test with object as context and a sub element in the folder, value exists on the same object
+        imail2 = createContentInContainer(imail1, 'dmsmainfile', **{'title': 'File 1'})
+        self.assertEquals(dmsmail.validateIndexValueUniqueness(imail1, 'dmsincomingmail',
+                                                               'internal_reference_number', '12345'), None)
         #test with object as context, value exists on a different object too
         imail2 = createContentInContainer(self.portal, 'dmsincomingmail',
                                           **{'internal_reference_no': '12345', 'title': 'Test 2'})
         self.assertRaisesRegexp(Invalid, u"This value is already used", dmsmail.validateIndexValueUniqueness,
-                                *[imail2, 'dmsincomingmail', 'internal_reference_no', '12345'])
+                                *[imail2, 'dmsincomingmail', 'internal_reference_number', '12345'])
 
     def test_evaluateInternalReference(self):
         self.assertEquals(dmsmail.evaluateInternalReference(self.portal, self.portal.REQUEST,
