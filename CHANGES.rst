@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.1.3 (unreleased)
+0.1.3 (2013-03-12)
 ------------------
 
 - Change the index name and definition to avoid bad index on mail contained elements. Add a specific method linked to the index.
