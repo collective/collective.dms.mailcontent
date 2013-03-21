@@ -5,7 +5,7 @@ from zope.interface import implements
 from zope.interface import Invalid
 from zope.component import getUtility, getMultiAdapter
 from zope.component.interfaces import ComponentLookupError
-from zope.app.container.interfaces import IObjectAddedEvent
+from zope.lifecycleevent.interfaces import IObjectAddedEvent
 from plone.registry.interfaces import IRegistry
 from five import grok
 from Products.CMFPlone.utils import getToolByName
