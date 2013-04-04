@@ -17,6 +17,7 @@
   <include package="plone.app.dexterity" />
   <include package="plone.supermodel" />
   <include package="plone.app.relationfield" />
+  <include package="plone.formwidget.datetime" />
   <include package="collective.dms.basecontent" />
   <include package="collective.contact.core" />
 

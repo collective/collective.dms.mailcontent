@@ -1,29 +1,29 @@
 import datetime
+
+from five import grok
+
+from z3c.form import validator
 from zope import schema
-#from zope.component import adapts
-from zope.interface import implements
-from zope.interface import Invalid
 from zope.component import getUtility, getMultiAdapter
 from zope.component.interfaces import ComponentLookupError
+from zope.interface import Invalid
+from zope.interface import implements
 from zope.lifecycleevent.interfaces import IObjectAddedEvent
-from plone.registry.interfaces import IRegistry
-from five import grok
+
 from Products.CMFPlone.utils import getToolByName
-#from plone.dexterity.content import Container
+
+from plone.autoform import directives as form
 from plone.dexterity.schema import DexteritySchemaPolicy
+from plone.directives.form import default_value
+from plone.formwidget.datetime.z3cform.widget import DateFieldWidget
 from plone.indexer import indexer
-from z3c.form import validator
+from plone.registry.interfaces import IRegistry
+
 from collective.dms.basecontent.relateddocs import RelatedDocs
-
-#from plone.supermodel import model
-
 from collective.dms.basecontent.dmsdocument import IDmsDocument, DmsDocument
 from collective.contact.core.schema import ContactList, ContactChoice
 
 from . import _
-
-from plone.autoform import directives as form
-from plone.directives.form import default_value
 
 
 def validateIndexValueUniqueness(context, portal_type, index_name, value):
@@ -54,8 +54,10 @@ class IDmsIncomingMail(IDmsDocument):
     """ """
 
     original_mail_date = schema.Date(title=_(u'Original Mail Date'), required=False)
+    form.widget(original_mail_date=DateFieldWidget)
 
     reception_date = schema.Date(title=_(u'Reception Date'), required=False)
+    form.widget(reception_date=DateFieldWidget)
 
     external_reference_no = schema.TextLine(
         title=_(u"External Reference Number"),
