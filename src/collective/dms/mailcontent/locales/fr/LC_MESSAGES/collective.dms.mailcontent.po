@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-01-31 12:34+0000\n"
+"POT-Creation-Date: 2013-04-06 16:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,11 +19,11 @@ msgstr ""
 msgid "Dms Mail settings"
 msgstr "Configuration du courrier"
 
-#: ../dmsmail.py:60
+#: ../dmsmail.py:63
 msgid "External Reference Number"
 msgstr "Référence externe"
 
-#: ../dmsmail.py:74
+#: ../dmsmail.py:77
 msgid "In Reply To"
 msgstr "Réponse à"
 
@@ -31,11 +31,11 @@ msgstr "Réponse à"
 msgid "Incoming mail internal reference default value expression"
 msgstr "Courrier entrant: expression Tal définissant la valeur par défaut du champ référence interne"
 
-#: ../dmsmail.py:65
+#: ../dmsmail.py:68
 msgid "Internal Reference Number"
 msgstr "Référence interne"
 
-#: ../dmsmail.py:139
+#: ../dmsmail.py:160
 msgid "Mail Date"
 msgstr "Date du courrier"
 
@@ -47,7 +47,7 @@ msgstr "Courrier entrant: numéro du prochain courrier"
 msgid "Number of next outgoing mail"
 msgstr "Courrier sortant: numéro du prochain courrier"
 
-#: ../dmsmail.py:55
+#: ../dmsmail.py:56
 msgid "Original Mail Date"
 msgstr "Date du courrier"
 
@@ -55,15 +55,15 @@ msgstr "Date du courrier"
 msgid "Outgoing mail internal reference default value expression"
 msgstr "Courrier sortant: expression Tal définissant la valeur par défaut du champ référence interne"
 
-#: ../dmsmail.py:57
+#: ../dmsmail.py:59
 msgid "Reception Date"
 msgstr "Date de réception"
 
-#: ../dmsmail.py:147
+#: ../dmsmail.py:168
 msgid "Recipients"
 msgstr "Destinataires"
 
-#: ../dmsmail.py:70
+#: ../dmsmail.py:73
 msgid "Sender"
 msgstr "Expéditeur"
 
@@ -71,7 +71,7 @@ msgstr "Expéditeur"
 msgid "Tal expression where you can use portal, number as variable"
 msgstr "Expression Tal où les variables portal, number peuvent être utilisées"
 
-#: ../dmsmail.py:36
+#: ../dmsmail.py:38
 msgid "This value is already used"
 msgstr "Cette valeur est déjà utilisée !"
 
