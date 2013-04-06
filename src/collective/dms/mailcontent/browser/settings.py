@@ -40,7 +40,7 @@ class SettingsEditForm(RegistryEditForm):
     schema = IDmsMailConfig
     label = _(u"Dms Mail settings")
 
-class SettingsView(grok.CodeView):
+class SettingsView(grok.View):
     """
     View which wrap the settings form using ControlPanelFormWrapper to a HTML boilerplate frame.
     """
