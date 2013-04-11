@@ -30,6 +30,9 @@ def validateIndexValueUniqueness(context, portal_type, index_name, value):
     """
         check at 'portal_type' 'context' creation if 'index' 'value' is uniqueness
     """
+    # if the value is empty, we don't check anything
+    if not value:
+        return
     catalog = getToolByName(context, 'portal_catalog')
     brains = catalog.searchResults(**{index_name: value})
     if context.portal_type != portal_type:

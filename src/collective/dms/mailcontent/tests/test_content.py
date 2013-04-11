@@ -45,7 +45,7 @@ class TestDmsmailMethods(TestContentTypes):
         self.assertEquals(dmsmail.validateIndexValueUniqueness(imail1, 'dmsincomingmail',
                                                                'internal_reference_number', '12345'), None)
         #test with object as context and a sub element in the folder, value exists on the same object
-        imail2 = createContentInContainer(imail1, 'dmsmainfile', **{'title': 'File 1'})
+        createContentInContainer(imail1, 'dmsmainfile', **{'title': 'File 1'})
         self.assertEquals(dmsmail.validateIndexValueUniqueness(imail1, 'dmsincomingmail',
                                                                'internal_reference_number', '12345'), None)
         #test with object as context, value exists on a different object too
@@ -53,9 +53,16 @@ class TestDmsmailMethods(TestContentTypes):
                                           **{'internal_reference_no': '12345', 'title': 'Test 2'})
         self.assertRaisesRegexp(Invalid, u"This value is already used", dmsmail.validateIndexValueUniqueness,
                                 *[imail2, 'dmsincomingmail', 'internal_reference_number', '12345'])
+        #test with empty value
+        imail3 = createContentInContainer(self.portal, 'dmsincomingmail',
+                                          **{'internal_reference_no': '', 'title': 'Test 2'})
+        self.assertEquals(dmsmail.validateIndexValueUniqueness(self.portal, 'dmsincomingmail',
+                                                               'internal_reference_number', ''), None)
+        self.assertEquals(dmsmail.validateIndexValueUniqueness(imail3, 'dmsincomingmail',
+                                                               'internal_reference_number', ''), None)
 
     def test_evaluateInternalReference(self):
         self.assertEquals(dmsmail.evaluateInternalReference(self.portal, self.portal.REQUEST,
-                              'collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number',
-                              'collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_talexpression'),
+                          'collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number',
+                          'collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_talexpression'),
                           'test-in/10')
