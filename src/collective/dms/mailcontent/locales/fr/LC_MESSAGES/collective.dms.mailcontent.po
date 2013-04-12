@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-04-06 16:59+0000\n"
+"POT-Creation-Date: 2013-04-12 06:15+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,11 +19,11 @@ msgstr ""
 msgid "Dms Mail settings"
 msgstr "Configuration du courrier"
 
-#: ../dmsmail.py:63
+#: ../dmsmail.py:71
 msgid "External Reference Number"
 msgstr "Référence externe"
 
-#: ../dmsmail.py:77
+#: ../dmsmail.py:83
 msgid "In Reply To"
 msgstr "Réponse à"
 
@@ -31,11 +31,11 @@ msgstr "Réponse à"
 msgid "Incoming mail internal reference default value expression"
 msgstr "Courrier entrant: expression Tal définissant la valeur par défaut du champ référence interne"
 
-#: ../dmsmail.py:68
+#: ../dmsmail.py:75
 msgid "Internal Reference Number"
 msgstr "Référence interne"
 
-#: ../dmsmail.py:160
+#: ../dmsmail.py:166
 msgid "Mail Date"
 msgstr "Date du courrier"
 
@@ -47,7 +47,7 @@ msgstr "Courrier entrant: numéro du prochain courrier"
 msgid "Number of next outgoing mail"
 msgstr "Courrier sortant: numéro du prochain courrier"
 
-#: ../dmsmail.py:56
+#: ../dmsmail.py:64
 msgid "Original Mail Date"
 msgstr "Date du courrier"
 
@@ -55,15 +55,15 @@ msgstr "Date du courrier"
 msgid "Outgoing mail internal reference default value expression"
 msgstr "Courrier sortant: expression Tal définissant la valeur par défaut du champ référence interne"
 
-#: ../dmsmail.py:59
+#: ../dmsmail.py:67
 msgid "Reception Date"
 msgstr "Date de réception"
 
-#: ../dmsmail.py:168
+#: ../dmsmail.py:173
 msgid "Recipients"
 msgstr "Destinataires"
 
-#: ../dmsmail.py:73
+#: ../dmsmail.py:79
 msgid "Sender"
 msgstr "Expéditeur"
 
@@ -71,9 +71,13 @@ msgstr "Expéditeur"
 msgid "Tal expression where you can use portal, number as variable"
 msgstr "Expression Tal où les variables portal, number peuvent être utilisées"
 
-#: ../dmsmail.py:38
+#: ../dmsmail.py:41
 msgid "This value is already used"
 msgstr "Cette valeur est déjà utilisée !"
+
+#: ../dmsmail.py:57
+msgid "This value is already used. A good value would be: ${good_value}"
+msgstr "Cette valeur est déjà utilisée ! Essayez avec: ${good_value}"
 
 #: ../browser/settings.py:20
 msgid "This value is used as 'number' variable in linked tal expression"

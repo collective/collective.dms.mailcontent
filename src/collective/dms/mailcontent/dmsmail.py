@@ -50,7 +50,12 @@ class InternalReferenceIncomingMailValidator(validator.SimpleFieldValidator):
     def validate(self, value):
         #we call the already defined validators
         #super(InternalReferenceValidator, self).validate(value)
-        validateIndexValueUniqueness(self.context, 'dmsincomingmail', 'internal_reference_number', value)
+        try:
+            validateIndexValueUniqueness(self.context, 'dmsincomingmail',
+                                         'internal_reference_number', value)
+        except Invalid:
+            raise Invalid(_(u"This value is already used. A good value would be: ${good_value}",
+                            mapping={'good_value': internalReferenceIncomingMailDefaultValue(self)}))
 
 
 class IDmsIncomingMail(IDmsDocument):
@@ -64,13 +69,11 @@ class IDmsIncomingMail(IDmsDocument):
 
     external_reference_no = schema.TextLine(
         title=_(u"External Reference Number"),
-        required=False
-        )
+        required=False,)
 
     internal_reference_no = schema.TextLine(
         title=_(u"Internal Reference Number"),
-        required=False,
-        )
+        required=False,)
 
     sender = ContactChoice(
         title=_(u'Sender'),
@@ -164,8 +167,7 @@ class IDmsOutgoingMail(IDmsDocument):
 
     internal_reference_no = schema.TextLine(
         title=_(u"Internal Reference Number"),
-        required=False
-        )
+        required=False, )
 
     recipients = ContactList(
         title=_(u'Recipients'),
@@ -205,7 +207,13 @@ class InternalReferenceOutgoingMailValidator(validator.SimpleFieldValidator):
     def validate(self, value):
         #we call the already defined validators
         #super(InternalReferenceValidator, self).validate(value)
-        validateIndexValueUniqueness(self.context, 'dmsoutgoingmail', 'internal_reference_number', value)
+        try:
+            validateIndexValueUniqueness(self.context, 'dmsoutgoingmail',
+                                         'internal_reference_number', value)
+        except Invalid:
+            raise Invalid(_(u"This value is already used. A good value would be: ${good_value}",
+                            mapping={'good_value': internalReferenceOutgoingMailDefaultValue(self)}))
+
 
 validator.WidgetValidatorDiscriminators(InternalReferenceOutgoingMailValidator,
                                         field=IDmsOutgoingMail['internal_reference_no'])
