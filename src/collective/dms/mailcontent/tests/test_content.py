@@ -66,3 +66,15 @@ class TestDmsmailMethods(TestContentTypes):
                           'collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number',
                           'collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_talexpression'),
                           'test-in/10')
+
+    def test_incrementIncomingMailNumber(self):
+        registry = getUtility(IRegistry)
+        old_value = registry['collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number']
+        imail1 = createContentInContainer(self.portal, 'dmsincomingmail', **{'internal_reference_no': '12345',
+                                                                             'title': 'Test 1'})
+        self.assertEquals(registry['collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number'],
+                          old_value+1)
+        self.assertEquals(imail1.internal_reference_no, '12345')
+        # we create a dmsincomingmail without internal_reference_no, it will be generated
+        imail2 = createContentInContainer(self.portal, 'dmsincomingmail', **{'title': 'Test 2'})
+        self.assertEquals(imail2.internal_reference_no, 'test-in/11')

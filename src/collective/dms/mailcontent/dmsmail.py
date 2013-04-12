@@ -156,6 +156,16 @@ class DmsIncomingMail(DmsDocument):
 @grok.subscribe(IDmsIncomingMail, IObjectAddedEvent)
 def incrementIncomingMailNumber(incomingmail, event):
     """ Increment the value in registry """
+    # if internal_reference_no is empty, we force the value.
+    # useless if the internal_reference_no field is hidden (in this case,
+    #                                                       default value must be empty to bypass validator)
+    # useless to manage automatically the internal_reference_no value without user action
+    if not incomingmail.internal_reference_no:
+        internal_reference_no = evaluateInternalReference(incomingmail, incomingmail.REQUEST,
+                              'collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number',
+                              'collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_talexpression')
+        incomingmail.internal_reference_no = internal_reference_no
+        incomingmail.reindexObject(idxs=('Title', internal_reference_no))
     registry = getUtility(IRegistry)
     registry['collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number'] += 1
 
