@@ -4,7 +4,11 @@ Changelog
 0.1.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Manage internal_reference field automatically (no user input needed) [sgeulette]
+- Add good proposal value in validation error message [sgeulette]
+- Update validateIndexValueUniqueness: skip empty value [sgeulette]
+- Use plone.formwidget.datetime [cedricmessiant]
+- Allow tasks to be added to mails [fredericpeters]
 
 
 0.1.3 (2013-03-12)
