@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.1.4 (unreleased)
+0.1.4 (2013-04-24)
 ------------------
 
 - Manage internal_reference field automatically (no user input needed) [sgeulette]
