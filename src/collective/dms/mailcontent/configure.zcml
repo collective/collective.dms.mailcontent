@@ -9,6 +9,7 @@
   <include file="permissions.zcml" />
 
   <include package="five.grok" />
+  <include package=".upgrades" />
 
   <grok:grok package="." />
 

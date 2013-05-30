@@ -1,0 +1,16 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="collective.dms.mailcontent">
+
+  <include package="ecreall.helpers.upgrade" />
+
+  <genericsetup:upgradeStep
+      title="Migration profile for collective.dms.mailcontent to 2"
+      description="Upgrade from 1 to 2"
+      source="1"
+      destination="2"
+      handler=".upgrades.v2"
+      profile="collective.dms.mailcontent:default" />
+
+</configure>
