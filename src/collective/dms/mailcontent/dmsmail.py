@@ -15,7 +15,7 @@ from Products.CMFPlone.utils import getToolByName
 from plone.autoform import directives as form
 from plone.dexterity.schema import DexteritySchemaPolicy
 from plone.directives.form import default_value
-from plone.formwidget.datetime.z3cform.widget import DateFieldWidget
+from plone.formwidget.datetime.z3cform.widget import DateFieldWidget, DatetimeFieldWidget
 from plone.indexer import indexer
 from plone.registry.interfaces import IRegistry
 
@@ -64,8 +64,8 @@ class IDmsIncomingMail(IDmsDocument):
     original_mail_date = schema.Date(title=_(u'Original Mail Date'), required=False)
     form.widget(original_mail_date=DateFieldWidget)
 
-    reception_date = schema.Date(title=_(u'Reception Date'), required=False)
-    form.widget(reception_date=DateFieldWidget)
+    reception_date = schema.Datetime(title=_(u'Reception Date'), required=False)
+    form.widget(reception_date=DatetimeFieldWidget)
 
     external_reference_no = schema.TextLine(
         title=_(u"External Reference Number"),
@@ -102,7 +102,10 @@ grok.global_adapter(InternalReferenceIncomingMailValidator)
 @default_value(field=IDmsIncomingMail['reception_date'])
 def receptionDateDefaultValue(data):
     # return the day date
-    return datetime.date.today()
+    today = datetime.datetime.today()
+    reception_date = datetime.datetime(today.year, today.month, today.day,
+                                       18, 00)
+    return reception_date
 
 
 #@default_value(field=IDmsIncomingMail['original_mail_date'])
