@@ -11,7 +11,7 @@ from plone.app.testing.interfaces import TEST_USER_NAME, TEST_USER_ID
 from ecreall.helpers.testing.base import BaseTest
 
 from collective.dms.mailcontent.testing import INTEGRATION
-from collective.dms.mailcontent.behaviors import ISendingType, sending_type_default_value
+from collective.dms.mailcontent.behaviors import ISendingType
 
 
 class TestBehaviors(unittest.TestCase, BaseTest):
@@ -37,8 +37,6 @@ class TestBehaviors(unittest.TestCase, BaseTest):
         item = self.testitem
         self.assertIsNone(item.getAttributes())
         self.assertTrue(hasattr(item, 'sending_type'))
+        self.assertEqual(item.sending_type, 'normal')
         item.sending_type = 'registered'
         self.assertEqual(item.sending_type, 'registered')
-
-    def test_sending_type_default_value(self):
-        self.assertEqual(sending_type_default_value(''), 'normal')
