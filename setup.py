@@ -42,6 +42,7 @@ setup(name='collective.dms.mailcontent',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'plone.api',
           'plone.app.dexterity',
           'plone.directives.form',
           'collective.contact.core',
