@@ -10,6 +10,7 @@
 
   <include package="five.grok" />
   <include package=".upgrades" />
+  <include file="behaviors.zcml" />
 
   <grok:grok package="." />
 
