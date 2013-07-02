@@ -14,9 +14,6 @@ from zope.i18n.interfaces import ITranslationDomain
 def isNotGoodProfile(context):
     return context.readDataFile("collective_dms_mailcontent_marker.txt") is None
 
-def _(msgid, context, domain='collective.dms.mailcontent'):
-    translation_domain = queryUtility(ITranslationDomain, domain)
-    return translation_domain.translate(msgid, context=context.getSite().REQUEST)
 
 def postInstall(context):
     """Called as at the end of the setup process. """

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-04-12 06:15+0000\n"
+"POT-Creation-Date: 2013-07-02 14:40+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,8 +35,12 @@ msgstr ""
 msgid "Internal Reference Number"
 msgstr ""
 
-#: ../dmsmail.py:166
+#: ../dmsmail.py:179
 msgid "Mail Date"
+msgstr ""
+
+#: ../behaviors.py:14
+msgid "Normal"
 msgstr ""
 
 #: ../browser/settings.py:19
@@ -59,12 +63,20 @@ msgstr ""
 msgid "Reception Date"
 msgstr ""
 
-#: ../dmsmail.py:173
+#: ../dmsmail.py:186
 msgid "Recipients"
+msgstr ""
+
+#: ../behaviors.py:15
+msgid "Registered"
 msgstr ""
 
 #: ../dmsmail.py:79
 msgid "Sender"
+msgstr ""
+
+#: ../behaviors.py:21
+msgid "Sending type"
 msgstr ""
 
 #: ../browser/settings.py:24
@@ -81,9 +93,5 @@ msgstr ""
 
 #: ../browser/settings.py:20
 msgid "This value is used as 'number' variable in linked tal expression"
-msgstr ""
-
-#: ../setuphandlers.py:17
-msgid "collective.dms.mailcontent"
 msgstr ""
 
