@@ -154,6 +154,7 @@ grok.global_adapter(internalReferenceNoIndexerForIncomingMail, name="internal_re
 class DmsIncomingMail(DmsDocument):
     """ """
     implements(IDmsIncomingMail)
+    __ac_local_roles_block__ = False
 
 
 @grok.subscribe(IDmsIncomingMail, IObjectAddedEvent)
