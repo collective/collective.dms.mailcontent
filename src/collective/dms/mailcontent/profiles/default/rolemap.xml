@@ -2,14 +2,14 @@
 <rolemap>
   <permissions>
     <permission name="collective.dms.mailcontent: Add Incoming Mail" acquire="True">
-      <role name="Owner"/>
       <role name="Manager"/>
+      <role name="Member"/>
       <role name="Contributor"/>
       <role name="Site Administrator"/>
     </permission>
     <permission name="collective.dms.mailcontent: Add Outgoing Mail" acquire="True">
-      <role name="Owner"/>
       <role name="Manager"/>
+      <role name="Member"/>
       <role name="Contributor"/>
       <role name="Site Administrator"/>
     </permission>
