@@ -3,8 +3,8 @@
   <version>1</version>
   <dependencies>
     <dependency>profile-plone.app.dexterity:default</dependency>
-    <dependency>profile-plone.formwidget.datetime:default</dependency>
     <dependency>profile-collective.dms.basecontent:default</dependency>
     <dependency>profile-collective.contact.core:default</dependency>
+    <dependency>profile-plone.formwidget.datetime:default</dependency>
   </dependencies>
 </metadata>

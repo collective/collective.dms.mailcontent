@@ -15,7 +15,8 @@ from Products.CMFPlone.utils import getToolByName
 from plone.autoform import directives as form
 from plone.dexterity.schema import DexteritySchemaPolicy
 from plone.directives.form import default_value
-from plone.formwidget.datetime.z3cform.widget import DateFieldWidget, DatetimeFieldWidget
+from plone.formwidget.datetime.z3cform.widget import (DateFieldWidget,
+                                                      DatetimeFieldWidget)
 from plone.indexer import indexer
 from plone.registry.interfaces import IRegistry
 
