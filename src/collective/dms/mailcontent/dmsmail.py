@@ -184,6 +184,10 @@ class IDmsOutgoingMail(IDmsDocument):
         title=_(u"Internal Reference Number"),
         required=False, )
 
+    sender = ContactChoice(
+        title=_(u'Sender'),
+        required=False)
+
     recipients = ContactList(
         title=_(u'Recipients'),
         required=True)
@@ -193,6 +197,7 @@ class IDmsOutgoingMail(IDmsDocument):
         required=False,
         portal_types=('dmsincomingmail',))
 
+    form.order_before(sender='treating_groups')
     form.order_before(recipients='treating_groups')
     form.order_before(mail_date='treating_groups')
     form.order_before(internal_reference_no='treating_groups')
