@@ -80,12 +80,17 @@ class IDmsIncomingMail(IDmsDocument):
         title=_(u'Sender'),
         required=True)
 
+    recipients = ContactList(
+        title=_(u'Recipients'),
+        required=False)
+
     in_reply_to = RelatedDocs(
         title=_(u"In Reply To"),
         required=False,
         portal_types=('dmsoutgoingmail',))
 
     form.order_before(sender='treating_groups')
+    form.order_after(recipients='sender')
     form.order_before(original_mail_date='treating_groups')
     form.order_before(reception_date='treating_groups')
     form.order_before(internal_reference_no='treating_groups')
