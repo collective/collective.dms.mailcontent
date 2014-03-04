@@ -26,7 +26,7 @@ class TestDmsmailMethods(TestContentTypes):
     def test_reception_date_default_value(self):
         reception_date = dmsmail.receptionDateDefaultValue('')
         self.assertEqual(reception_date.date(), datetime.date.today())
-        self.assertEqual(reception_date.hour, 18)
+        self.assertEqual(reception_date.hour, 10)
         self.assertEqual(reception_date.minute, 0)
 
     def test_original_date_default_value(self):
