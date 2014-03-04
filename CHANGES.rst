@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.1.5 (unreleased)
+0.1.5 (2014-03-04)
 ------------------
 
 - Add recipients field for incomingmail [cedricmessiant]
