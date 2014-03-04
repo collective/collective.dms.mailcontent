@@ -5,7 +5,7 @@ from plone import api
 
 
 def v2(context):
-    default_time = time(18, 0)
+    default_time = time(10, 0)
     catalog = api.portal.get_tool('portal_catalog')
     brains = catalog.searchResults({'portal_type': 'dmsincomingmail'})
     for brain in brains:
