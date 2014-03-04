@@ -4,7 +4,11 @@ Changelog
 0.1.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add recipients field for incomingmail [cedricmessiant]
+- Add ISendingType behaviour [cedricmessiant]
+- Add indexer for in_reply_to field [cedricmessiant]
+- Updated testing infra [vincentfretin]
+- Make reception date a datetime [cedricmessiant]
 
 
 0.1.4 (2013-04-24)
