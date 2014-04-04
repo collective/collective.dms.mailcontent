@@ -1,10 +1,10 @@
 Changelog
 =========
 
-0.1.6 (unreleased)
+0.1.6 (2014-04-04)
 ------------------
 
-- Nothing changed yet.
+- Removed Member from add permission. Must be the default. [sgeulette]
 
 
 0.1.5 (2014-03-04)
