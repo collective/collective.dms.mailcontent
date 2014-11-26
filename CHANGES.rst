@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.1.7 (unreleased)
+0.1.7 (2014-11-26)
 ------------------
 
 - Corrected bad index name [sgeulette]
