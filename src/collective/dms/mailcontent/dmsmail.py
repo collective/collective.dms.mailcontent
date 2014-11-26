@@ -175,7 +175,7 @@ def incrementIncomingMailNumber(incomingmail, event):
                               'collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number',
                               'collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_talexpression')
         incomingmail.internal_reference_no = internal_reference_no
-        incomingmail.reindexObject(idxs=('Title', internal_reference_no))
+        incomingmail.reindexObject(idxs=('Title', 'internal_reference_number'))
     registry = getUtility(IRegistry)
     registry['collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number'] += 1
 
