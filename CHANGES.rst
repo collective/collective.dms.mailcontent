@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.1.8 (unreleased)
+0.1.8 (2015-01-14)
 ------------------
 
 - Added internal reference number in Title and in SearchableText [sgeulette]
