@@ -73,6 +73,7 @@ class IDmsIncomingMail(IDmsDocument):
         title=_(u"External Reference Number"),
         required=False,)
 
+    dexteritytextindexer.searchable('internal_reference_no')
     internal_reference_no = schema.TextLine(
         title=_(u"Internal Reference Number"),
         required=False,)
@@ -100,8 +101,6 @@ class IDmsIncomingMail(IDmsDocument):
 
     form.order_after(related_docs='recipient_groups')
     form.order_after(notes='related_docs')
-
-    dexteritytextindexer.searchable('internal_reference_no')
 
 validator.WidgetValidatorDiscriminators(InternalReferenceIncomingMailValidator,
                                         field=IDmsIncomingMail['internal_reference_no'])

@@ -81,3 +81,22 @@ class TestDmsmailMethods(TestContentTypes):
         # we create a dmsincomingmail without internal_reference_no, it will be generated
         imail2 = createContentInContainer(self.portal, 'dmsincomingmail', **{'title': 'Test 2'})
         self.assertEquals(imail2.internal_reference_no, 'test-in/11')
+
+    def test_title(self):
+        imail1 = createContentInContainer(self.portal, 'dmsincomingmail', **{'internal_reference_no': '12345',
+                                                                             'title': 'Test 1'})
+        self.assertEquals(imail1.Title(), "12345 - Test 1")
+
+    def test_indexes(self):
+        imail1 = createContentInContainer(self.portal, 'dmsincomingmail', **{'internal_reference_no': '12345',
+                                                                             'title': 'Test 1'})
+        # get brain
+        brains = self.portal.portal_catalog(path='/'.join(imail1.getPhysicalPath()))
+        self.assertEquals(len(brains), 1)
+        self.assertEquals(imail1, brains[0].getObject())
+        # search by title
+        brains = self.portal.portal_catalog(Title="12345")
+        self.assertEquals(len(brains), 1)
+        self.assertEquals(imail1, brains[0].getObject())
+        # search by SearchableText: must be done in doc tests or robot
+        brains = self.portal.portal_catalog(SearchableText="12345")
