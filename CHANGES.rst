@@ -4,7 +4,7 @@ Changelog
 0.1.8 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Added internal reference number in Title and in SearchableText [sgeulette]
 
 
 0.1.7 (2014-11-26)
