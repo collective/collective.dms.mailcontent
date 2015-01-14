@@ -20,6 +20,7 @@ from plone.formwidget.datetime.z3cform.widget import (DateFieldWidget,
 from plone.indexer import indexer
 from plone.registry.interfaces import IRegistry
 
+from collective import dexteritytextindexer
 from collective.dms.basecontent.relateddocs import RelatedDocs
 from collective.dms.basecontent.dmsdocument import IDmsDocument, DmsDocument
 from collective.contact.core.schema import ContactList, ContactChoice
@@ -100,6 +101,8 @@ class IDmsIncomingMail(IDmsDocument):
     form.order_after(related_docs='recipient_groups')
     form.order_after(notes='related_docs')
 
+    dexteritytextindexer.searchable('internal_reference_no')
+
 validator.WidgetValidatorDiscriminators(InternalReferenceIncomingMailValidator,
                                         field=IDmsIncomingMail['internal_reference_no'])
 grok.global_adapter(InternalReferenceIncomingMailValidator)
@@ -162,6 +165,11 @@ class DmsIncomingMail(DmsDocument):
     implements(IDmsIncomingMail)
     __ac_local_roles_block__ = False
 
+    def Title(self):
+        if self.internal_reference_no is None:
+            return self.title.encode('utf8')
+        return "%s - %s" % (self.internal_reference_no.encode('utf8'), self.title.encode('utf8'))
+
 
 @grok.subscribe(IDmsIncomingMail, IObjectAddedEvent)
 def incrementIncomingMailNumber(incomingmail, event):
@@ -175,7 +183,7 @@ def incrementIncomingMailNumber(incomingmail, event):
                               'collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number',
                               'collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_talexpression')
         incomingmail.internal_reference_no = internal_reference_no
-        incomingmail.reindexObject(idxs=('Title', 'internal_reference_number'))
+        incomingmail.reindexObject(idxs=('Title', 'internal_reference_number', 'SearchableText'))
     registry = getUtility(IRegistry)
     registry['collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number'] += 1
 
