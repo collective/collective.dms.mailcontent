@@ -109,11 +109,8 @@ grok.global_adapter(InternalReferenceIncomingMailValidator)
 
 @default_value(field=IDmsIncomingMail['reception_date'])
 def receptionDateDefaultValue(data):
-    # return the day date
-    today = datetime.datetime.today()
-    hour = datetime.time(10, 0)
-    reception_date = datetime.datetime.combine(today, hour)
-    return reception_date
+    # return the current datetime
+    return datetime.datetime.now()
 
 
 #@default_value(field=IDmsIncomingMail['original_mail_date'])
