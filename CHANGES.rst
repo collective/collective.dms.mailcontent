@@ -1,8 +1,8 @@
 Changelog
 =========
 
-0.1.9 (unreleased)
-------------------
+0.2 (2015-06-02)
+----------------
 
 - Use current datetime as encoding datetime [sgeulette]
 
