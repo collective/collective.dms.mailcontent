@@ -55,6 +55,7 @@ setup(name='collective.dms.mailcontent',
       ],
       extras_require={
           'test': ['plone.app.testing',
+                   'unittest2',
                    'ecreall.helpers.testing',
                    ],
           },
