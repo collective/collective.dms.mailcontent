@@ -9,4 +9,6 @@ script:
   - bin/test
 notifications:
   email:
-    - prive-ged@listes.entrouvert.com
+    - devs@imio.be
+    - vincentfretin@ecreall.com
+    - cedricmessiant@ecreall.com
