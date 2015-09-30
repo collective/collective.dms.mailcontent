@@ -41,6 +41,7 @@ setup(name='collective.dms.mailcontent',
       include_package_data=True,
       zip_safe=False,
       install_requires=[
+          'Products.contentmigration',
           'setuptools',
           'plone.api',
           'plone.app.dexterity',

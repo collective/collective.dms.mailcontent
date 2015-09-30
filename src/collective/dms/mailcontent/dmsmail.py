@@ -86,7 +86,7 @@ class IDmsIncomingMail(IDmsDocument):
         title=_(u'Recipients'),
         required=False)
 
-    in_reply_to = RelatedDocs(
+    reply_to = RelatedDocs(
         title=_(u"In Reply To"),
         required=False,
         portal_types=('dmsoutgoingmail',))
@@ -97,7 +97,7 @@ class IDmsIncomingMail(IDmsDocument):
     form.order_before(reception_date='treating_groups')
     form.order_before(internal_reference_no='treating_groups')
     form.order_before(external_reference_no='treating_groups')
-    form.order_before(in_reply_to='treating_groups')
+    form.order_before(reply_to='treating_groups')
 
     form.order_after(related_docs='recipient_groups')
     form.order_after(notes='related_docs')
@@ -201,7 +201,7 @@ class IDmsOutgoingMail(IDmsDocument):
         title=_(u'Recipients'),
         required=True)
 
-    in_reply_to = RelatedDocs(
+    reply_to = RelatedDocs(
         title=_(u"In Reply To"),
         required=False,
         portal_types=('dmsincomingmail',))
@@ -210,7 +210,7 @@ class IDmsOutgoingMail(IDmsDocument):
     form.order_before(recipients='treating_groups')
     form.order_before(mail_date='treating_groups')
     form.order_before(internal_reference_no='treating_groups')
-    form.order_before(in_reply_to='treating_groups')
+    form.order_before(reply_to='treating_groups')
 
     form.order_after(related_docs='recipient_groups')
     form.order_after(notes='related_docs')

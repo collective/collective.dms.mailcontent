@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
 from datetime import date, datetime, time
+import logging
 
 from plone import api
+
+from Products.contentmigration.field import migrateField
+
+logger = logging.getLogger('collective.dms.mailcontent: upgrade. ')
 
 
 def v2(context):
@@ -23,3 +28,15 @@ def v3(context):
     for brain in brains:
         obj = brain.getObject()
         obj.reindexObject(idxs=('Title', 'SearchableText'))
+
+
+def v4(context):
+    setup = api.portal.get_tool('portal_setup')
+    setup.runImportStepFromProfile('profile-collective.dms.mailcontent:default', 'typeinfo')
+    catalog = api.portal.get_tool('portal_catalog')
+    migrated = False
+    for brain in catalog.searchResults(portal_type=['dmsincomingmail', 'dmsoutgoingmail']):
+        obj = brain.getObject()
+        if migrateField(obj, {'fieldName': 'in_reply_to', 'newFieldName': 'reply_to'}):
+            migrated = True
+    logger.info("%s object fields were migrated" % (migrated and 'Some' or 'None'))

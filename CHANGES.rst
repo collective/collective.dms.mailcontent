@@ -5,7 +5,7 @@ Changelog
 ----------------
 
 - Give access to configlet to Site Administrator [sgeulette].
-- Don't store None in catalog [sgeulette]
+- Renamed 'in_reply_to' field to avoid child index interference with plone.app.discussion [sgeulette]
 
 
 0.2 (2015-06-02)
