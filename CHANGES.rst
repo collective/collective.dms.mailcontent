@@ -7,6 +7,7 @@ Changelog
 - Give access to configlet to Site Administrator [sgeulette].
 - Renamed 'in_reply_to' field to avoid child index interference with plone.app.discussion [sgeulette]
 - Updated buildout [sgeulette]
+- Avoid None in internal_reference_number index. [sgeulette]
 
 
 0.2 (2015-06-02)

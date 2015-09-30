@@ -152,8 +152,8 @@ def internalReferenceNoIndexerForIncomingMail(obj):
         specific indexer method to avoid acquisition of dmsincomingmail contained elements.
         internal_reference_number is a fake attribute name
     """
-    return obj.internal_reference_no
-grok.global_adapter(internalReferenceNoIndexerForIncomingMail, name="internal_reference_number")
+    if obj.internal_reference_no:
+        return obj.internal_reference_no
 
 
 class DmsIncomingMail(DmsDocument):
@@ -267,8 +267,8 @@ def internalReferenceNoIndexerForOutgoingMail(obj):
         specific indexer method to avoid acquisition of dmsoutgoingmail contained elements.
         internal_reference_number is a fake attribute name
     """
-    return obj.internal_reference_no
-grok.global_adapter(internalReferenceNoIndexerForOutgoingMail, name="internal_reference_number")
+    if obj.internal_reference_no:
+        return obj.internal_reference_no
 
 
 class DmsIncomingMailSchemaPolicy(DexteritySchemaPolicy):

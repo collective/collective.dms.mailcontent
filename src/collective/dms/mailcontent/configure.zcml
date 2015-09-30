@@ -55,5 +55,7 @@
       image="dmsoutgoingmail_icon.png"
       />
 
+    <adapter name="internal_reference_number" factory=".dmsmail.internalReferenceNoIndexerForIncomingMail" />
+    <adapter name="internal_reference_number" factory=".dmsmail.internalReferenceNoIndexerForOutgoingMail" />
 
 </configure>
