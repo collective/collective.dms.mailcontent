@@ -65,7 +65,9 @@ class InternalReferenceIncomingMailValidator(validator.SimpleFieldValidator):
 class IDmsIncomingMail(IDmsDocument):
     """ """
 
-    original_mail_date = schema.Date(title=_(u'Original Mail Date'), required=False)
+    original_mail_date = schema.Date(
+        title=_(u'Original Mail Date'),
+        required=True,)
     form.widget(original_mail_date=DateFieldWidget)
 
     reception_date = schema.Datetime(title=_(u'Reception Date'), required=False)
@@ -115,7 +117,7 @@ def receptionDateDefaultValue(data):
     return datetime.datetime.now()
 
 
-#@default_value(field=IDmsIncomingMail['original_mail_date'])
+@default_value(field=IDmsIncomingMail['original_mail_date'])
 def originalMailDateDefaultValue(data):
     # return 3 days before
     return datetime.date.today() - datetime.timedelta(3)
