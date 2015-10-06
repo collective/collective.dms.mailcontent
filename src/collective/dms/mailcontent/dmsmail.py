@@ -20,6 +20,8 @@ from plone.formwidget.datetime.z3cform.widget import (DateFieldWidget,
 from plone.indexer import indexer
 from plone.registry.interfaces import IRegistry
 
+from Products.PluginIndexes.common.UnIndex import _marker
+
 from collective import dexteritytextindexer
 from collective.dms.basecontent.relateddocs import RelatedDocs
 from collective.dms.basecontent.dmsdocument import IDmsDocument, DmsDocument
@@ -154,6 +156,7 @@ def internalReferenceNoIndexerForIncomingMail(obj):
     """
     if obj.internal_reference_no:
         return obj.internal_reference_no
+    return _marker
 
 
 class DmsIncomingMail(DmsDocument):
@@ -269,6 +272,7 @@ def internalReferenceNoIndexerForOutgoingMail(obj):
     """
     if obj.internal_reference_no:
         return obj.internal_reference_no
+    return _marker
 
 
 class DmsIncomingMailSchemaPolicy(DexteritySchemaPolicy):
