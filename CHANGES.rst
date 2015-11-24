@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.3 (unreleased)
+0.3 (2015-11-24)
 ----------------
 
 - Give access to configlet to Site Administrator [sgeulette].
