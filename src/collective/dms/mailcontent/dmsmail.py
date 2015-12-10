@@ -67,7 +67,7 @@ class IDmsIncomingMail(IDmsDocument):
 
     original_mail_date = schema.Date(
         title=_(u'Original Mail Date'),
-        required=True,)
+        required=False,)
     form.widget(original_mail_date=DateFieldWidget)
 
     reception_date = schema.Datetime(title=_(u'Reception Date'), required=False)

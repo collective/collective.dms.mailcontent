@@ -4,7 +4,7 @@ Changelog
 0.4 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Set original_mail_date as not required. [sgeulette]
 
 
 0.3 (2015-11-24)
