@@ -10,6 +10,7 @@ from Products.PageTemplates.Expressions import getEngine
 from Products.CMFCore.Expression import Expression
 from .. import _
 
+
 class IDmsMailConfig(Interface):
     """
     Configuration of dms mail
@@ -22,7 +23,7 @@ class IDmsMailConfig(Interface):
     incomingmail_talexpression = schema.TextLine(
         title=_(u"Incoming mail internal reference default value expression"),
         description=_(u"Tal expression where you can use portal, number as variable")
-        )
+    )
 
     outgoingmail_number = schema.Int(
         title=_(u'Number of next outgoing mail'),
@@ -31,7 +32,8 @@ class IDmsMailConfig(Interface):
     outgoingmail_talexpression = schema.TextLine(
         title=_(u"Outgoing mail internal reference default value expression"),
         description=_(u"Tal expression where you can use portal, number as variable")
-        )
+    )
+
 
 class SettingsEditForm(RegistryEditForm):
     """
@@ -39,6 +41,7 @@ class SettingsEditForm(RegistryEditForm):
     """
     schema = IDmsMailConfig
     label = _(u"Dms Mail settings")
+
 
 class SettingsView(grok.View):
     """
@@ -63,12 +66,12 @@ class SettingsView(grok.View):
             'number': str(number),
             'portal': portal,
             'date': DateTime(),
-           }
+        }
         data.update(kwargs)
         res = ''
         try:
             ctx = getEngine().getContext(data)
             res = Expression(expression)(ctx)
         except Exception, msg:
-            return 'Error in expression: %s'%msg
+            return 'Error in expression: %s' % msg
         return res
