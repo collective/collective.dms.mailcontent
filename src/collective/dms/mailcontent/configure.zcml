@@ -15,6 +15,8 @@
   <include package="plone.directives.form" file="meta.zcml" />
   <include package="plone.directives.form" />
 
+  <include package="plone.app.controlpanel" />
+
   <grok:grok package="." />
 
   <i18n:registerTranslations directory="locales" />

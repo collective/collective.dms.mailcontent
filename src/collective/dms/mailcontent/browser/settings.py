@@ -46,6 +46,8 @@ class SettingsView(grok.View):
     """
     grok.name("dmsmailcontent-settings")
     grok.context(ISiteRoot)
+    grok.require('plone.app.controlpanel.Site')
+
     def render(self):
         view_factor = layout.wrap_form(SettingsEditForm, ControlPanelFormWrapper)
         view = view_factor(self.context, self.request)
