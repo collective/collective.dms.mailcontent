@@ -4,6 +4,7 @@ Changelog
 0.5 (unreleased)
 ----------------
 
+- Add a sender index, containing also the organisation chain UIDs [sgeulette]
 - Use the same permission to protect config view and configlet. [sgeulette]
 
 0.4 (2016-01-05)

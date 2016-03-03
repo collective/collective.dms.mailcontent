@@ -4,4 +4,7 @@
         <indexed_attr value="internal_reference_number"/>
     </index>
     <column value="internal_reference_number"/>
+    <index name="sender" meta_type="KeywordIndex">
+        <indexed_attr value="sender_index"/>
+    </index>
 </object>

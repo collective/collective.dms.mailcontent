@@ -29,4 +29,12 @@
       handler=".upgrades.v4"
       profile="collective.dms.mailcontent:default" />
 
+  <genericsetup:upgradeStep
+      title="Migration profile for collective.dms.mailcontent to 5"
+      description="Upgrade from 4 to 5"
+      source="4"
+      destination="5"
+      handler=".upgrades.v5"
+      profile="collective.dms.mailcontent:default" />
+
 </configure>

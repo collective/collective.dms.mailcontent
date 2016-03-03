@@ -40,3 +40,15 @@ def v4(context):
         if migrateField(obj, {'fieldName': 'in_reply_to', 'newFieldName': 'reply_to'}):
             migrated = True
     logger.info("%s object fields were migrated" % (migrated and 'Some' or 'None'))
+
+
+def v5(context):
+    setup = api.portal.get_tool('portal_setup')
+    setup.runImportStepFromProfile('profile-collective.dms.mailcontent:default', 'catalog')
+    catalog = api.portal.get_tool('portal_catalog')
+    nb = 0
+    for brain in catalog.searchResults(portal_type=['dmsincomingmail', 'dmsoutgoingmail']):
+        nb += 1
+        obj = brain.getObject()
+        obj.reindexObject(idxs=['sender'])
+    logger.info("%d objects were migrated" % nb)
