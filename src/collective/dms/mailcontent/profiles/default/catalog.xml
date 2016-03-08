@@ -7,4 +7,5 @@
     <index name="sender" meta_type="KeywordIndex">
         <indexed_attr value="sender_index"/>
     </index>
+    <column value="sender_index"/>
 </object>

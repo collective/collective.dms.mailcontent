@@ -5,6 +5,7 @@ Changelog
 ----------------
 
 - Add a sender index, containing also the organisation chain UIDs [sgeulette]
+- Add a sender_index metadata [sgeulette]
 - Use the same permission to protect config view and configlet. [sgeulette]
 
 0.4 (2016-01-05)
