@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.5 (unreleased)
+0.5 (2016-04-15)
 ----------------
 
 - Add a sender index, containing also the organisation chain UIDs [sgeulette]
