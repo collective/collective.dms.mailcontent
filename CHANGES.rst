@@ -4,8 +4,7 @@ Changelog
 0.6 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Updated reply_to field to allow dmsincomingmail and dmsoutgoingmail types. [sgeulette]
 
 0.5 (2016-04-15)
 ----------------

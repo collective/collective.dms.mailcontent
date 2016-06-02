@@ -25,7 +25,7 @@ msgstr "Référence externe"
 
 #: ../dmsmail.py:83
 msgid "In Reply To"
-msgstr "Réponse à"
+msgstr "Courriers liés"
 
 #: ../browser/settings.py:23
 msgid "Incoming mail internal reference default value expression"
@@ -94,4 +94,3 @@ msgstr "Cette valeur est déjà utilisée ! Essayez avec: ${good_value}"
 #: ../browser/settings.py:20
 msgid "This value is used as 'number' variable in linked tal expression"
 msgstr "Cette valeur est utilisée en tant que variable 'number' dans l'expression Tal liée"
-
