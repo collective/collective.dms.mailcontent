@@ -5,6 +5,7 @@ Changelog
 ----------------
 
 - Updated reply_to field to allow dmsincomingmail and dmsoutgoingmail types. [sgeulette]
+- Corrected indexer not working with 2 decorators. [sgeulette]
 
 0.5 (2016-04-15)
 ----------------
@@ -18,7 +19,6 @@ Changelog
 
 - Set original_mail_date as not required. [sgeulette]
 
-
 0.3 (2015-11-24)
 ----------------
 
@@ -28,30 +28,25 @@ Changelog
 - Avoid None in internal_reference_number index. ZCatalog 3 compatibility. [sgeulette]
 - Set original_mail_date as required. Added default value [sgeulette]
 
-
 0.2 (2015-06-02)
 ----------------
 
 - Use current datetime as encoding datetime [sgeulette]
-
 
 0.1.8 (2015-01-14)
 ------------------
 
 - Added internal reference number in Title and in SearchableText [sgeulette]
 
-
 0.1.7 (2014-11-26)
 ------------------
 
 - Corrected bad index name [sgeulette]
 
-
 0.1.6 (2014-04-04)
 ------------------
 
 - Removed Member from add permission. Must be the default. [sgeulette]
-
 
 0.1.5 (2014-03-04)
 ------------------
@@ -62,7 +57,6 @@ Changelog
 - Updated testing infra [vincentfretin]
 - Make reception date a datetime [cedricmessiant]
 
-
 0.1.4 (2013-04-24)
 ------------------
 
@@ -72,25 +66,21 @@ Changelog
 - Use plone.formwidget.datetime [cedricmessiant]
 - Allow tasks to be added to mails [fredericpeters]
 
-
 0.1.3 (2013-03-12)
 ------------------
 
 - Change the index name and definition to avoid bad index on mail contained elements. Add a specific method linked to the index.
   [sgeulette]
 
-
 0.1.2 (2013-03-08)
 ------------------
 
 - Corrected MANIFEST.in
 
-
 0.1.1 (2013-03-07)
 ------------------
 
 - Added missing file in egg
-
 
 0.1 (2013-03-06)
 ----------------

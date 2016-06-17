@@ -2,11 +2,10 @@ from plone.indexer import indexer
 
 from Products.PluginIndexes.common.UnIndex import _marker
 
-from collective.dms.mailcontent.dmsmail import IDmsIncomingMail, IDmsOutgoingMail
+from collective.dms.basecontent.dmsdocument import IDmsDocument
 
 
-@indexer(IDmsIncomingMail)
-@indexer(IDmsOutgoingMail)
+@indexer(IDmsDocument)
 def sender_index(obj):
     """
         return an index containing:
