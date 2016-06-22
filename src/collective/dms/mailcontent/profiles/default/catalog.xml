@@ -8,4 +8,8 @@
         <indexed_attr value="sender_index"/>
     </index>
     <column value="sender_index"/>
+    <index name="recipients" meta_type="KeywordIndex">
+        <indexed_attr value="recipients_index"/>
+    </index>
+    <column value="recipients_index"/>
 </object>

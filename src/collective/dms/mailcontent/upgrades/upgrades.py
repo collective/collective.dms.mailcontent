@@ -52,3 +52,15 @@ def v5(context):
         obj = brain.getObject()
         obj.reindexObject(idxs=['sender'])
     logger.info("%d objects were migrated" % nb)
+
+
+def v6(context):
+    setup = api.portal.get_tool('portal_setup')
+    setup.runImportStepFromProfile('profile-collective.dms.mailcontent:default', 'catalog')
+    catalog = api.portal.get_tool('portal_catalog')
+    nb = 0
+    for brain in catalog.searchResults(portal_type=['dmsincomingmail', 'dmsoutgoingmail']):
+        nb += 1
+        obj = brain.getObject()
+        obj.reindexObject(idxs=['recipients'])
+    logger.info("%d objects were migrated" % nb)

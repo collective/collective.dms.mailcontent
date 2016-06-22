@@ -4,6 +4,7 @@ Changelog
 0.6 (unreleased)
 ----------------
 
+- Add a recipients index, containing also the organisation chain UIDs [sgeulette]
 - Updated reply_to field to allow dmsincomingmail and dmsoutgoingmail types. [sgeulette]
 - Corrected indexer not working with 2 decorators. [sgeulette]
 
