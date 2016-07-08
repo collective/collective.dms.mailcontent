@@ -93,7 +93,8 @@ class IDmsIncomingMail(IDmsDocument):
     reply_to = RelatedDocs(
         title=_(u"In Reply To"),
         required=False,
-        portal_types=('dmsincomingmail', 'dmsoutgoingmail'))
+        portal_types=('dmsincomingmail', 'dmsoutgoingmail'),
+        display_backrefs=True)
 
     form.order_before(sender='treating_groups')
     form.order_after(recipients='sender')
@@ -209,7 +210,8 @@ class IDmsOutgoingMail(IDmsDocument):
     reply_to = RelatedDocs(
         title=_(u"In Reply To"),
         required=False,
-        portal_types=('dmsincomingmail', 'dmsoutgoingmail'))
+        portal_types=('dmsincomingmail', 'dmsoutgoingmail'),
+        display_backrefs=True)
 
     form.order_before(sender='treating_groups')
     form.order_before(recipients='treating_groups')
