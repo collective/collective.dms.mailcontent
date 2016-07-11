@@ -8,6 +8,7 @@ Changelog
 - Updated reply_to field to allow dmsincomingmail and dmsoutgoingmail types. [sgeulette]
 - Corrected indexer not working with 2 decorators. [sgeulette]
 - Added display_backrefs on reply_to field. [sgeulette]
+- Combined title and internal_reference_no in Title for OutgoingMail [sgeulette]
 
 0.5 (2016-04-15)
 ----------------

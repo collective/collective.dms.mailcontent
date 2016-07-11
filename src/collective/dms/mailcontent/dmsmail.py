@@ -267,6 +267,11 @@ class DmsOutgoingMail(DmsDocument):
     """ """
     implements(IDmsOutgoingMail)
 
+    def Title(self):
+        if self.internal_reference_no is None:
+            return self.title.encode('utf8')
+        return "%s - %s" % (self.internal_reference_no.encode('utf8'), self.title.encode('utf8'))
+
 
 @indexer(IDmsOutgoingMail)
 def internalReferenceNoIndexerForOutgoingMail(obj):
