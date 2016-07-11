@@ -147,8 +147,9 @@ def internalReferenceIncomingMailDefaultValue(data):
         Default value of internal_reference_no for dmsincomingmail
     """
     return evaluateInternalReference(data.context, data.request,
-                              'collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number',
-                              'collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_talexpression')
+                                     'collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number',
+                                     'collective.dms.mailcontent.browser.settings.IDmsMailConfig.'
+                                     'incomingmail_talexpression')
 
 
 @indexer(IDmsIncomingMail)
@@ -182,8 +183,10 @@ def incrementIncomingMailNumber(incomingmail, event):
     # useless to manage automatically the internal_reference_no value without user action
     if not incomingmail.internal_reference_no:
         internal_reference_no = evaluateInternalReference(incomingmail, incomingmail.REQUEST,
-                              'collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number',
-                              'collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_talexpression')
+                                                          'collective.dms.mailcontent.browser.settings.IDmsMailConfig.'
+                                                          'incomingmail_number',
+                                                          'collective.dms.mailcontent.browser.settings.IDmsMailConfig.'
+                                                          'incomingmail_talexpression')
         incomingmail.internal_reference_no = internal_reference_no
         incomingmail.reindexObject(idxs=('Title', 'internal_reference_number', 'SearchableText'))
     registry = getUtility(IRegistry)
@@ -235,8 +238,9 @@ def internalReferenceOutgoingMailDefaultValue(data):
         Default value of internal_reference_no for dmsoutgoingmail
     """
     return evaluateInternalReference(data.context, data.request,
-                              'collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number',
-                              'collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_talexpression')
+                                     'collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number',
+                                     'collective.dms.mailcontent.browser.settings.IDmsMailConfig.'
+                                     'outgoingmail_talexpression')
 
 
 class InternalReferenceOutgoingMailValidator(validator.SimpleFieldValidator):
@@ -259,6 +263,18 @@ grok.global_adapter(InternalReferenceOutgoingMailValidator)
 @grok.subscribe(IDmsOutgoingMail, IObjectAddedEvent)
 def incrementOutgoingMailNumber(outgoingmail, event):
     """ Increment the value in registry """
+    # if internal_reference_no is empty, we force the value.
+    # useless if the internal_reference_no field is hidden (in this case,
+    #                                                       default value must be empty to bypass validator)
+    # useless to manage automatically the internal_reference_no value without user action
+    if not outgoingmail.internal_reference_no:
+        internal_reference_no = evaluateInternalReference(outgoingmail, outgoingmail.REQUEST,
+                                                          'collective.dms.mailcontent.browser.settings.IDmsMailConfig.'
+                                                          'outgoingmail_number',
+                                                          'collective.dms.mailcontent.browser.settings.IDmsMailConfig.'
+                                                          'outgoingmail_talexpression')
+        outgoingmail.internal_reference_no = internal_reference_no
+        outgoingmail.reindexObject(idxs=('Title', 'internal_reference_number', 'SearchableText'))
     registry = getUtility(IRegistry)
     registry['collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number'] += 1
 

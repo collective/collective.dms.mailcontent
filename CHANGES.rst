@@ -9,6 +9,7 @@ Changelog
 - Corrected indexer not working with 2 decorators. [sgeulette]
 - Added display_backrefs on reply_to field. [sgeulette]
 - Combined title and internal_reference_no in Title for OutgoingMail [sgeulette]
+- Set internal_reference_no if empty [sgeulette]
 
 0.5 (2016-04-15)
 ----------------
