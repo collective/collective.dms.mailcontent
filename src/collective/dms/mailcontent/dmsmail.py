@@ -198,6 +198,7 @@ class IDmsOutgoingMail(IDmsDocument):
 
     mail_date = schema.Date(title=_(u'Mail Date'), required=False)
 
+    dexteritytextindexer.searchable('internal_reference_no')
     internal_reference_no = schema.TextLine(
         title=_(u"Internal Reference Number"),
         required=False, )
