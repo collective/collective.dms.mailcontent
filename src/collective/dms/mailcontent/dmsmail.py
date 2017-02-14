@@ -71,7 +71,7 @@ class IDmsIncomingMail(IDmsDocument):
     form.widget(original_mail_date=DateFieldWidget)
 
     reception_date = schema.Datetime(title=_(u'Reception Date'), required=False)
-    form.widget(reception_date=DatetimeFieldWidget)
+    form.widget('reception_date', DatetimeFieldWidget, show_time=True)
 
     external_reference_no = schema.TextLine(
         title=_(u"External Reference Number"),

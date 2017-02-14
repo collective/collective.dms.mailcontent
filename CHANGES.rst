@@ -11,6 +11,7 @@ Changelog
 - Combined title and internal_reference_no in Title for OutgoingMail [sgeulette]
 - Set internal_reference_no if empty [sgeulette]
 - Add internal_reference_no in SearchableText [sgeulette]
+- Display time on reception_date [sgeulette]
 
 0.5 (2016-04-15)
 ----------------
