@@ -12,6 +12,7 @@ from zope.lifecycleevent.interfaces import IObjectAddedEvent
 
 from Products.CMFPlone.utils import getToolByName
 
+from plone import api
 from plone.autoform import directives as form
 from plone.dexterity.schema import DexteritySchemaPolicy
 from plone.directives.form import default_value
@@ -230,7 +231,10 @@ class IDmsOutgoingMail(IDmsDocument):
 @default_value(field=IDmsOutgoingMail['mail_date'])
 def mailDateDefaultValue(data):
     # return the day date
-    return datetime.date.today()
+    today = api.portal.get_registry_record('collective.dms.mailcontent.browser.settings.IDmsMailConfig.'
+                                           'outgoingmail_today_mail_date')
+    if today:
+        return datetime.date.today()
 
 
 @default_value(field=IDmsOutgoingMail['internal_reference_no'])

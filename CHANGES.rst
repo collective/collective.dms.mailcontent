@@ -12,6 +12,7 @@ Changelog
 - Set internal_reference_no if empty [sgeulette]
 - Add internal_reference_no in SearchableText [sgeulette]
 - Display time on reception_date [sgeulette]
+- Added option to set outgoing mail date at today [sgeulette]
 
 0.5 (2016-04-15)
 ----------------

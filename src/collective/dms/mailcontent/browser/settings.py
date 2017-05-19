@@ -34,6 +34,12 @@ class IDmsMailConfig(Interface):
         description=_(u"Tal expression where you can use portal, number as variable")
     )
 
+    outgoingmail_today_mail_date = schema.Bool(
+        title=_(u'Mail date is today'),
+        description=_(u"Check if the outgoing mail 'mail date' field will default to today at creation."),
+        default=True
+    )
+
 
 class SettingsEditForm(RegistryEditForm):
     """

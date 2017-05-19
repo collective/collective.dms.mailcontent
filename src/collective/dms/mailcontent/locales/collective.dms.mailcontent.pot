@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-07-04 08:46+0000\n"
+"POT-Creation-Date: 2017-05-19 14:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,55 +17,71 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: collective.dms.mailcontent\n"
 
-#: ../browser/settings.py:41
+#: ../browser/settings.py:39
+msgid "Check if the outgoing mail 'mail date' field will default to today at creation."
+msgstr ""
+
+#: ../testing.zcml:14
+msgid "Collective Dms Mailcontent testing profile"
+msgstr ""
+
+#: ../browser/settings.py:49
 msgid "Dms Mail settings"
 msgstr ""
 
-#: ../dmsmail.py:71
+#: ../dmsmail.py:78
 msgid "External Reference Number"
 msgstr ""
 
-#: ../dmsmail.py:83
+#: ../dmsmail.py:95
 msgid "In Reply To"
 msgstr ""
 
-#: ../browser/settings.py:23
+#: ../browser/settings.py:24
 msgid "Incoming mail internal reference default value expression"
 msgstr ""
 
-#: ../dmsmail.py:75
+#: ../configure.zcml:38
+msgid "Installs the collective.dms.mailcontent package"
+msgstr ""
+
+#: ../dmsmail.py:83
 msgid "Internal Reference Number"
 msgstr ""
 
-#: ../dmsmail.py:179
+#: ../dmsmail.py:200
 msgid "Mail Date"
+msgstr ""
+
+#: ../browser/settings.py:38
+msgid "Mail date is today"
 msgstr ""
 
 #: ../behaviors.py:14
 msgid "Normal"
 msgstr ""
 
-#: ../browser/settings.py:19
+#: ../browser/settings.py:20
 msgid "Number of next incoming mail"
 msgstr ""
 
-#: ../browser/settings.py:28
+#: ../browser/settings.py:29
 msgid "Number of next outgoing mail"
 msgstr ""
 
-#: ../dmsmail.py:64
+#: ../dmsmail.py:70
 msgid "Original Mail Date"
 msgstr ""
 
-#: ../browser/settings.py:32
+#: ../browser/settings.py:33
 msgid "Outgoing mail internal reference default value expression"
 msgstr ""
 
-#: ../dmsmail.py:67
+#: ../dmsmail.py:74
 msgid "Reception Date"
 msgstr ""
 
-#: ../dmsmail.py:186
+#: ../dmsmail.py:91
 msgid "Recipients"
 msgstr ""
 
@@ -73,7 +89,7 @@ msgstr ""
 msgid "Registered"
 msgstr ""
 
-#: ../dmsmail.py:79
+#: ../dmsmail.py:87
 msgid "Sender"
 msgstr ""
 
@@ -81,19 +97,30 @@ msgstr ""
 msgid "Sending type"
 msgstr ""
 
-#: ../browser/settings.py:24
+#: ../behaviors.zcml:16
+msgid "Sending type behavior"
+msgstr ""
+
+#: ../behaviors.zcml:16
+msgid "SendingType"
+msgstr ""
+
+#: ../browser/settings.py:25
 msgid "Tal expression where you can use portal, number as variable"
 msgstr ""
 
-#: ../dmsmail.py:41
+#: ../dmsmail.py:46
 msgid "This value is already used"
 msgstr ""
 
-#: ../dmsmail.py:57
+#: ../dmsmail.py:62
 msgid "This value is already used. A good value would be: ${good_value}"
 msgstr ""
 
-#: ../browser/settings.py:20
+#: ../browser/settings.py:21
 msgid "This value is used as 'number' variable in linked tal expression"
 msgstr ""
 
+#: ../configure.zcml:38
+msgid "collective.dms.mailcontent"
+msgstr ""

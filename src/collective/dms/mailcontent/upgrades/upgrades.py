@@ -57,6 +57,7 @@ def v5(context):
 def v6(context):
     setup = api.portal.get_tool('portal_setup')
     setup.runImportStepFromProfile('profile-collective.dms.mailcontent:default', 'catalog')
+    setup.runImportStepFromProfile('profile-collective.dms.mailcontent:default', 'plone.app.registry')
     catalog = api.portal.get_tool('portal_catalog')
     nb = 0
     for brain in catalog.searchResults(portal_type=['dmsincomingmail', 'dmsoutgoingmail']):
