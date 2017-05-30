@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.6 (unreleased)
+1.0 (2017-05-30)
 ----------------
 
 - Add a recipients index, containing also the organisation chain UIDs [sgeulette]
