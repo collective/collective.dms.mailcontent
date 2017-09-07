@@ -28,6 +28,7 @@
   <include package="collective.dms.basecontent" />
   <include package="collective.contact.core" />
   <include package="plone.formwidget.datetime" />
+  <include package="collective.dexteritytextindexer"/>
 
   <genericsetup:registerProfile
       name="default"
