@@ -4,8 +4,8 @@ Changelog
 1.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Changed sender field from ContactChoice to ContactList (multiple values).
+  [sgeulette]
 
 1.0 (2017-05-30)
 ----------------

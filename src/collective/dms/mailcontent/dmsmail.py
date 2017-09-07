@@ -83,7 +83,7 @@ class IDmsIncomingMail(IDmsDocument):
         title=_(u"Internal Reference Number"),
         required=False,)
 
-    sender = ContactChoice(
+    sender = ContactList(
         title=_(u'Sender'),
         required=True)
 

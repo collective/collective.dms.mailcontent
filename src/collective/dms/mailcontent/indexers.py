@@ -1,5 +1,6 @@
 from plone.indexer import indexer
 
+from Products.CMFPlone.utils import base_hasattr
 from Products.PluginIndexes.common.UnIndex import _marker
 
 from collective.dms.basecontent.dmsdocument import IDmsDocument
@@ -10,23 +11,39 @@ def add_parent_organizations(obj, index):
         index.append('l:%s' % org.UID())
 
 
+def relations_index(obj, attr):
+    if not base_hasattr(obj, attr):
+        return _marker
+    value = getattr(obj, attr)
+    if not value:
+        return _marker
+    index = []
+    if not isinstance(value, list):
+        value = [value]
+    for rel in value:
+        if rel.isBroken():
+            continue
+        related = rel.to_object
+        index.append(related.UID())
+
+        if related.portal_type == 'organization':
+            add_parent_organizations(related, index)
+        elif related.portal_type == 'held_position':
+            add_parent_organizations(related.get_organization(), index)
+    if index:
+        # make unique items
+        return list(set(index))
+    return _marker
+
+
 @indexer(IDmsDocument)
 def sender_index(obj):
     """
         return an index containing:
-        * the sender UID
+        * the sender UIDs
         * the organizations chain UIDs if the sender is an organization or a held position, prefixed by 'l:'
     """
-    # we check the stored value that must contain a z3c.relationfield.relation.RelationValue object
-    if not obj.sender or obj.sender.isBroken():
-        return _marker
-    index = [obj.sender.to_object.UID()]
-
-    if obj.sender.to_object.portal_type == 'organization':
-        add_parent_organizations(obj.sender.to_object, index)
-    elif obj.sender.to_object.portal_type == 'held_position':
-        add_parent_organizations(obj.sender.to_object.get_organization(), index)
-    return index
+    return relations_index(obj, 'sender')
 
 
 @indexer(IDmsDocument)
@@ -36,21 +53,4 @@ def recipients_index(obj):
         * the recipient UIDs
         * the organizations chain UIDs if the recipient is an organization or a held position, prefixed by 'l:'
     """
-    if not obj.recipients:
-        return _marker
-    index = []
-
-    for rel in obj.recipients:
-        if rel.isBroken():
-            continue
-        recip = rel.to_object
-        index.append(recip.UID())
-
-        if recip.portal_type == 'organization':
-            add_parent_organizations(recip, index)
-        elif recip.portal_type == 'held_position':
-            add_parent_organizations(recip.get_organization(), index)
-    if index:
-        # make unique items
-        return list(set(index))
-    return _marker
+    return relations_index(obj, 'recipients')

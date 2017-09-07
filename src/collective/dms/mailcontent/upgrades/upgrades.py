@@ -65,3 +65,16 @@ def v6(context):
         obj = brain.getObject()
         obj.reindexObject(idxs=['recipients'])
     logger.info("%d objects were migrated" % nb)
+
+
+def v7(context):
+    catalog = api.portal.get_tool('portal_catalog')
+    nb = 0
+    for brain in catalog.searchResults(portal_type=['dmsincomingmail']):
+        nb += 1
+        obj = brain.getObject()
+        sender = obj.sender
+        if sender and not isinstance(sender, list):
+            obj.sender = [sender]
+            obj.reindexObject(idxs=['sender'])
+    logger.info("%d objects were migrated" % nb)
