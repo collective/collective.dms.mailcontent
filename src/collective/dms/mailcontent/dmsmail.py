@@ -150,7 +150,7 @@ def internalReferenceIncomingMailDefaultValue(data):
     return evaluateInternalReference(data.context, data.request,
                                      'collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number',
                                      'collective.dms.mailcontent.browser.settings.IDmsMailConfig.'
-                                     'incomingmail_talexpression')
+                                     'incomingmail_talexpression').decode('utf8')
 
 
 @indexer(IDmsIncomingMail)
@@ -245,7 +245,7 @@ def internalReferenceOutgoingMailDefaultValue(data):
     return evaluateInternalReference(data.context, data.request,
                                      'collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number',
                                      'collective.dms.mailcontent.browser.settings.IDmsMailConfig.'
-                                     'outgoingmail_talexpression')
+                                     'outgoingmail_talexpression').decode('utf8')
 
 
 class InternalReferenceOutgoingMailValidator(validator.SimpleFieldValidator):
