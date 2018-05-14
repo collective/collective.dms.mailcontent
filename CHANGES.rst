@@ -6,6 +6,8 @@ Changelog
 
 - Changed sender field from ContactChoice to ContactList (multiple values).
   [sgeulette]
+- Some corrections on encoding and index update
+  [sgeulette]
 
 1.0 (2017-05-30)
 ----------------

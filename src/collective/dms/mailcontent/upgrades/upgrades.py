@@ -27,7 +27,7 @@ def v3(context):
     brains = catalog.searchResults({'portal_type': 'dmsincomingmail'})
     for brain in brains:
         obj = brain.getObject()
-        obj.reindexObject(idxs=('Title', 'SearchableText'))
+        obj.reindexObject(idxs=('Title', 'SearchableText', 'sortable_title'))
 
 
 def v4(context):
