@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.1 (unreleased)
+1.0.1 (2018-07-23)
 ------------------
 
 - Changed sender field from ContactChoice to ContactList (multiple values).
