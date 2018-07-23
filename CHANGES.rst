@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.0.1 (2018-07-23)
-------------------
+1.1 (2018-07-23)
+----------------
 
 - Changed sender field from ContactChoice to ContactList (multiple values).
   [sgeulette]
