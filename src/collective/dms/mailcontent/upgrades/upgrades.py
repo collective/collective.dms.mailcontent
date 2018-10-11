@@ -78,3 +78,12 @@ def v7(context):
             obj.sender = [sender]
             obj.reindexObject(idxs=['sender'])
     logger.info("%d objects were migrated" % nb)
+
+
+def v8(context):
+    """ Avoid warning about unresolved dependencies """
+    setup = api.portal.get_tool('portal_setup')
+    step = 'dmsmailcontent-postInstall'
+    registry = setup.getImportStepRegistry()
+    registry._registered.get(step)['dependencies'] = ()
+    logger.info("Import step dependency corrected")

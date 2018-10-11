@@ -53,4 +53,12 @@
       handler=".upgrades.v7"
       profile="collective.dms.mailcontent:default" />
 
+  <genericsetup:upgradeStep
+      title="Migration profile for collective.dms.mailcontent to 8"
+      description="Upgrade from 7 to 8"
+      source="7"
+      destination="8"
+      handler=".upgrades.v8"
+      profile="collective.dms.mailcontent:default" />
+
 </configure>
