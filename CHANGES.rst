@@ -4,8 +4,8 @@ Changelog
 1.3 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Corrected empty dependency step causing unresolved warning. Save changes !
+  [sgeulette]
 
 1.2 (2018-10-11)
 ----------------

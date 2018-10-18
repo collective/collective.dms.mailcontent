@@ -87,4 +87,5 @@ def v8(context):
     registry = setup.getImportStepRegistry()
     registry._registered.get(step)['dependencies'] = (u'catalog', u'controlpanel', u'plone.app.registry', u'rolemap',
                                                       u'typeinfo')
+    setup._p_changed = True
     logger.info("Import step dependency corrected")
