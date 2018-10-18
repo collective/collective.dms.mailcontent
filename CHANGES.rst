@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.3 (unreleased)
-----------------
+1.2.1 (2018-10-18)
+------------------
 
 - Corrected empty dependency step causing unresolved warning. Save changes !
   [sgeulette]
