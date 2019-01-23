@@ -61,4 +61,10 @@
       handler=".upgrades.v8"
       profile="collective.dms.mailcontent:default" />
 
+  <genericsetup:upgradeDepends
+      title="Migration profile for collective.dms.mailcontent to 9"
+      source="8"
+      destination="9"
+      profile="collective.dms.mailcontent:default"
+      import_steps="plone.app.registry" />
 </configure>

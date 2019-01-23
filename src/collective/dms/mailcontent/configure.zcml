@@ -6,9 +6,12 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="collective.dms.mailcontent">
 
+  <include package="Products.CMFCore" />  <!-- for cmf permissions /-->
+
   <include file="permissions.zcml" />
 
   <include package="five.grok" />
+  <include package=".browser" />
   <include package=".upgrades" />
   <include file="behaviors.zcml" />
 

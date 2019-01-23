@@ -138,7 +138,7 @@ def evaluateInternalReference(context, request, number_registry_name, talexpress
         return 'Error getting view...'
     # we evaluate the expression
     expression = registry.get(talexpression_registry_name)
-    value = settings_view.evaluateTalExpression(expression, portal_state.portal(), number)
+    value = settings_view.evaluateTalExpression(expression, context, request, portal_state.portal(), number)
     return value
 
 
@@ -218,10 +218,15 @@ class IDmsOutgoingMail(IDmsDocument):
         portal_types=('dmsincomingmail', 'dmsoutgoingmail'),
         display_backrefs=True)
 
+    external_reference_no = schema.TextLine(
+        title=_(u"External Reference Number"),
+        required=False,)
+
     form.order_before(sender='treating_groups')
     form.order_before(recipients='treating_groups')
     form.order_before(mail_date='treating_groups')
     form.order_before(internal_reference_no='treating_groups')
+    form.order_before(external_reference_no='treating_groups')
     form.order_before(reply_to='treating_groups')
 
     form.order_after(related_docs='recipient_groups')
@@ -269,9 +274,9 @@ grok.global_adapter(InternalReferenceOutgoingMailValidator)
 def incrementOutgoingMailNumber(outgoingmail, event):
     """ Increment the value in registry """
     # if internal_reference_no is empty, we force the value.
-    # useless if the internal_reference_no field is hidden (in this case,
-    #                                                       default value must be empty to bypass validator)
-    # useless to manage automatically the internal_reference_no value without user action
+    # useful if the internal_reference_no field is hidden (in this case,
+    #                                                      default value must be empty to bypass validator)
+    # useful to manage automatically the internal_reference_no value without user action
     if not outgoingmail.internal_reference_no:
         internal_reference_no = evaluateInternalReference(outgoingmail, outgoingmail.REQUEST,
                                                           'collective.dms.mailcontent.browser.settings.IDmsMailConfig.'
@@ -280,8 +285,9 @@ def incrementOutgoingMailNumber(outgoingmail, event):
                                                           'outgoingmail_talexpression')
         outgoingmail.internal_reference_no = internal_reference_no
         outgoingmail.reindexObject(idxs=('Title', 'internal_reference_number', 'SearchableText', 'sortable_title'))
-    registry = getUtility(IRegistry)
-    registry['collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number'] += 1
+    if getattr(outgoingmail, '_auto_ref', True):
+        registry = getUtility(IRegistry)
+        registry['collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number'] += 1
 
 
 class DmsOutgoingMail(DmsDocument):

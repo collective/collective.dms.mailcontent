@@ -1,0 +1,59 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="collective.dms.mailcontent">
+
+    <include package="plone.app.controlpanel" file="permissions.zcml" />
+
+    <!-- settings -->
+    <browser:page
+        name="dmsmailcontent-settings"
+        for="Products.CMFCore.interfaces.ISiteRoot"
+        permission="plone.app.controlpanel.Site"
+        class=".settings.SettingsView"
+        />
+
+    <!-- add/edit om -->
+    <browser:page
+        for="collective.dms.mailcontent.dmsmail.IDmsOutgoingMail"
+        name="dmsdocument-edit"
+        class=".views.OMEdit"
+        permission="cmf.ModifyPortalContent"
+    />
+
+    <adapter
+        for="Products.CMFCore.interfaces.IFolderish
+             zope.publisher.interfaces.browser.IDefaultBrowserLayer
+             plone.dexterity.interfaces.IDexterityFTI"
+        provides="zope.publisher.interfaces.browser.IBrowserPage"
+        factory=".views.AddOM"
+        name="dmsoutgoingmail"
+        />
+    <class class=".views.AddOM">
+        <require
+            permission="collective.dms.mailcontent.dmsoutgoingmail.add"
+            interface="zope.publisher.interfaces.browser.IBrowserPage"
+            />
+    </class>
+
+    <!-- reply -->
+    <browser:page
+        name="reply"
+        for="collective.dms.mailcontent.dmsmail.IDmsIncomingMail"
+        class=".reply_form.ReplyForm"
+        permission="zope2.View"
+        />
+
+    <!-- utils -->
+    <browser:page
+        for="*"
+        name="cdmc-utils"
+        class=".utils.UtilsMethods"
+        permission="zope2.View"
+        allowed_attributes="
+            outgoingmail_folder
+        "
+        />
+
+</configure>

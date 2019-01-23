@@ -4,8 +4,13 @@ Changelog
 1.3 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Added settings to manage internal_reference_no field visibility and
+  number incrementing for outgoing mails.
+  [sgeulette]
+- Added reply view to respond to incoming mail.
+  [sgeulette]
+- Added external_reference_no in outgoing mail.
+  [sgeulette]
 
 1.2.1 (2018-10-18)
 ------------------

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2017-05-19 14:52+0000\n"
+"POT-Creation-Date: 2019-01-23 12:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,15 +15,23 @@ msgstr ""
 "Domain: collective.dms.mailcontent\n"
 "X-is-fallback-for: fr-fr fr-be fr-ca\n"
 
-#: ../browser/settings.py:39
+#: ../browser/settings.py:16
+msgid "Always hide"
+msgstr "Toujours cacher"
+
+#: ../browser/settings.py:15
+msgid "Always show"
+msgstr "Toujours montrer"
+
+#: ../browser/settings.py:73
 msgid "Check if the outgoing mail 'mail date' field will default to today at creation."
 msgstr "Cocher si le champ 'Date du courrier' du courrier sortant prend comme valeur par défaut la date du jour."
 
 #: ../testing.zcml:14
 msgid "Collective Dms Mailcontent testing profile"
-msgstr ""
+msgstr "Collective Dms Mailcontent testing profile"
 
-#: ../browser/settings.py:49
+#: ../browser/settings.py:83
 msgid "Dms Mail settings"
 msgstr "Configuration du courrier"
 
@@ -31,27 +39,43 @@ msgstr "Configuration du courrier"
 msgid "External Reference Number"
 msgstr "Référence externe"
 
+#: ../browser/settings.py:67
+msgid "If False, number will not be incremented only if user can edit internal reference number"
+msgstr "Non coché, le numéro du prochain courrier ne sera pas incrémenté, mais seulement si le champ 'numéro de référence interne' est visible"
+
 #: ../dmsmail.py:95
 msgid "In Reply To"
 msgstr "Courriers liés"
 
-#: ../browser/settings.py:24
+#: ../browser/settings.py:30
+msgid "Incoming mail"
+msgstr "Courrier entrant"
+
+#: ../browser/settings.py:39
 msgid "Incoming mail internal reference default value expression"
 msgstr "Courrier entrant: expression Tal définissant la valeur par défaut du champ référence interne"
 
-#: ../configure.zcml:38
+#: ../browser/settings.py:66
+msgid "Increment number used in internal reference number"
+msgstr "Incrémenter automatiquement le numéro du prochain courrier"
+
+#: ../configure.zcml:42
 msgid "Installs the collective.dms.mailcontent package"
-msgstr ""
+msgstr "Installs the collective.dms.mailcontent package"
 
 #: ../dmsmail.py:83
 msgid "Internal Reference Number"
 msgstr "Référence interne"
 
+#: ../browser/settings.py:60
+msgid "Internal reference number edition field"
+msgstr "Champ en édition du numéro de référence interne"
+
 #: ../dmsmail.py:200
 msgid "Mail Date"
 msgstr "Date du courrier"
 
-#: ../browser/settings.py:38
+#: ../browser/settings.py:72
 msgid "Mail date is today"
 msgstr "Courrier sortant: la date du courrier est par défaut la date du jour"
 
@@ -59,11 +83,11 @@ msgstr "Courrier sortant: la date du courrier est par défaut la date du jour"
 msgid "Normal"
 msgstr "Normal"
 
-#: ../browser/settings.py:20
+#: ../browser/settings.py:35
 msgid "Number of next incoming mail"
 msgstr "Courrier entrant: numéro du prochain courrier"
 
-#: ../browser/settings.py:29
+#: ../browser/settings.py:51
 msgid "Number of next outgoing mail"
 msgstr "Courrier sortant: numéro du prochain courrier"
 
@@ -71,7 +95,11 @@ msgstr "Courrier sortant: numéro du prochain courrier"
 msgid "Original Mail Date"
 msgstr "Date du courrier"
 
-#: ../browser/settings.py:33
+#: ../browser/settings.py:45
+msgid "Outgoing mail"
+msgstr "Courrier sortant"
+
+#: ../browser/settings.py:55
 msgid "Outgoing mail internal reference default value expression"
 msgstr "Courrier sortant: expression Tal définissant la valeur par défaut du champ référence interne"
 
@@ -87,6 +115,10 @@ msgstr "Destinataires"
 msgid "Registered"
 msgstr "Par recommandé"
 
+#: ../browser/reply_form.py:26
+msgid "Reply to ${ref}"
+msgstr "Répondre à ${ref}"
+
 #: ../dmsmail.py:87
 msgid "Sender"
 msgstr "Expéditeur"
@@ -97,15 +129,19 @@ msgstr "Type d'envoi"
 
 #: ../behaviors.zcml:16
 msgid "Sending type behavior"
-msgstr ""
+msgstr "Sending type behavior"
 
 #: ../behaviors.zcml:16
 msgid "SendingType"
-msgstr ""
+msgstr "Type d'envoi"
 
-#: ../browser/settings.py:25
-msgid "Tal expression where you can use portal, number as variable"
-msgstr "Expression Tal où les variables portal, number peuvent être utilisées"
+#: ../browser/settings.py:20
+msgid "Show only when replying"
+msgstr "Montrer uniquement en cas de réponse"
+
+#: ../browser/settings.py:40
+msgid "Tal expression where you can use portal, number, context, request, date as variable"
+msgstr "Expression Tal où les variables portal, number, context, request, date peuvent être utilisées"
 
 #: ../dmsmail.py:46
 msgid "This value is already used"
@@ -115,10 +151,10 @@ msgstr "Cette valeur est déjà utilisée !"
 msgid "This value is already used. A good value would be: ${good_value}"
 msgstr "Cette valeur est déjà utilisée ! Essayez avec: ${good_value}"
 
-#: ../browser/settings.py:21
+#: ../browser/settings.py:36
 msgid "This value is used as 'number' variable in linked tal expression"
 msgstr "Cette valeur est utilisée en tant que variable 'number' dans l'expression Tal liée"
 
-#: ../configure.zcml:38
+#: ../configure.zcml:42
 msgid "collective.dms.mailcontent"
-msgstr ""
+msgstr "collective.dms.mailconten"
