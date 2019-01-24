@@ -1,14 +1,11 @@
 import datetime
 
-from five import grok
-
 from z3c.form import validator
 from zope import schema
 from zope.component import getUtility, getMultiAdapter
 from zope.component.interfaces import ComponentLookupError
 from zope.interface import Invalid
 from zope.interface import implements
-from zope.lifecycleevent.interfaces import IObjectAddedEvent
 
 from Products.CMFPlone.utils import getToolByName
 
@@ -110,7 +107,6 @@ class IDmsIncomingMail(IDmsDocument):
 
 validator.WidgetValidatorDiscriminators(InternalReferenceIncomingMailValidator,
                                         field=IDmsIncomingMail['internal_reference_no'])
-grok.global_adapter(InternalReferenceIncomingMailValidator)
 
 
 @default_value(field=IDmsIncomingMail['reception_date'])
@@ -175,7 +171,6 @@ class DmsIncomingMail(DmsDocument):
         return "%s - %s" % (self.internal_reference_no.encode('utf8'), self.title.encode('utf8'))
 
 
-@grok.subscribe(IDmsIncomingMail, IObjectAddedEvent)
 def incrementIncomingMailNumber(incomingmail, event):
     """ Increment the value in registry """
     # if internal_reference_no is empty, we force the value.
@@ -267,10 +262,8 @@ class InternalReferenceOutgoingMailValidator(validator.SimpleFieldValidator):
 
 validator.WidgetValidatorDiscriminators(InternalReferenceOutgoingMailValidator,
                                         field=IDmsOutgoingMail['internal_reference_no'])
-grok.global_adapter(InternalReferenceOutgoingMailValidator)
 
 
-@grok.subscribe(IDmsOutgoingMail, IObjectAddedEvent)
 def incrementOutgoingMailNumber(outgoingmail, event):
     """ Increment the value in registry """
     # if internal_reference_no is empty, we force the value.

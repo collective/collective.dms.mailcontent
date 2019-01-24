@@ -11,6 +11,8 @@ Changelog
   [sgeulette]
 - Added external_reference_no in outgoing mail.
   [sgeulette]
+- Removed some grok
+  [sgeulette]
 
 1.2.1 (2018-10-18)
 ------------------

@@ -20,7 +20,7 @@
 
   <include package="plone.app.controlpanel" />
 
-  <grok:grok package="." />
+  <grok:grok package="." />  <!-- Must be kept for plone.directives.form -->
 
   <i18n:registerTranslations directory="locales" />
 
@@ -61,9 +61,23 @@
       image="dmsoutgoingmail_icon.png"
       />
 
+  <adapter factory=".dmsmail.InternalReferenceIncomingMailValidator" />
+  <adapter factory=".dmsmail.InternalReferenceOutgoingMailValidator" />
   <adapter name="internal_reference_number" factory=".dmsmail.internalReferenceNoIndexerForIncomingMail" />
   <adapter name="internal_reference_number" factory=".dmsmail.internalReferenceNoIndexerForOutgoingMail" />
   <adapter name="sender_index" factory=".indexers.sender_index" />
   <adapter name="recipients_index" factory=".indexers.recipients_index" />
+
+    <subscriber
+        for="collective.dms.mailcontent.dmsmail.IDmsIncomingMail
+             zope.lifecycleevent.interfaces.IObjectAddedEvent"
+        handler=".dmsmail.incrementIncomingMailNumber"
+        />
+
+    <subscriber
+        for="collective.dms.mailcontent.dmsmail.IDmsOutgoingMail
+             zope.lifecycleevent.interfaces.IObjectAddedEvent"
+        handler=".dmsmail.incrementOutgoingMailNumber"
+        />
 
 </configure>
