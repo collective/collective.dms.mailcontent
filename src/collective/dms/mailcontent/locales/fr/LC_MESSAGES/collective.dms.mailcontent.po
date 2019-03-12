@@ -157,4 +157,4 @@ msgstr "Cette valeur est utilisée en tant que variable 'number' dans l'expressi
 
 #: ../configure.zcml:42
 msgid "collective.dms.mailcontent"
-msgstr "collective.dms.mailconten"
+msgstr "collective.dms.mailcontent"
