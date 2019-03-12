@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.3 (unreleased)
+1.3 (2019-03-12)
 ----------------
 
 - Added settings to manage internal_reference_no field visibility and
