@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.4 (unreleased)
+1.4 (2019-04-26)
 ----------------
 
 - Renamed sender and recipients indexes.
