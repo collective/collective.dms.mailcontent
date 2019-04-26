@@ -67,4 +67,12 @@
       destination="9"
       profile="collective.dms.mailcontent:default"
       import_steps="plone.app.registry" />
+
+  <genericsetup:upgradeStep
+      title="Migration profile for collective.dms.mailcontent to 10"
+      source="9"
+      destination="10"
+      profile="collective.dms.mailcontent:default"
+      handler=".upgrades.v10" />
+
 </configure>

@@ -4,10 +4,12 @@
         <indexed_attr value="internal_reference_number"/>
     </index>
     <column value="internal_reference_number"/>
+    <index name="sender" remove="True" />
     <index name="sender_index" meta_type="KeywordIndex">
         <indexed_attr value="sender_index"/>
     </index>
     <column value="sender_index"/>
+    <index name="recipients" remove="True" />
     <index name="recipients_index" meta_type="KeywordIndex">
         <indexed_attr value="recipients_index"/>
     </index>

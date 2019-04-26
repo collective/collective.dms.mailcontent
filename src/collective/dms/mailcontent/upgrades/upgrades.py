@@ -76,7 +76,7 @@ def v7(context):
         sender = obj.sender
         if sender and not isinstance(sender, list):
             obj.sender = [sender]
-            obj.reindexObject(idxs=['sender'])
+            obj.reindexObject(idxs=['sender_index'])
     logger.info("%d objects were migrated" % nb)
 
 
@@ -89,3 +89,12 @@ def v8(context):
                                                       u'typeinfo')
     setup._p_changed = True
     logger.info("Import step dependency corrected")
+
+
+def v10(context):
+    """ Upgrade indexes """
+    setup = api.portal.get_tool('portal_setup')
+    setup.runImportStepFromProfile('profile-collective.dms.mailcontent:default', 'catalog')
+    catalog = api.portal.get_tool('portal_catalog')
+    catalog.manage_reindexIndex(ids=['sender_index', 'recipients_index'])
+    logger.info("Catalog updated")

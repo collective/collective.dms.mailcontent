@@ -4,8 +4,8 @@ Changelog
 1.4 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Renamed sender and recipients indexes.
+  [sgeulette]
 
 1.3 (2019-03-12)
 ----------------
