@@ -23,13 +23,8 @@ class ReplyForm(DefaultAddForm):
     def label(self):
         return _(u"Reply to ${ref}", mapping={'ref': safe_unicode(self.context.Title())})
 
-    def updateFields(self):
-
-        super(ReplyForm, self).updateFields()
-        imail = self.context
-        # put original mail irn in request to be used in irn expression
-        self.request['_irn'] = imail.internal_reference_no
-
+    def update_fields_irn(self):
+        """ update fields regarding irn setting """
         edit_irn = api.portal.get_registry_record('collective.dms.mailcontent.browser.settings.IDmsMailConfig.'
                                                   'outgoingmail_edit_irn')
         self.request['_hide_irn'] = True
@@ -40,6 +35,13 @@ class ReplyForm(DefaultAddForm):
                                                   'outgoingmail_increment_number'):
                 self.request['_auto_ref'] = False
 
+    def updateFields(self):
+
+        super(ReplyForm, self).updateFields()
+        imail = self.context
+        # put original mail irn in request to be used in irn expression
+        self.request['_irn'] = imail.internal_reference_no
+        self.update_fields_irn()
         form = self.request.form
         # Completing form values wasn't working anymore, but relations must be set here too !
         form["form.widgets.reply_to"] = ('/'.join(imail.getPhysicalPath()),)
