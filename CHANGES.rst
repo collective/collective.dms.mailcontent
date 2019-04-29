@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.5 (unreleased)
-----------------
+1.4.1 (2019-04-29)
+------------------
 
 - Use a separated method to update reply fields (reused in batchactions form)
   [sgeulette]
