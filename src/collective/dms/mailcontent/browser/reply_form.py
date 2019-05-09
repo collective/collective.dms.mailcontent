@@ -36,7 +36,6 @@ class ReplyForm(DefaultAddForm):
                 self.request['_auto_ref'] = False
 
     def updateFields(self):
-
         super(ReplyForm, self).updateFields()
         imail = self.context
         # put original mail irn in request to be used in irn expression
@@ -44,8 +43,12 @@ class ReplyForm(DefaultAddForm):
         self.update_fields_irn()
         form = self.request.form
         # Completing form values wasn't working anymore, but relations must be set here too !
-        form["form.widgets.reply_to"] = ('/'.join(imail.getPhysicalPath()),)
-        form["form.widgets.recipients"] = tuple([sd.to_path for sd in imail.sender])
+        # We need to put a value only if key doesn't exist, otherwise the user modifications in form aren't kept
+        # Because updateFields is also called after submission
+        if not "form.widgets.reply_to" in form:
+            form["form.widgets.reply_to"] = ('/'.join(imail.getPhysicalPath()),)
+        if not "form.widgets.recipients" in form:
+            form["form.widgets.recipients"] = tuple([sd.to_path for sd in imail.sender])
 
     def updateWidgets(self):
         super(ReplyForm, self).updateWidgets()

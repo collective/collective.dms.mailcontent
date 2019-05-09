@@ -4,8 +4,8 @@ Changelog
 1.5 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Correction when setting form values: no more change after form edition.
+  [sgeulette]
 
 1.4.1 (2019-04-29)
 ------------------
