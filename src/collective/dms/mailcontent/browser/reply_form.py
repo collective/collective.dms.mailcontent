@@ -7,9 +7,11 @@ from plone.dexterity.browser.add import DefaultAddForm
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity.utils import addContentToContainer
 from Products.CMFPlone.utils import safe_unicode
+from zc.relation.interfaces import ICatalog
 from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.component.interfaces import ComponentLookupError
+from zope.intid.interfaces import IIntIds
 
 
 class ReplyForm(DefaultAddForm):
@@ -78,6 +80,23 @@ class ReplyForm(DefaultAddForm):
         # python:request.get('_auto_ref', True) and 'S%04d' % int(number) or 'S/%s/1' % request.get('_irn', '')
 
         new_object = addContentToContainer(container, obj)
+
+        # we made sure to add incomingmail treating_groups in recipient_groups if a recipient group has replied
+        otgs = obj.treating_groups
+        if not isinstance(otgs, (list, tuple)):  # can be a unique value like in imio.dms.mail
+            otgs = [otgs]
+        intids = getUtility(IIntIds)
+        omgs = list(obj.recipient_groups or [])
+        for rel in obj.reply_to or []:
+            im = intids.getObject(rel.to_id)
+            itgs = im.treating_groups
+            if not isinstance(itgs, (list, tuple)):  # can be a unique value like in imio.dms.mail
+                itgs = [itgs]
+            missings = set(itgs) - (set(otgs) | set(omgs))
+            for missing in missings:
+                obj.recipient_groups.append(missing)
+        if omgs != obj.recipient_groups:
+            obj.reindexObject(idxs=['recipient_groups'])
 
         if fti.immediate_view:
             self.immediate_view = "/".join(
