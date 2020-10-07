@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.5 (unreleased)
-----------------
+1.4.3 (2020-10-07)
+------------------
 
 - Reply form: added im treating_groups in om recipient_groups if another group responds
   [sgeulette]
