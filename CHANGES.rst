@@ -4,8 +4,10 @@ Changelog
 1.5 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Reply form: added im treating_groups in om recipient_groups if another group responds
+  [sgeulette]
+- Added tests on reply form
+  [sgeulette]
 
 1.4.2 (2019-05-09)
 ------------------
