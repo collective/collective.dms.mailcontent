@@ -28,7 +28,7 @@ from collective.contact.core.schema import ContactList, ContactChoice
 from . import _
 
 
-def validateIndexValueUniqueness(context, portal_type, index_name, value):
+def validateIndexValueUniqueness(context, type_interface, index_name, value):
     """
         check at 'portal_type' 'context' creation if 'index' 'value' is uniqueness
     """
@@ -37,7 +37,7 @@ def validateIndexValueUniqueness(context, portal_type, index_name, value):
         return
     catalog = getToolByName(context, 'portal_catalog')
     brains = catalog.searchResults(**{index_name: value})
-    if context.portal_type != portal_type:
+    if not type_interface.providedBy(context):
         # we create the dmsincomingmail, the context is the container
         if brains:
             raise Invalid(_(u"This value is already used"))
@@ -48,12 +48,15 @@ def validateIndexValueUniqueness(context, portal_type, index_name, value):
             raise Invalid(_(u"This value is already used"))
 
 
-class InternalReferenceIncomingMailValidator(validator.SimpleFieldValidator):
+class InternalReferenceBaseValidator(validator.SimpleFieldValidator):
+
+    type_interface = None
+
     def validate(self, value):
-        #we call the already defined validators
-        #super(InternalReferenceValidator, self).validate(value)
+        # we call the already defined validators
+        # super(InternalReferenceValidator, self).validate(value)
         try:
-            validateIndexValueUniqueness(self.context, 'dmsincomingmail',
+            validateIndexValueUniqueness(self.context, self.type_interface,
                                          'internal_reference_number', value)
         except Invalid:
             raise Invalid(_(u"This value is already used. A good value would be: ${good_value}",
@@ -104,6 +107,12 @@ class IDmsIncomingMail(IDmsDocument):
 
     form.order_after(related_docs='recipient_groups')
     form.order_after(notes='related_docs')
+
+
+class InternalReferenceIncomingMailValidator(InternalReferenceBaseValidator):
+
+    type_interface = IDmsIncomingMail
+
 
 validator.WidgetValidatorDiscriminators(InternalReferenceIncomingMailValidator,
                                         field=IDmsIncomingMail['internal_reference_no'])
@@ -248,16 +257,8 @@ def internalReferenceOutgoingMailDefaultValue(data):
                                      'outgoingmail_talexpression').decode('utf8')
 
 
-class InternalReferenceOutgoingMailValidator(validator.SimpleFieldValidator):
-    def validate(self, value):
-        #we call the already defined validators
-        #super(InternalReferenceValidator, self).validate(value)
-        try:
-            validateIndexValueUniqueness(self.context, 'dmsoutgoingmail',
-                                         'internal_reference_number', value)
-        except Invalid:
-            raise Invalid(_(u"This value is already used. A good value would be: ${good_value}",
-                            mapping={'good_value': internalReferenceOutgoingMailDefaultValue(self)}))
+class InternalReferenceOutgoingMailValidator(InternalReferenceBaseValidator):
+    type_interface = IDmsOutgoingMail
 
 
 validator.WidgetValidatorDiscriminators(InternalReferenceOutgoingMailValidator,

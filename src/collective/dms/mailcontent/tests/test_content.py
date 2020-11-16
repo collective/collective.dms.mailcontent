@@ -36,33 +36,33 @@ class TestDmsmailMethods(TestContentTypes):
     def test_validateIndexValueUniqueness(self):
         imail1 = createContentInContainer(self.portal, 'dmsincomingmail', **{'internal_reference_no': '12345',
                                                                              'title': 'Test 1'})
-        #test with container as context, value doesn't exist
-        self.assertEquals(dmsmail.validateIndexValueUniqueness(self.portal, 'dmsincomingmail',
+        # test with container as context, value doesn't exist
+        self.assertEquals(dmsmail.validateIndexValueUniqueness(self.portal, dmsmail.IDmsIncomingMail,
                                                                'internal_reference_number', '54321'), None)
-        #test with container as context, value exists
+        # test with container as context, value exists
         self.assertRaisesRegexp(Invalid, u"This value is already used", dmsmail.validateIndexValueUniqueness,
-                                *[self.portal, 'dmsincomingmail', 'internal_reference_number', '12345'])
-        #test with object as context, value doesn't exist
-        self.assertEquals(dmsmail.validateIndexValueUniqueness(imail1, 'dmsincomingmail',
+                                *[self.portal, dmsmail.IDmsIncomingMail, 'internal_reference_number', '12345'])
+        # test with object as context, value doesn't exist
+        self.assertEquals(dmsmail.validateIndexValueUniqueness(imail1, dmsmail.IDmsIncomingMail,
                                                                'internal_reference_number', '54321'), None)
-        #test with object as context, value exists on the same object
-        self.assertEquals(dmsmail.validateIndexValueUniqueness(imail1, 'dmsincomingmail',
+        # test with object as context, value exists on the same object
+        self.assertEquals(dmsmail.validateIndexValueUniqueness(imail1, dmsmail.IDmsIncomingMail,
                                                                'internal_reference_number', '12345'), None)
-        #test with object as context and a sub element in the folder, value exists on the same object
+        # test with object as context and a sub element in the folder, value exists on the same object
         createContentInContainer(imail1, 'dmsmainfile', **{'title': 'File 1'})
-        self.assertEquals(dmsmail.validateIndexValueUniqueness(imail1, 'dmsincomingmail',
+        self.assertEquals(dmsmail.validateIndexValueUniqueness(imail1, dmsmail.IDmsIncomingMail,
                                                                'internal_reference_number', '12345'), None)
-        #test with object as context, value exists on a different object too
+        # test with object as context, value exists on a different object too
         imail2 = createContentInContainer(self.portal, 'dmsincomingmail',
                                           **{'internal_reference_no': '12345', 'title': 'Test 2'})
         self.assertRaisesRegexp(Invalid, u"This value is already used", dmsmail.validateIndexValueUniqueness,
-                                *[imail2, 'dmsincomingmail', 'internal_reference_number', '12345'])
-        #test with empty value
+                                *[imail2, dmsmail.IDmsIncomingMail, 'internal_reference_number', '12345'])
+        # test with empty value
         imail3 = createContentInContainer(self.portal, 'dmsincomingmail',
                                           **{'internal_reference_no': '', 'title': 'Test 2'})
-        self.assertEquals(dmsmail.validateIndexValueUniqueness(self.portal, 'dmsincomingmail',
+        self.assertEquals(dmsmail.validateIndexValueUniqueness(self.portal, dmsmail.IDmsIncomingMail,
                                                                'internal_reference_number', ''), None)
-        self.assertEquals(dmsmail.validateIndexValueUniqueness(imail3, 'dmsincomingmail',
+        self.assertEquals(dmsmail.validateIndexValueUniqueness(imail3, dmsmail.IDmsIncomingMail,
                                                                'internal_reference_number', ''), None)
 
     def test_evaluateInternalReference(self):

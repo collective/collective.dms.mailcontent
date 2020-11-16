@@ -4,8 +4,9 @@ Changelog
 1.4.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Use interface to ckeck context in validateIndexValueUniqueness
+  (multiple types can use the same interface).
+  [sgeulette]
 
 1.4.3 (2020-10-07)
 ------------------
