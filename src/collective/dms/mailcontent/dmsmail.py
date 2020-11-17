@@ -1,31 +1,29 @@
-import datetime
-
-from z3c.form import validator
-from zope import schema
-from zope.component import getUtility, getMultiAdapter
-from zope.component.interfaces import ComponentLookupError
-from zope.interface import Invalid
-from zope.interface import implements
-
-from Products.CMFPlone.utils import getToolByName
-
+from . import _
+from collective import dexteritytextindexer
+from collective.contact.core.schema import ContactChoice
+from collective.contact.core.schema import ContactList
+from collective.dms.basecontent.dmsdocument import DmsDocument
+from collective.dms.basecontent.dmsdocument import IDmsDocument
+from collective.dms.basecontent.relateddocs import RelatedDocs
 from plone import api
 from plone.autoform import directives as form
 from plone.dexterity.schema import DexteritySchemaPolicy
 from plone.directives.form import default_value
-from plone.formwidget.datetime.z3cform.widget import (DateFieldWidget,
-                                                      DatetimeFieldWidget)
+from plone.formwidget.datetime.z3cform.widget import DateFieldWidget
+from plone.formwidget.datetime.z3cform.widget import DatetimeFieldWidget
 from plone.indexer import indexer
 from plone.registry.interfaces import IRegistry
-
+from Products.CMFPlone.utils import getToolByName
 from Products.PluginIndexes.common.UnIndex import _marker
+from z3c.form import validator
+from zope import schema
+from zope.component import getMultiAdapter
+from zope.component import getUtility
+from zope.component.interfaces import ComponentLookupError
+from zope.interface import implements
+from zope.interface import Invalid
 
-from collective import dexteritytextindexer
-from collective.dms.basecontent.relateddocs import RelatedDocs
-from collective.dms.basecontent.dmsdocument import IDmsDocument, DmsDocument
-from collective.contact.core.schema import ContactList, ContactChoice
-
-from . import _
+import datetime
 
 
 def validateIndexValueUniqueness(context, type_interface, index_name, value):
@@ -94,7 +92,8 @@ class IDmsIncomingMail(IDmsDocument):
     reply_to = RelatedDocs(
         title=_(u"In Reply To"),
         required=False,
-        portal_types=('dmsincomingmail', 'dmsoutgoingmail'),
+        object_provides=('collective.dms.mailcontent.dmsmail.IDmsIncomingMail',
+                         'collective.dms.mailcontent.dmsmail.IDmsOutgoingMail'),
         display_backrefs=True)
 
     form.order_before(sender='treating_groups')
@@ -219,7 +218,8 @@ class IDmsOutgoingMail(IDmsDocument):
     reply_to = RelatedDocs(
         title=_(u"In Reply To"),
         required=False,
-        portal_types=('dmsincomingmail', 'dmsoutgoingmail'),
+        object_provides=('collective.dms.mailcontent.dmsmail.IDmsIncomingMail',
+                         'collective.dms.mailcontent.dmsmail.IDmsOutgoingMail'),
         display_backrefs=True)
 
     external_reference_no = schema.TextLine(

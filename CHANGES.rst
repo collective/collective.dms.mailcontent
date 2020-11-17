@@ -7,6 +7,8 @@ Changelog
 - Use interface to ckeck context in validateIndexValueUniqueness
   (multiple types can use the same interface).
   [sgeulette]
+- RelatedDocs field (reply_to) use now object_provides criteria
+  [sgeulette]
 
 1.4.3 (2020-10-07)
 ------------------
