@@ -9,6 +9,8 @@ Changelog
   [sgeulette]
 - RelatedDocs field (reply_to) use now object_provides criteria
   [sgeulette]
+- Replaced dmsincomingmail portal_type test by IDmsIncomingMail.providedBy
+  [sgeulette]
 
 1.4.3 (2020-10-07)
 ------------------
