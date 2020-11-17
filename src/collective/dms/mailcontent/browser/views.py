@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
 from collective.dms.basecontent.browser.views import DmsDocumentEdit
+from collective.dms.mailcontent.dmsmail import IDmsOutgoingMail
 from plone import api
 from plone.dexterity.browser.add import DefaultAddForm
 from plone.dexterity.browser.add import DefaultAddView
 
 
-def DmsOutgoingMailUpdateWidgets(the_form):
+def DmsOutgoingMailUpdateWidgets(the_form):  # noqa
     """
         Widgets update method for add, edit and reply !
     """
@@ -17,7 +18,7 @@ def DmsOutgoingMailUpdateWidgets(the_form):
             the_form.request.get('_hide_irn', False)):
         the_form.widgets['internal_reference_no'].mode = 'hidden'
         # we empty value to bypass validator when creating object. Reference will be managed automatically
-        if the_form.context.portal_type != 'dmsoutgoingmail':
+        if not IDmsOutgoingMail.providedBy(the_form.context):
             the_form.widgets['internal_reference_no'].value = ''
 
 
