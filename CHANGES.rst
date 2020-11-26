@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.4.4 (unreleased)
+1.5 (unreleased)
 ------------------
 
 - Use interface to ckeck context in validateIndexValueUniqueness
@@ -10,6 +10,9 @@ Changelog
 - RelatedDocs field (reply_to) use now object_provides criteria
   [sgeulette]
 - Replaced portal_type test by schema interface providedBy test
+  [sgeulette]
+- Added IOutgoingEmail and IFieldsetOutgoingEmail schema interfaces to describe
+  email information
   [sgeulette]
 
 1.4.3 (2020-10-07)

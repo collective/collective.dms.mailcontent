@@ -1,20 +1,25 @@
 from . import _
 from collective import dexteritytextindexer
+from collective.contact.core.behaviors import validate_email
 from collective.contact.core.schema import ContactChoice
 from collective.contact.core.schema import ContactList
 from collective.dms.basecontent.dmsdocument import DmsDocument
 from collective.dms.basecontent.dmsdocument import IDmsDocument
 from collective.dms.basecontent.relateddocs import RelatedDocs
 from plone import api
+from plone.app.textfield import RichText
 from plone.autoform import directives as form
 from plone.dexterity.schema import DexteritySchemaPolicy
-from plone.directives.form import default_value
+from plone.directives.form.value import default_value
 from plone.formwidget.datetime.z3cform.widget import DateFieldWidget
 from plone.formwidget.datetime.z3cform.widget import DatetimeFieldWidget
 from plone.indexer import indexer
 from plone.registry.interfaces import IRegistry
+from plone.supermodel import model
+from plone.supermodel.directives import fieldset
 from Products.CMFPlone.utils import getToolByName
 from Products.PluginIndexes.common.UnIndex import _marker
+from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from z3c.form import validator
 from zope import schema
 from zope.component import getMultiAdapter
@@ -22,6 +27,7 @@ from zope.component import getUtility
 from zope.component.interfaces import ComponentLookupError
 from zope.interface import implements
 from zope.interface import Invalid
+from zope.schema.vocabulary import SimpleVocabulary
 
 import datetime
 
@@ -303,6 +309,50 @@ def internalReferenceNoIndexerForOutgoingMail(obj):
     if obj.internal_reference_no:
         return obj.internal_reference_no
     return _marker
+
+
+email_attachments = SimpleVocabulary([])  # TODO To be replaced
+
+
+class IOutgoingEmail(model.Schema):
+    """ """
+
+    email_subject = schema.TextLine(
+        title=_(u"Email subject"),
+    )
+
+    email_recipient = schema.ASCIILine(
+        title=_(u"Email recipient"),
+        constraint=validate_email,
+    )
+
+    email_cc = schema.TextLine(
+        title=_(u"Email cc"),
+        required=False,
+        # constraint=validate_emails,
+    )
+
+    email_attachments = schema.List(
+        title=_(u"Email attachments"),
+        required=False,
+        value_type=schema.Choice(email_attachments),
+        # value_type=schema.Choice(vocabulary=u'collective.dms.mailcontent.email_attachments'),
+    )
+    form.widget('email_attachments', CheckBoxFieldWidget, multiple='multiple', size=10)
+
+    email_body = RichText(
+        title=_(u"Email body"),
+    )
+
+
+class IFieldsetOutgoingEmail(IOutgoingEmail):
+    """ """
+
+    fieldset(
+        'email',
+        label=_(u"Email"),
+        fields=['email_subject', 'email_recipient', 'email_cc', 'email_attachments', 'email_body']
+    )
 
 
 class DmsIncomingMailSchemaPolicy(DexteritySchemaPolicy):
