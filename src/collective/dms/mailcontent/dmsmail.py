@@ -27,7 +27,6 @@ from zope.component import getUtility
 from zope.component.interfaces import ComponentLookupError
 from zope.interface import implements
 from zope.interface import Invalid
-from zope.schema.vocabulary import SimpleVocabulary
 
 import datetime
 
@@ -311,9 +310,6 @@ def internalReferenceNoIndexerForOutgoingMail(obj):
     return _marker
 
 
-email_attachments = SimpleVocabulary([])  # TODO To be replaced
-
-
 class IOutgoingEmail(model.Schema):
     """ """
 
@@ -335,8 +331,7 @@ class IOutgoingEmail(model.Schema):
     email_attachments = schema.List(
         title=_(u"Email attachments"),
         required=False,
-        value_type=schema.Choice(email_attachments),
-        # value_type=schema.Choice(vocabulary=u'collective.dms.mailcontent.email_attachments'),
+        value_type=schema.Choice(vocabulary=u'collective.dms.mailcontent.email_attachments_voc'),
     )
     form.widget('email_attachments', CheckBoxFieldWidget, multiple='multiple', size=10)
 

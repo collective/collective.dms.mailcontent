@@ -80,4 +80,9 @@
         handler=".dmsmail.incrementOutgoingMailNumber"
         />
 
+    <utility
+        name="collective.dms.mailcontent.email_attachments_voc"
+        factory="collective.dms.mailcontent.vocabularies.EmailAttachmentsVocabulary"
+        />
+
 </configure>
