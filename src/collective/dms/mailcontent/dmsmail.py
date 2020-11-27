@@ -337,6 +337,7 @@ class IOutgoingEmail(model.Schema):
 
     email_body = RichText(
         title=_(u"Email body"),
+        allowed_mime_types=(u"text/html",),
     )
 
 
