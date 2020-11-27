@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2019-01-23 12:41+0000\n"
+"POT-Creation-Date: 2020-11-27 12:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,7 +35,31 @@ msgstr ""
 msgid "Dms Mail settings"
 msgstr ""
 
-#: ../dmsmail.py:78
+#: ../dmsmail.py:349
+msgid "Email"
+msgstr ""
+
+#: ../dmsmail.py:332
+msgid "Email attachments"
+msgstr ""
+
+#: ../dmsmail.py:339
+msgid "Email body"
+msgstr ""
+
+#: ../dmsmail.py:326
+msgid "Email cc"
+msgstr ""
+
+#: ../dmsmail.py:321
+msgid "Email recipient"
+msgstr ""
+
+#: ../dmsmail.py:317
+msgid "Email subject"
+msgstr ""
+
+#: ../dmsmail.py:81
 msgid "External Reference Number"
 msgstr ""
 
@@ -43,7 +67,7 @@ msgstr ""
 msgid "If False, number will not be incremented only if user can edit internal reference number"
 msgstr ""
 
-#: ../dmsmail.py:95
+#: ../dmsmail.py:98
 msgid "In Reply To"
 msgstr ""
 
@@ -63,7 +87,7 @@ msgstr ""
 msgid "Installs the collective.dms.mailcontent package"
 msgstr ""
 
-#: ../dmsmail.py:83
+#: ../dmsmail.py:86
 msgid "Internal Reference Number"
 msgstr ""
 
@@ -71,7 +95,7 @@ msgstr ""
 msgid "Internal reference number edition field"
 msgstr ""
 
-#: ../dmsmail.py:200
+#: ../dmsmail.py:208
 msgid "Mail Date"
 msgstr ""
 
@@ -91,7 +115,7 @@ msgstr ""
 msgid "Number of next outgoing mail"
 msgstr ""
 
-#: ../dmsmail.py:70
+#: ../dmsmail.py:73
 msgid "Original Mail Date"
 msgstr ""
 
@@ -103,11 +127,11 @@ msgstr ""
 msgid "Outgoing mail internal reference default value expression"
 msgstr ""
 
-#: ../dmsmail.py:74
+#: ../dmsmail.py:77
 msgid "Reception Date"
 msgstr ""
 
-#: ../dmsmail.py:91
+#: ../dmsmail.py:94
 msgid "Recipients"
 msgstr ""
 
@@ -115,11 +139,11 @@ msgstr ""
 msgid "Registered"
 msgstr ""
 
-#: ../browser/reply_form.py:26
+#: ../browser/reply_form.py:25
 msgid "Reply to ${ref}"
 msgstr ""
 
-#: ../dmsmail.py:87
+#: ../dmsmail.py:90
 msgid "Sender"
 msgstr ""
 
@@ -127,11 +151,11 @@ msgstr ""
 msgid "Sending type"
 msgstr ""
 
-#: ../behaviors.zcml:16
+#: ../behaviors.zcml:13
 msgid "Sending type behavior"
 msgstr ""
 
-#: ../behaviors.zcml:16
+#: ../behaviors.zcml:13
 msgid "SendingType"
 msgstr ""
 
@@ -147,7 +171,7 @@ msgstr ""
 msgid "This value is already used"
 msgstr ""
 
-#: ../dmsmail.py:62
+#: ../dmsmail.py:65
 msgid "This value is already used. A good value would be: ${good_value}"
 msgstr ""
 
@@ -157,4 +181,12 @@ msgstr ""
 
 #: ../configure.zcml:42
 msgid "collective.dms.mailcontent"
+msgstr ""
+
+#: ../vocabularies.py:23
+msgid "dmsappendixfile: ${title}"
+msgstr ""
+
+#: ../vocabularies.py:23
+msgid "dmsmainfile: ${title}"
 msgstr ""

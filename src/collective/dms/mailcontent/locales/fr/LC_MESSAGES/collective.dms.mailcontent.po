@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2019-01-23 12:41+0000\n"
+"POT-Creation-Date: 2020-11-27 12:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,7 +35,31 @@ msgstr "Collective Dms Mailcontent testing profile"
 msgid "Dms Mail settings"
 msgstr "Configuration du courrier"
 
-#: ../dmsmail.py:78
+#: ../dmsmail.py:349
+msgid "Email"
+msgstr "Email"
+
+#: ../dmsmail.py:332
+msgid "Email attachments"
+msgstr "Pièces jointes"
+
+#: ../dmsmail.py:339
+msgid "Email body"
+msgstr "Corps de l'email"
+
+#: ../dmsmail.py:326
+msgid "Email cc"
+msgstr "Destinataires en copie"
+
+#: ../dmsmail.py:321
+msgid "Email recipient"
+msgstr "Destinataire principal"
+
+#: ../dmsmail.py:317
+msgid "Email subject"
+msgstr "Sujet de l'email"
+
+#: ../dmsmail.py:81
 msgid "External Reference Number"
 msgstr "Référence externe"
 
@@ -43,7 +67,7 @@ msgstr "Référence externe"
 msgid "If False, number will not be incremented only if user can edit internal reference number"
 msgstr "Non coché, le numéro du prochain courrier ne sera pas incrémenté, mais seulement si le champ 'numéro de référence interne' est visible"
 
-#: ../dmsmail.py:95
+#: ../dmsmail.py:98
 msgid "In Reply To"
 msgstr "Courriers liés"
 
@@ -63,7 +87,7 @@ msgstr "Incrémenter automatiquement le numéro du prochain courrier"
 msgid "Installs the collective.dms.mailcontent package"
 msgstr "Installs the collective.dms.mailcontent package"
 
-#: ../dmsmail.py:83
+#: ../dmsmail.py:86
 msgid "Internal Reference Number"
 msgstr "Référence interne"
 
@@ -71,7 +95,7 @@ msgstr "Référence interne"
 msgid "Internal reference number edition field"
 msgstr "Champ en édition du numéro de référence interne"
 
-#: ../dmsmail.py:200
+#: ../dmsmail.py:208
 msgid "Mail Date"
 msgstr "Date du courrier"
 
@@ -91,7 +115,7 @@ msgstr "Courrier entrant: numéro du prochain courrier"
 msgid "Number of next outgoing mail"
 msgstr "Courrier sortant: numéro du prochain courrier"
 
-#: ../dmsmail.py:70
+#: ../dmsmail.py:73
 msgid "Original Mail Date"
 msgstr "Date du courrier"
 
@@ -103,11 +127,11 @@ msgstr "Courrier sortant"
 msgid "Outgoing mail internal reference default value expression"
 msgstr "Courrier sortant: expression Tal définissant la valeur par défaut du champ référence interne"
 
-#: ../dmsmail.py:74
+#: ../dmsmail.py:77
 msgid "Reception Date"
 msgstr "Date de réception"
 
-#: ../dmsmail.py:91
+#: ../dmsmail.py:94
 msgid "Recipients"
 msgstr "Destinataires"
 
@@ -115,11 +139,11 @@ msgstr "Destinataires"
 msgid "Registered"
 msgstr "Par recommandé"
 
-#: ../browser/reply_form.py:26
+#: ../browser/reply_form.py:25
 msgid "Reply to ${ref}"
 msgstr "Répondre à ${ref}"
 
-#: ../dmsmail.py:87
+#: ../dmsmail.py:90
 msgid "Sender"
 msgstr "Expéditeur"
 
@@ -127,11 +151,11 @@ msgstr "Expéditeur"
 msgid "Sending type"
 msgstr "Type d'envoi"
 
-#: ../behaviors.zcml:16
+#: ../behaviors.zcml:13
 msgid "Sending type behavior"
 msgstr "Sending type behavior"
 
-#: ../behaviors.zcml:16
+#: ../behaviors.zcml:13
 msgid "SendingType"
 msgstr "Type d'envoi"
 
@@ -147,7 +171,7 @@ msgstr "Expression Tal où les variables portal, number, context, request, date 
 msgid "This value is already used"
 msgstr "Cette valeur est déjà utilisée !"
 
-#: ../dmsmail.py:62
+#: ../dmsmail.py:65
 msgid "This value is already used. A good value would be: ${good_value}"
 msgstr "Cette valeur est déjà utilisée ! Essayez avec: ${good_value}"
 
@@ -158,3 +182,11 @@ msgstr "Cette valeur est utilisée en tant que variable 'number' dans l'expressi
 #: ../configure.zcml:42
 msgid "collective.dms.mailcontent"
 msgstr "collective.dms.mailcontent"
+
+#: ../vocabularies.py:23
+msgid "dmsappendixfile: ${title}"
+msgstr "A: ${title}"
+
+#: ../vocabularies.py:23
+msgid "dmsmainfile: ${title}"
+msgstr "V: ${title}"
