@@ -352,7 +352,7 @@ class IFieldsetOutgoingEmail(IOutgoingEmail):
     fieldset(
         'email',
         label=_(u"Email"),
-        fields=['email_subject', 'email_recipient', 'email_cc', 'email_attachments', 'email_body']
+        fields=['email_subject', 'email_sender', 'email_recipient', 'email_cc', 'email_attachments', 'email_body']
     )
 
 
