@@ -317,6 +317,11 @@ class IOutgoingEmail(model.Schema):
         title=_(u"Email subject"),
     )
 
+    email_sender = schema.ASCIILine(
+        title=_(u"Email sender"),
+        constraint=validate_email,
+    )
+
     email_recipient = schema.ASCIILine(
         title=_(u"Email recipient"),
         constraint=validate_email,
