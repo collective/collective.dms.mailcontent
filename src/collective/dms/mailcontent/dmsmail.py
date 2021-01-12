@@ -1,11 +1,11 @@
 from . import _
 from collective import dexteritytextindexer
-from collective.contact.core.behaviors import validate_email
 from collective.contact.core.schema import ContactChoice
 from collective.contact.core.schema import ContactList
 from collective.dms.basecontent.dmsdocument import DmsDocument
 from collective.dms.basecontent.dmsdocument import IDmsDocument
 from collective.dms.basecontent.relateddocs import RelatedDocs
+from imio.helpers.emailer import validate_email_address
 from plone import api
 from plone.app.textfield import RichText
 from plone.autoform import directives as form
@@ -319,12 +319,12 @@ class IOutgoingEmail(model.Schema):
 
     email_sender = schema.ASCIILine(
         title=_(u"Email sender"),
-        constraint=validate_email,
+        constraint=validate_email_address,
     )
 
     email_recipient = schema.ASCIILine(
         title=_(u"Email recipient"),
-        constraint=validate_email,
+        constraint=validate_email_address,
     )
 
     email_cc = schema.TextLine(
