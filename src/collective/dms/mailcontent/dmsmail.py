@@ -6,6 +6,7 @@ from collective.dms.basecontent.dmsdocument import DmsDocument
 from collective.dms.basecontent.dmsdocument import IDmsDocument
 from collective.dms.basecontent.relateddocs import RelatedDocs
 from imio.helpers.emailer import validate_email_address
+from imio.helpers.emailer import validate_email_addresses
 from plone import api
 from plone.app.textfield import RichText
 from plone.autoform import directives as form
@@ -324,13 +325,15 @@ class IOutgoingEmail(model.Schema):
 
     email_recipient = schema.TextLine(
         title=_(u"Email recipient"),
-        constraint=validate_email_address,
+        description=_(u"Multiple values must be separated by a comma."),
+        constraint=validate_email_addresses,
     )
 
     email_cc = schema.TextLine(
         title=_(u"Email cc"),
+        # description=_(u"Multiple values must be separated by a comma."),
         required=False,
-        # constraint=validate_emails,
+        constraint=validate_email_addresses,
     )
 
     email_attachments = schema.List(
