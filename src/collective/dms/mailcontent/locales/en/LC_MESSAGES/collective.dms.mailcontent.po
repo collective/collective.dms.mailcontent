@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2021-01-13 09:29+0000\n"
+"POT-Creation-Date: 2021-01-19 12:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,31 +35,35 @@ msgstr ""
 msgid "Dms Mail settings"
 msgstr ""
 
-#: ../dmsmail.py:357
+#: ../dmsmail.py:363
 msgid "Email"
 msgstr ""
 
-#: ../dmsmail.py:340
+#: ../dmsmail.py:346
 msgid "Email attachments"
 msgstr ""
 
-#: ../dmsmail.py:347
+#: ../dmsmail.py:353
 msgid "Email body"
 msgstr ""
 
-#: ../dmsmail.py:333
+#: ../dmsmail.py:339
 msgid "Email cc"
 msgstr ""
 
-#: ../dmsmail.py:327
+#: ../dmsmail.py:333
 msgid "Email recipient"
 msgstr ""
 
-#: ../dmsmail.py:322
+#: ../dmsmail.py:328
 msgid "Email sender"
 msgstr ""
 
 #: ../dmsmail.py:318
+msgid "Email status"
+msgstr ""
+
+#: ../dmsmail.py:324
 msgid "Email subject"
 msgstr ""
 
@@ -107,7 +111,7 @@ msgstr ""
 msgid "Mail date is today"
 msgstr ""
 
-#: ../dmsmail.py:328
+#: ../dmsmail.py:334
 msgid "Multiple values must be separated by a comma."
 msgstr ""
 

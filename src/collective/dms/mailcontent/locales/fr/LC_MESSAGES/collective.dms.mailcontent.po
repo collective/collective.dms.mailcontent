@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2021-01-13 09:29+0000\n"
+"POT-Creation-Date: 2021-01-19 12:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,31 +35,35 @@ msgstr "Collective Dms Mailcontent testing profile"
 msgid "Dms Mail settings"
 msgstr "Configuration du courrier"
 
-#: ../dmsmail.py:357
+#: ../dmsmail.py:363
 msgid "Email"
 msgstr "Email"
 
-#: ../dmsmail.py:340
+#: ../dmsmail.py:346
 msgid "Email attachments"
 msgstr "Pièces jointes"
 
-#: ../dmsmail.py:347
+#: ../dmsmail.py:353
 msgid "Email body"
 msgstr "Corps de l'email"
 
-#: ../dmsmail.py:333
+#: ../dmsmail.py:339
 msgid "Email cc"
 msgstr "Emails des destinataires en copie"
 
-#: ../dmsmail.py:327
+#: ../dmsmail.py:333
 msgid "Email recipient"
 msgstr "Emails des destinataires"
 
-#: ../dmsmail.py:322
+#: ../dmsmail.py:328
 msgid "Email sender"
 msgstr "Email de l'expéditeur"
 
 #: ../dmsmail.py:318
+msgid "Email status"
+msgstr "Statut"
+
+#: ../dmsmail.py:324
 msgid "Email subject"
 msgstr "Sujet de l'email"
 
@@ -107,7 +111,7 @@ msgstr "Date du courrier"
 msgid "Mail date is today"
 msgstr "Courrier sortant: la date du courrier est par défaut la date du jour"
 
-#: ../dmsmail.py:328
+#: ../dmsmail.py:334
 msgid "Multiple values must be separated by a comma."
 msgstr "Les valeurs multiples doivent être séparées par une virgule."
 

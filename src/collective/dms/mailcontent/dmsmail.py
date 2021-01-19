@@ -314,6 +314,12 @@ def internalReferenceNoIndexerForOutgoingMail(obj):
 class IOutgoingEmail(model.Schema):
     """ """
 
+    email_status = schema.TextLine(
+        title=_(u"Email status"),
+        required=False,
+    )
+    form.write_permission(email_status='cmf.ManagePortal')
+
     email_subject = schema.TextLine(
         title=_(u"Email subject"),
     )
@@ -355,7 +361,8 @@ class IFieldsetOutgoingEmail(IOutgoingEmail):
     fieldset(
         'email',
         label=_(u"Email"),
-        fields=['email_subject', 'email_sender', 'email_recipient', 'email_cc', 'email_attachments', 'email_body']
+        fields=['email_status', 'email_subject', 'email_sender', 'email_recipient', 'email_cc', 'email_attachments',
+                'email_body']
     )
 
 
