@@ -38,8 +38,9 @@ def relations_index(obj, attr):
 
 @indexer(IDmsDocument)
 def sender_index(obj):
-    """
-        return an index containing:
+    """Indexer of 'sender_index' for IDmsDocument
+
+    Stores:
         * the sender UIDs
         * the organizations chain UIDs if the sender is an organization or a held position, prefixed by 'l:'
     """
@@ -48,8 +49,9 @@ def sender_index(obj):
 
 @indexer(IDmsDocument)
 def recipients_index(obj):
-    """
-        return an index containing:
+    """Indexer of 'recipients_index' for IDmsDocument
+
+    Stores:
         * the recipient UIDs
         * the organizations chain UIDs if the recipient is an organization or a held position, prefixed by 'l:'
     """
