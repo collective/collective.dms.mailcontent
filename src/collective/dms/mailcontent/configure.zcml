@@ -63,8 +63,8 @@
 
   <adapter factory=".dmsmail.InternalReferenceIncomingMailValidator" />
   <adapter factory=".dmsmail.InternalReferenceOutgoingMailValidator" />
-  <adapter name="internal_reference_number" factory=".dmsmail.internalReferenceNoIndexerForIncomingMail" />
-  <adapter name="internal_reference_number" factory=".dmsmail.internalReferenceNoIndexerForOutgoingMail" />
+  <adapter name="internal_reference_number" factory=".indexers.im_internal_reference_number_indexer" />
+  <adapter name="internal_reference_number" factory=".indexers.om_internal_reference_number_indexer" />
   <adapter name="sender_index" factory=".indexers.sender_index" />
   <adapter name="recipients_index" factory=".indexers.recipients_index" />
 

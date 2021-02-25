@@ -14,12 +14,10 @@ from plone.dexterity.schema import DexteritySchemaPolicy
 from plone.directives.form.value import default_value
 from plone.formwidget.datetime.z3cform.widget import DateFieldWidget
 from plone.formwidget.datetime.z3cform.widget import DatetimeFieldWidget
-from plone.indexer import indexer
 from plone.registry.interfaces import IRegistry
 from plone.supermodel import model
 from plone.supermodel.directives import fieldset
 from Products.CMFPlone.utils import getToolByName
-from Products.PluginIndexes.common.UnIndex import _marker
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from z3c.form import validator
 from zope import schema
@@ -163,17 +161,6 @@ def internalReferenceIncomingMailDefaultValue(data):
                                      'incomingmail_talexpression').decode('utf8')
 
 
-@indexer(IDmsIncomingMail)
-def internalReferenceNoIndexerForIncomingMail(obj):
-    """
-        specific indexer method to avoid acquisition of dmsincomingmail contained elements.
-        internal_reference_number is a fake attribute name
-    """
-    if obj.internal_reference_no:
-        return obj.internal_reference_no
-    return _marker
-
-
 class DmsIncomingMail(DmsDocument):
     """ """
     implements(IDmsIncomingMail)
@@ -298,17 +285,6 @@ class DmsOutgoingMail(DmsDocument):
         if self.internal_reference_no is None:
             return self.title.encode('utf8')
         return "%s - %s" % (self.internal_reference_no.encode('utf8'), self.title.encode('utf8'))
-
-
-@indexer(IDmsOutgoingMail)
-def internalReferenceNoIndexerForOutgoingMail(obj):
-    """
-        specific indexer method to avoid acquisition of dmsoutgoingmail contained elements.
-        internal_reference_number is a fake attribute name
-    """
-    if obj.internal_reference_no:
-        return obj.internal_reference_no
-    return _marker
 
 
 class IOutgoingEmail(model.Schema):

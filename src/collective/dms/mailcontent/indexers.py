@@ -1,9 +1,29 @@
+from collective.dms.basecontent.dmsdocument import IDmsDocument
+from collective.dms.mailcontent.dmsmail import IDmsIncomingMail
+from collective.dms.mailcontent.dmsmail import IDmsOutgoingMail
 from plone.indexer import indexer
-
 from Products.CMFPlone.utils import base_hasattr
 from Products.PluginIndexes.common.UnIndex import _marker
 
-from collective.dms.basecontent.dmsdocument import IDmsDocument
+
+@indexer(IDmsIncomingMail)
+def im_internal_reference_number_indexer(obj):
+    """Indexer of 'internal_reference_number' for IDmsIncomingMail. Stores internal_reference_no.
+    Specific indexer method to avoid acquisition of dmsincomingmail contained elements.
+    """
+    if obj.internal_reference_no:
+        return obj.internal_reference_no
+    return _marker
+
+
+@indexer(IDmsOutgoingMail)
+def om_internal_reference_number_indexer(obj):
+    """Indexer of 'internal_reference_number' for IDmsOutgoingMail. Stores internal_reference_no.
+    Specific indexer method to avoid acquisition of dmsoutgoingmail contained elements.
+    """
+    if obj.internal_reference_no:
+        return obj.internal_reference_no
+    return _marker
 
 
 def add_parent_organizations(obj, index):
