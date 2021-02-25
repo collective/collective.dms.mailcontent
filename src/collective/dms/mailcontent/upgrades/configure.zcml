@@ -75,4 +75,11 @@
       profile="collective.dms.mailcontent:default"
       handler=".upgrades.v10" />
 
+  <genericsetup:upgradeStep
+      title="Migration profile for collective.dms.mailcontent to 11"
+      source="10"
+      destination="11"
+      profile="collective.dms.mailcontent:default"
+      handler=".upgrades.v11" />
+
 </configure>

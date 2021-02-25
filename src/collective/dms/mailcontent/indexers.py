@@ -26,6 +26,26 @@ def om_internal_reference_number_indexer(obj):
     return _marker
 
 
+@indexer(IDmsIncomingMail)
+def im_external_reference_number_indexer(obj):
+    """Indexer of 'external_reference_number' for IDmsIncomingMail. Stores external_reference_no.
+    Specific indexer method to avoid acquisition of dmsincomingmail contained elements.
+    """
+    if obj.external_reference_no:
+        return obj.external_reference_no
+    return _marker
+
+
+@indexer(IDmsOutgoingMail)
+def om_external_reference_number_indexer(obj):
+    """Indexer of 'external_reference_number' for IDmsOutgoingMail. Stores external_reference_no.
+    Specific indexer method to avoid acquisition of dmsoutgoingmail contained elements.
+    """
+    if obj.external_reference_no:
+        return obj.external_reference_no
+    return _marker
+
+
 def add_parent_organizations(obj, index):
     for org in obj.get_organizations_chain():
         index.append('l:%s' % org.UID())

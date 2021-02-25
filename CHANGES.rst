@@ -14,6 +14,8 @@ Changelog
 - Added IOutgoingEmail and IFieldsetOutgoingEmail schema interfaces to describe
   email information
   [sgeulette]
+- Added external_reference_number index
+  [sgeulette]
 
 1.4.3 (2020-10-07)
 ------------------

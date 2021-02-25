@@ -98,3 +98,15 @@ def v10(context):
     catalog = api.portal.get_tool('portal_catalog')
     catalog.manage_reindexIndex(ids=['sender_index', 'recipients_index'])
     logger.info("Catalog updated")
+
+
+def v11(context):
+    setup = api.portal.get_tool('portal_setup')
+    setup.runImportStepFromProfile('profile-collective.dms.mailcontent:default', 'catalog')
+    catalog = api.portal.get_tool('portal_catalog')
+    nb = 0
+    for brain in catalog.searchResults(portal_type=['dmsincomingmail', 'dmsoutgoingmail']):
+        nb += 1
+        obj = brain.getObject()
+        obj.reindexObject(idxs=['external_reference_number'])
+    logger.info("%d objects were migrated" % nb)

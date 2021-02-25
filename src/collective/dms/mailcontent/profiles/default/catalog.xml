@@ -4,6 +4,10 @@
         <indexed_attr value="internal_reference_number"/>
     </index>
     <column value="internal_reference_number"/>
+    <index name="external_reference_number" meta_type="FieldIndex">
+        <indexed_attr value="external_reference_number"/>
+    </index>
+    <!-- column value="external_reference_number"/ -->
     <index name="sender" remove="True" />
     <index name="sender_index" meta_type="KeywordIndex">
         <indexed_attr value="sender_index"/>

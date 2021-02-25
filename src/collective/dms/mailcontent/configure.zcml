@@ -65,6 +65,8 @@
   <adapter factory=".dmsmail.InternalReferenceOutgoingMailValidator" />
   <adapter name="internal_reference_number" factory=".indexers.im_internal_reference_number_indexer" />
   <adapter name="internal_reference_number" factory=".indexers.om_internal_reference_number_indexer" />
+  <adapter name="external_reference_number" factory=".indexers.im_external_reference_number_indexer" />
+  <adapter name="external_reference_number" factory=".indexers.om_external_reference_number_indexer" />
   <adapter name="sender_index" factory=".indexers.sender_index" />
   <adapter name="recipients_index" factory=".indexers.recipients_index" />
 
