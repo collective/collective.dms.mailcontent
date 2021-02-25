@@ -53,7 +53,7 @@ setup(
         'collective.contact.core',
         'collective.dexteritytextindexer',
         'collective.dms.basecontent',
-        'imio.helpers',
+        'imio.helpers>=0.39',
         'plone.formwidget.datetime',
         #'plone.app.relationfield',
         'five.grok',
