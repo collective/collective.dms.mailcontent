@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.5 (unreleased)
+1.4.4 (2021-04-20)
 ------------------
 
 - Use interface to ckeck context in validateIndexValueUniqueness
