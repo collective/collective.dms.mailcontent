@@ -46,13 +46,13 @@ class ReplyForm(DefaultAddForm):
         # Completing form values wasn't working anymore, but relations must be set here too !
         # We need to put a value only if key doesn't exist, otherwise the user modifications in form aren't kept
         # Because updateFields is also called after submission
-        if not "form.widgets.reply_to" in form:
+        if "form.widgets.reply_to" not in form:
             form["form.widgets.reply_to"] = ('/'.join(imail.getPhysicalPath()),)
-        if not "form.widgets.recipients" in form:
+        if "form.widgets.recipients" not in form:
             form["form.widgets.recipients"] = tuple([sd.to_path for sd in imail.sender])
 
-    def updateWidgets(self):
-        super(ReplyForm, self).updateWidgets()
+    def updateWidgets(self, prefix=None):
+        super(ReplyForm, self).updateWidgets(prefix=prefix)
         imail = self.context
         self.widgets["IDublinCore.title"].value = safe_unicode(imail.title)
         self.widgets["treating_groups"].value = imail.treating_groups
