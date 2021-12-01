@@ -17,10 +17,18 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: collective.dms.mailcontent\n"
 
-#: ../vocabularies.py:23
-msgid "dmsappendixfile: ${title}"
+#: ../vocabularies.py:25
+msgid "(dmsappendixfile) => ${title}"
 msgstr ""
 
-#: ../vocabularies.py:23
-msgid "dmsmainfile: ${title}"
+#: ../vocabularies.py:25
+msgid "(dmsmainfile) => ${title}"
+msgstr ""
+
+#: ../vocabularies.py:34
+msgid "${ref} (dmsappendixfile) => ${title}"
+msgstr ""
+
+#: ../vocabularies.py:34
+msgid "${ref} (dmsmainfile) => ${title}"
 msgstr ""

@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2021-01-19 12:32+0000\n"
+"POT-Creation-Date: 2021-12-01 14:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,22 @@ msgstr ""
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: collective.dms.mailcontent\n"
+
+#: ../vocabularies.py:34
+msgid "${ref} (dmsappendixfile) => ${title}"
+msgstr ""
+
+#: ../vocabularies.py:34
+msgid "${ref} (dmsmainfile) => ${title}"
+msgstr ""
+
+#: ../vocabularies.py:25
+msgid "(dmsappendixfile) => ${title}"
+msgstr ""
+
+#: ../vocabularies.py:25
+msgid "(dmsmainfile) => ${title}"
+msgstr ""
 
 #: ../browser/settings.py:16
 msgid "Always hide"
@@ -37,39 +53,39 @@ msgstr ""
 msgid "Dms Mail settings"
 msgstr ""
 
-#: ../dmsmail.py:363
+#: ../dmsmail.py:339
 msgid "Email"
 msgstr ""
 
-#: ../dmsmail.py:346
+#: ../dmsmail.py:322
 msgid "Email attachments"
 msgstr ""
 
-#: ../dmsmail.py:353
+#: ../dmsmail.py:329
 msgid "Email body"
 msgstr ""
 
-#: ../dmsmail.py:339
+#: ../dmsmail.py:315
 msgid "Email cc"
 msgstr ""
 
-#: ../dmsmail.py:333
+#: ../dmsmail.py:309
 msgid "Email recipient"
 msgstr ""
 
-#: ../dmsmail.py:328
+#: ../dmsmail.py:304
 msgid "Email sender"
 msgstr ""
 
-#: ../dmsmail.py:318
+#: ../dmsmail.py:294
 msgid "Email status"
 msgstr ""
 
-#: ../dmsmail.py:324
+#: ../dmsmail.py:300
 msgid "Email subject"
 msgstr ""
 
-#: ../dmsmail.py:82
+#: ../dmsmail.py:80
 msgid "External Reference Number"
 msgstr ""
 
@@ -77,7 +93,7 @@ msgstr ""
 msgid "If False, number will not be incremented only if user can edit internal reference number"
 msgstr ""
 
-#: ../dmsmail.py:99
+#: ../dmsmail.py:97
 msgid "In Reply To"
 msgstr ""
 
@@ -97,7 +113,7 @@ msgstr ""
 msgid "Installs the collective.dms.mailcontent package"
 msgstr ""
 
-#: ../dmsmail.py:87
+#: ../dmsmail.py:85
 msgid "Internal Reference Number"
 msgstr ""
 
@@ -105,7 +121,7 @@ msgstr ""
 msgid "Internal reference number edition field"
 msgstr ""
 
-#: ../dmsmail.py:209
+#: ../dmsmail.py:196
 msgid "Mail Date"
 msgstr ""
 
@@ -113,7 +129,7 @@ msgstr ""
 msgid "Mail date is today"
 msgstr ""
 
-#: ../dmsmail.py:334
+#: ../dmsmail.py:310
 msgid "Multiple values must be separated by a comma."
 msgstr ""
 
@@ -129,7 +145,7 @@ msgstr ""
 msgid "Number of next outgoing mail"
 msgstr ""
 
-#: ../dmsmail.py:74
+#: ../dmsmail.py:72
 msgid "Original Mail Date"
 msgstr ""
 
@@ -141,11 +157,11 @@ msgstr ""
 msgid "Outgoing mail internal reference default value expression"
 msgstr ""
 
-#: ../dmsmail.py:78
+#: ../dmsmail.py:76
 msgid "Reception Date"
 msgstr ""
 
-#: ../dmsmail.py:95
+#: ../dmsmail.py:93
 msgid "Recipients"
 msgstr ""
 
@@ -157,7 +173,7 @@ msgstr ""
 msgid "Reply to ${ref}"
 msgstr ""
 
-#: ../dmsmail.py:91
+#: ../dmsmail.py:89
 msgid "Sender"
 msgstr ""
 
@@ -181,11 +197,11 @@ msgstr ""
 msgid "Tal expression where you can use portal, number, context, request, date as variable"
 msgstr ""
 
-#: ../dmsmail.py:47
+#: ../dmsmail.py:45
 msgid "This value is already used"
 msgstr ""
 
-#: ../dmsmail.py:66
+#: ../dmsmail.py:64
 msgid "This value is already used. A good value would be: ${good_value}"
 msgstr ""
 
@@ -195,12 +211,4 @@ msgstr ""
 
 #: ../configure.zcml:42
 msgid "collective.dms.mailcontent"
-msgstr ""
-
-#: ../vocabularies.py:23
-msgid "dmsappendixfile: ${title}"
-msgstr ""
-
-#: ../vocabularies.py:23
-msgid "dmsmainfile: ${title}"
 msgstr ""
