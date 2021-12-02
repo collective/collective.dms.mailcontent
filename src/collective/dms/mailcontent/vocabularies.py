@@ -26,7 +26,7 @@ class EmailAttachmentsVocabulary(object):
                                                               mapping={'title': safe_unicode(brain.Title)})))
         # then we find files of related mails
         pc = api.portal.get_tool('portal_catalog')
-        for rv in context.reply_to or []:
+        for rv in context.get('reply_to', []) or []:
             brains = pc.unrestrictedSearchResults(path=rv.to_path, object_provides=[IDmsAppendixFile.__identifier__,
                                                                                     IDmsFile.__identifier__])
             for brain in brains:
