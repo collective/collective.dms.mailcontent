@@ -7,6 +7,7 @@ from plone.dexterity.browser.add import DefaultAddForm
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity.utils import addContentToContainer
 from Products.CMFPlone.utils import safe_unicode
+from zc.relation.interfaces import ICatalog
 from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.component.interfaces import ComponentLookupError
@@ -19,6 +20,29 @@ class ReplyForm(DefaultAddForm):
 
     description = u""
     portal_type = "dmsoutgoingmail"
+    reply_backrefs = True
+
+    def __init__(self, context, request, ti=None):
+        super(ReplyForm, self).__init__(context, request, ti=ti)
+        self.linked_paths = None
+
+    def _get_linked_mails(self, imail):
+        if self.linked_paths is not None:
+            return self.linked_paths
+        ret = ['/'.join(imail.getPhysicalPath())]
+        # get directly imail linked mails
+        if imail.reply_to:
+            ret.extend([rv.to_path for rv in imail.reply_to])
+        # we get backrefs too (depending of an option ?)
+        if self.reply_backrefs:
+            intids = getUtility(IIntIds)
+            catalog = getUtility(ICatalog)
+            imail_id = intids.getId(imail)
+            for ref in catalog.findRelations({'to_id': imail_id, 'from_attribute': 'reply_to'}):
+                if ref.from_path not in ret:
+                    ret.append(ref.from_path)
+        self.linked_paths = tuple(ret)
+        return self.linked_paths
 
     @property
     def label(self):
@@ -47,7 +71,7 @@ class ReplyForm(DefaultAddForm):
         # We need to put a value only if key doesn't exist, otherwise the user modifications in form aren't kept
         # Because updateFields is also called after submission
         if "form.widgets.reply_to" not in form:
-            form["form.widgets.reply_to"] = ('/'.join(imail.getPhysicalPath()),)
+            form["form.widgets.reply_to"] = self._get_linked_mails(imail)
         if "form.widgets.recipients" not in form:
             form["form.widgets.recipients"] = tuple([sd.to_path for sd in imail.sender])
 
@@ -56,7 +80,7 @@ class ReplyForm(DefaultAddForm):
         imail = self.context
         self.widgets["IDublinCore.title"].value = safe_unicode(imail.title)
         self.widgets["treating_groups"].value = imail.treating_groups
-        self.widgets["reply_to"].value = ('/'.join(imail.getPhysicalPath()),)
+        self.widgets["reply_to"].value = self._get_linked_mails(imail)
         self.widgets["recipients"].value = tuple([sd.to_path for sd in imail.sender])
         if imail.external_reference_no:
             self.widgets["external_reference_no"].value = imail.external_reference_no

@@ -4,8 +4,11 @@ Changelog
 1.5.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Added in EmailAttachmentsVocabulary related files of linked mails (reply_to)
+  [sgeulette]
+- Improved reply form to initialize reply_to widget with incomingmail reply_to values
+  (including backrefs)
+  [sgeulette]
 
 1.5 (2021-04-20)
 ----------------
