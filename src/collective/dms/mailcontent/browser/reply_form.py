@@ -66,6 +66,8 @@ class ReplyForm(DefaultAddForm):
         # put original mail irn in request to be used in irn expression
         self.request['_irn'] = imail.internal_reference_no
         self.update_fields_irn()
+        if self.request.get('masterID'):  # in MS anonymous call
+            return
         form = self.request.form
         # Completing form values wasn't working anymore, but relations must be set here too !
         # We need to put a value only if key doesn't exist, otherwise the user modifications in form aren't kept
@@ -80,6 +82,8 @@ class ReplyForm(DefaultAddForm):
         imail = self.context
         self.widgets["IDublinCore.title"].value = safe_unicode(imail.title)
         self.widgets["treating_groups"].value = imail.treating_groups
+        if self.request.get('masterID'):  # in MS anonymous call
+            return
         self.widgets["reply_to"].value = self._get_linked_mails(imail)
         self.widgets["recipients"].value = tuple([sd.to_path for sd in imail.sender])
         if imail.external_reference_no:
