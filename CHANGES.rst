@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.7 (unreleased)
-----------------
+1.6.1 (2021-12-10)
+------------------
 
 - Avoided error in reply_form during masterselect widget call.
   [sgeulette]
