@@ -4,8 +4,8 @@ Changelog
 1.7 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Corrected contact imports after code move.
+  [sgeulette]
 
 1.6.1 (2021-12-10)
 ------------------
