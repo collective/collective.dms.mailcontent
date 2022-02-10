@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.7 (unreleased)
+1.7 (2022-02-10)
 ----------------
 
 - Corrected contact imports after code move.
