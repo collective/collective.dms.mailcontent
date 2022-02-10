@@ -6,6 +6,8 @@ Changelog
 
 - Corrected contact imports after code move.
   [sgeulette]
+- Corrected and improved EmailAttachmentsVocabulary
+  [sgeulette]
 
 1.6.1 (2021-12-10)
 ------------------
