@@ -4,8 +4,8 @@ Changelog
 1.8 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Made separate `add_content` method to be overrided.
+  [sgeulette]
 
 1.7 (2022-02-10)
 ----------------

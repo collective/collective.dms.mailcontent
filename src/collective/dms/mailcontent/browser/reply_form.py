@@ -92,21 +92,24 @@ class ReplyForm(DefaultAddForm):
             self.widgets["recipient_groups"].value = imail.recipient_groups
         DmsOutgoingMailUpdateWidgets(self)
 
-    def add(self, obj):
-        """Create outgoing mail in outgoing-mail folder."""
-        fti = getUtility(IDexterityFTI, name=self.portal_type)
+    def add_content(self, obj):
+        """Is overrided in inherited view"""
         try:
             utils_view = getMultiAdapter((self.context, self.request), name=u'cdmc-utils')
         except ComponentLookupError:
             return 'Error getting cdmc-utils view...'
         container = utils_view.outgoingmail_folder()
+        return container, addContentToContainer(container, obj)
+
+    def add(self, obj):
+        """Create outgoing mail in outgoing-mail folder."""
         setattr(obj, '_is_response', True)
 
         if not self.request.get('_auto_ref', True):
             setattr(obj, '_auto_ref', False)
         # python:request.get('_auto_ref', True) and 'S%04d' % int(number) or 'S/%s/1' % request.get('_irn', '')
 
-        new_object = addContentToContainer(container, obj)
+        container, new_object = self.add_content(obj)
 
         # we made sure to add incomingmail treating_groups in recipient_groups if a recipient group has replied
         otgs = obj.treating_groups
@@ -125,6 +128,7 @@ class ReplyForm(DefaultAddForm):
         if omgs != obj.recipient_groups:
             obj.reindexObject(idxs=['recipient_groups'])
 
+        fti = getUtility(IDexterityFTI, name=self.portal_type)
         if fti.immediate_view:
             self.immediate_view = "/".join(
                 [container.absolute_url(), new_object.id, fti.immediate_view]
