@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.8 (unreleased)
+1.8 (2022-03-17)
 ----------------
 
 - Made separate `add_content` method to be overrided.
