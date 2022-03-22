@@ -4,8 +4,8 @@ Changelog
 1.9 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- When listing attachments, do not include filename if it's the same than title.
+  [sgeulette]
 
 1.8 (2022-03-17)
 ----------------

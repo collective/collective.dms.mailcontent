@@ -23,10 +23,13 @@ class EmailAttachmentsVocabulary(object):
                                                                            IDmsFile.__identifier__])
         for brain in brains:
             obj = brain._unrestrictedGetObject()
+            ftitle = safe_unicode(brain.Title)
+            if ftitle.lower() == obj.file.filename.lower():
+                title = ftitle
+            else:
+                title = u'{}  (« {} »)'.format(ftitle, obj.file.filename)
             terms.append(SimpleTerm(brain.UID, brain.UID,
-                                    _tr(u'({}) => ${{title}}'.format(brain.portal_type),
-                                        mapping={'title': u'{}  (« {} »)'.format(safe_unicode(brain.Title),
-                                                                                 obj.file.filename)})))
+                                    _tr(u'({}) => ${{title}}'.format(brain.portal_type), mapping={'title': title})))
         # then we find files of related mails
         pc = api.portal.get_tool('portal_catalog')
         for rv in getattr(context, 'reply_to', []) or []:
@@ -34,11 +37,14 @@ class EmailAttachmentsVocabulary(object):
                                                                                     IDmsFile.__identifier__])
             for brain in brains:
                 obj = brain._unrestrictedGetObject()
+                ftitle = safe_unicode(brain.Title)
+                if ftitle.lower() == obj.file.filename.lower():
+                    title = ftitle
+                else:
+                    title = u'{}  (« {} »)'.format(ftitle, obj.file.filename)
                 terms.append(SimpleTerm(brain.UID, brain.UID,
                                         _tr(u'${{ref}} ({}) => ${{title}}'.format(brain.portal_type),
-                                            mapping={'ref': rv.to_object.internal_reference_no,
-                                                     'title': u'{}  (« {} »)'.format(safe_unicode(brain.Title),
-                                                                                     obj.file.filename)})))
+                                            mapping={'ref': rv.to_object.internal_reference_no, 'title': title})))
 
         terms.sort(key=lambda trm: trm.title.lower())
         return SimpleVocabulary(terms)
