@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.9 (unreleased)
+1.9 (2022-03-25)
 ----------------
 
 - When listing attachments, do not include filename if it's the same than title.
