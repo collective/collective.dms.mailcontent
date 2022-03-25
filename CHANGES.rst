@@ -6,6 +6,8 @@ Changelog
 
 - When listing attachments, do not include filename if it's the same than title.
   [sgeulette]
+- Marked signed attachment
+  [sgeulette]
 
 1.8 (2022-03-17)
 ----------------
