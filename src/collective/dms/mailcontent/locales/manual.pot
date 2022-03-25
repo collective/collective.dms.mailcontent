@@ -25,10 +25,18 @@ msgstr ""
 msgid "(dmsmainfile) => ${title}"
 msgstr ""
 
+#: ../vocabularies.py:25
+msgid "(dmsmainfile signed) => ${title}"
+msgstr ""
+
 #: ../vocabularies.py:34
 msgid "${ref} (dmsappendixfile) => ${title}"
 msgstr ""
 
 #: ../vocabularies.py:34
 msgid "${ref} (dmsmainfile) => ${title}"
+msgstr ""
+
+#: ../vocabularies.py:34
+msgid "${ref} (dmsmainfile signed) => ${title}"
 msgstr ""

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2021-12-01 14:25+0000\n"
+"POT-Creation-Date: 2022-03-25 08:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,11 +20,19 @@ msgid "${ref} (dmsappendixfile) => ${title}"
 msgstr ""
 
 #: ../vocabularies.py:34
+msgid "${ref} (dmsmainfile signed) => ${title}"
+msgstr ""
+
+#: ../vocabularies.py:34
 msgid "${ref} (dmsmainfile) => ${title}"
 msgstr ""
 
 #: ../vocabularies.py:25
 msgid "(dmsappendixfile) => ${title}"
+msgstr ""
+
+#: ../vocabularies.py:25
+msgid "(dmsmainfile signed) => ${title}"
 msgstr ""
 
 #: ../vocabularies.py:25
@@ -167,7 +175,7 @@ msgstr ""
 msgid "Registered"
 msgstr ""
 
-#: ../browser/reply_form.py:25
+#: ../browser/reply_form.py:49
 msgid "Reply to ${ref}"
 msgstr ""
 
