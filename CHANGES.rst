@@ -4,8 +4,8 @@ Changelog
 1.10 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Improved EmailAttachmentsVocabulary to escape mailing document and dmsfile filename title.
+  [sgeulette]
 
 1.9 (2022-03-25)
 ----------------
