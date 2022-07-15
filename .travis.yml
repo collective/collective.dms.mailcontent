@@ -20,5 +20,3 @@ script:
 notifications:
   email:
     - devs@imio.be
-    - vincentfretin@ecreall.com
-    - cedricmessiant@ecreall.com
