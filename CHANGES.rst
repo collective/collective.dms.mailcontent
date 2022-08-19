@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.10 (unreleased)
+1.10 (2022-08-19)
 -----------------
 
 - Improved EmailAttachmentsVocabulary to escape mailing document and dmsfile filename title.
