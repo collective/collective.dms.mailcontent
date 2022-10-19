@@ -1,3 +1,4 @@
+from imio.helpers.content import get_relations
 from . import _
 from collective import dexteritytextindexer
 from collective.contact.widget.schema import ContactChoice
@@ -285,6 +286,19 @@ class DmsOutgoingMail(DmsDocument):
         if self.internal_reference_no is None:
             return self.title.encode('utf8')
         return "%s - %s" % (self.internal_reference_no.encode('utf8'), self.title.encode('utf8'))
+
+    def get_replied(self, first=True, intf=IDmsIncomingMail):
+        normals = [obj for obj in get_relations(self, 'reply_to', backrefs=False, as_obj=True)
+                   if intf.providedBy(obj)]
+        backs = [obj for obj in get_relations(self, 'reply_to', backrefs=True, as_obj=True)
+                 if intf.providedBy(obj)]
+        for obj in backs:
+            if obj not in normals:
+                normals.append(obj)
+        if first:
+            return normals and normals[0] or None
+        else:
+            return normals
 
 
 class IOutgoingEmail(model.Schema):

@@ -4,8 +4,8 @@ Changelog
 1.11 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added `DmsOutgoingMail.get_replied` to get the linkef incoming mail.
+  [sgeulette]
 
 1.10 (2022-08-19)
 -----------------

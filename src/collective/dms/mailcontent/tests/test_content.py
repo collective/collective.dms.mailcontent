@@ -1,14 +1,21 @@
 # -*- coding: utf8 -*-
 
-import unittest2 as unittest
-import datetime
-from zope.component import getUtility
-from zope.interface import Invalid
-from plone.app.testing import setRoles, TEST_USER_ID
+from collective.dms.basecontent.dmsdocument import IDmsDocument
+from collective.dms.mailcontent import dmsmail
+from collective.dms.mailcontent.testing import INTEGRATION
+from plone import api
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
 from plone.dexterity.utils import createContentInContainer
 from plone.registry.interfaces import IRegistry
-from collective.dms.mailcontent.testing import INTEGRATION
-from collective.dms.mailcontent import dmsmail
+from z3c.relationfield import RelationValue
+from zope.component import getUtility
+from zope.interface import Invalid
+from zope.intid import IIntIds
+
+import datetime
+import unittest2 as unittest
+from zope.lifecycleevent import modified
 
 
 class TestContentTypes(unittest.TestCase):
@@ -19,6 +26,7 @@ class TestContentTypes(unittest.TestCase):
     def setUp(self):
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.folder = api.content.create(container=self.portal, type='Folder', id='folder', title='Folder')
 
 
 class TestDmsmailMethods(TestContentTypes):
@@ -101,3 +109,25 @@ class TestDmsmailMethods(TestContentTypes):
         self.assertEquals(imail1, brains[0].getObject())
         # search by SearchableText: must be done in doc tests or robot
         brains = self.portal.portal_catalog(SearchableText="12345")
+
+    def test_get_replied(self):
+        intids = getUtility(IIntIds)
+        imail1 = createContentInContainer(self.folder, 'dmsincomingmail', **{'title': 'In 1'})
+        imail2 = createContentInContainer(self.folder, 'dmsincomingmail', **{'title': 'In 2'})
+        omail1 = createContentInContainer(self.folder, 'dmsoutgoingmail', **{'title': 'Out 1'})
+        omail2 = createContentInContainer(self.folder, 'dmsoutgoingmail', **{'title': 'Out 2'})
+        self.assertEqual(omail1.get_replied(), None)
+        omail1.reply_to = [RelationValue(intids.getId(imail1))]
+        modified(omail1)
+        self.assertEqual(omail1.get_replied(), imail1)
+        omail1.reply_to = [RelationValue(intids.getId(imail2)), RelationValue(intids.getId(imail1))]
+        modified(omail1)
+        self.assertEqual(omail1.get_replied(), imail2)
+        self.assertListEqual(omail1.get_replied(first=False), [imail2, imail1])
+        imail2.reply_to = [RelationValue(intids.getId(omail2))]
+        modified(imail2)
+        self.assertEqual(omail2.get_replied(), imail2)
+        omail2.reply_to = [RelationValue(intids.getId(omail1))]
+        modified(omail2)
+        self.assertEqual(omail2.get_replied(), imail2)
+        self.assertEqual(omail2.get_replied(intf=IDmsDocument), omail1)
