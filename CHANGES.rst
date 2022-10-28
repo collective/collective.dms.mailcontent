@@ -1,10 +1,10 @@
 Changelog
 =========
 
-1.11 (unreleased)
+1.11 (2022-10-28)
 -----------------
 
-- Added `DmsOutgoingMail.get_replied` to get the linkef incoming mail.
+- Added `DmsOutgoingMail.get_replied` to get the linked incoming mail.
   [sgeulette]
 
 1.10 (2022-08-19)
