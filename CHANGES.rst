@@ -4,8 +4,8 @@ Changelog
 1.12 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added intermediate commit option in v11 upgrade
+  [sgeulette]
 
 1.11 (2022-10-28)
 -----------------
