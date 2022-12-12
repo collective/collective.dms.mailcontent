@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.12 (unreleased)
+1.12 (2022-12-12)
 -----------------
 
 - Added intermediate commit option in v11 upgrade
