@@ -4,8 +4,8 @@ Changelog
 1.13 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added range (min and max) on fields original_mail_date and reception_date.
+  [bleybaert]
 
 1.12 (2022-12-12)
 -----------------
