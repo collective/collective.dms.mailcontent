@@ -71,10 +71,16 @@ class IDmsIncomingMail(IDmsDocument):
 
     original_mail_date = schema.Date(
         title=_(u'Original Mail Date'),
-        required=False,)
+        required=False,
+        min=datetime.date(1900, 1, 1),
+        max=datetime.date.today(),)
     form.widget(original_mail_date=DateFieldWidget)
 
-    reception_date = schema.Datetime(title=_(u'Reception Date'), required=False)
+    reception_date = schema.Datetime(
+        title=_(u'Reception Date'),
+        required=False,
+        min=datetime.datetime(1900, 1, 1),
+        max=datetime.datetime.today(),)
     form.widget('reception_date', DatetimeFieldWidget, show_time=True)
 
     external_reference_no = schema.TextLine(
