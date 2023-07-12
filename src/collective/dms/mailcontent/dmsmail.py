@@ -30,6 +30,7 @@ from zope.interface import Invalid
 
 import datetime
 
+now = datetime.datetime.today()
 
 def validateIndexValueUniqueness(context, type_interface, index_name, value):
     """
@@ -204,7 +205,7 @@ class IDmsOutgoingMail(IDmsDocument):
         title=_(u'Mail Date'),
         required=False,
         min=datetime.date(1990, 1, 1),
-        max=datetime.date.today() + datetime.timedelta(years=1),)
+        max=datetime.datetime(now.year + 1, 12, 31),)
 
     dexteritytextindexer.searchable('internal_reference_no')
     internal_reference_no = schema.TextLine(
