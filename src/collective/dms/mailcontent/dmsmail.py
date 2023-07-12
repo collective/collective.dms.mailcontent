@@ -200,7 +200,11 @@ def incrementIncomingMailNumber(incomingmail, event):
 class IDmsOutgoingMail(IDmsDocument):
     """ """
 
-    mail_date = schema.Date(title=_(u'Mail Date'), required=False)
+    mail_date = schema.Date(
+        title=_(u'Mail Date'),
+        required=False,
+        min=datetime.date(1990, 1, 1),
+        max=datetime.date.today() + datetime.timedelta(years=1),)
 
     dexteritytextindexer.searchable('internal_reference_no')
     internal_reference_no = schema.TextLine(
