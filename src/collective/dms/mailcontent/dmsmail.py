@@ -205,7 +205,7 @@ class IDmsOutgoingMail(IDmsDocument):
         title=_(u'Mail Date'),
         required=False,
         min=datetime.date(1990, 1, 1),
-        max=datetime.datetime(now.year + 1, 12, 31),)
+        max=datetime.date(now.year + 1, 12, 31),)
 
     dexteritytextindexer.searchable('internal_reference_no')
     internal_reference_no = schema.TextLine(
