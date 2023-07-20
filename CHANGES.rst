@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.13 (unreleased)
+1.13 (2023-07-20)
 -----------------
 
 - Added range (min and max) on fields original_mail_date and reception_date.
