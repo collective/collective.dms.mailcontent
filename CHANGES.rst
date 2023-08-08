@@ -4,8 +4,8 @@ Changelog
 1.14 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Updated max date to add 7 days (to avoid problem if instance is not restarted each day)
+  [sgeulette]
 
 1.13 (2023-07-20)
 -----------------

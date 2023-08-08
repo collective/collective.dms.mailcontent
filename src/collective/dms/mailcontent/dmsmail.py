@@ -30,7 +30,6 @@ from zope.interface import Invalid
 
 import datetime
 
-now = datetime.datetime.today()
 
 def validateIndexValueUniqueness(context, type_interface, index_name, value):
     """
@@ -74,14 +73,14 @@ class IDmsIncomingMail(IDmsDocument):
         title=_(u'Original Mail Date'),
         required=False,
         min=datetime.date(1990, 1, 1),
-        max=datetime.date.today(),)
+        max=datetime.date.today() + datetime.timedelta(days=7),)
     form.widget(original_mail_date=DateFieldWidget)
 
     reception_date = schema.Datetime(
         title=_(u'Reception Date'),
         required=False,
         min=datetime.datetime(1990, 1, 1),
-        max=datetime.datetime.today() + datetime.timedelta(days=1),)
+        max=datetime.datetime.today() + datetime.timedelta(days=7),)
     form.widget('reception_date', DatetimeFieldWidget, show_time=True)
 
     external_reference_no = schema.TextLine(
@@ -138,7 +137,7 @@ def receptionDateDefaultValue(data):
 @default_value(field=IDmsIncomingMail['original_mail_date'])
 def originalMailDateDefaultValue(data):
     # return 3 days before
-    return datetime.date.today() - datetime.timedelta(3)
+    return datetime.date.today() - datetime.timedelta(days=3)
 
 
 def evaluateInternalReference(context, request, number_registry_name, talexpression_registry_name):
@@ -205,7 +204,7 @@ class IDmsOutgoingMail(IDmsDocument):
         title=_(u'Mail Date'),
         required=False,
         min=datetime.date(1990, 1, 1),
-        max=datetime.date(now.year + 1, 12, 31),)
+        max=datetime.date(datetime.date.today().year + 1, 12, 31),)
 
     dexteritytextindexer.searchable('internal_reference_no')
     internal_reference_no = schema.TextLine(
