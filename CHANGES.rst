@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.14 (unreleased)
+1.14 (2023-09-07)
 -----------------
 
 - Updated max date to add 7 days (to avoid problem if instance is not restarted each day)
