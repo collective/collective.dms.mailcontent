@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.15 (unreleased)
------------------
+1.15.0 (2023-09-13)
+-------------------
 
 - Corrected reply_form when appending to None value.
   [sgeulette]
