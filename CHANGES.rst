@@ -4,8 +4,8 @@ Changelog
 1.15 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Corrected reply_form when appending to None value.
+  [sgeulette]
 
 1.14 (2023-09-07)
 -----------------

@@ -116,16 +116,18 @@ class ReplyForm(DefaultAddForm):
         if not isinstance(otgs, (list, tuple)):  # can be a unique value like in imio.dms.mail
             otgs = [otgs]
         intids = getUtility(IIntIds)
-        omgs = list(obj.recipient_groups or [])
+        if obj.recipient_groups is None:
+            obj.recipient_groups = []
+        omrgs = list(obj.recipient_groups)
         for rel in obj.reply_to or []:
             im = intids.getObject(rel.to_id)
             itgs = im.treating_groups
             if not isinstance(itgs, (list, tuple)):  # can be a unique value like in imio.dms.mail
                 itgs = [itgs]
-            missings = set(itgs) - (set(otgs) | set(omgs))
+            missings = set(itgs) - (set(otgs) | set(omrgs))
             for missing in missings:
                 obj.recipient_groups.append(missing)
-        if omgs != obj.recipient_groups:
+        if omrgs != obj.recipient_groups:
             obj.reindexObject(idxs=['recipient_groups'])
 
         fti = getUtility(IDexterityFTI, name=self.portal_type)
