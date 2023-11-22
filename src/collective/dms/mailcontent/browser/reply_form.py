@@ -80,15 +80,19 @@ class ReplyForm(DefaultAddForm):
     def updateWidgets(self, prefix=None):
         super(ReplyForm, self).updateWidgets(prefix=prefix)
         imail = self.context
-        self.widgets["IDublinCore.title"].value = safe_unicode(imail.title)
-        self.widgets["treating_groups"].value = imail.treating_groups
+        if not self.widgets["IDublinCore.title"].value:
+            self.widgets["IDublinCore.title"].value = safe_unicode(imail.title)
+        if not self.widgets["treating_groups"].value:
+            self.widgets["treating_groups"].value = imail.treating_groups
         if self.request.get('masterID'):  # in MS anonymous call
             return
-        self.widgets["reply_to"].value = self._get_linked_mails(imail)
-        self.widgets["recipients"].value = tuple([sd.to_path for sd in imail.sender])
-        if imail.external_reference_no:
+        if not self.widgets["reply_to"].value:
+            self.widgets["reply_to"].value = self._get_linked_mails(imail)
+        if not self.widgets["recipients"].value:
+            self.widgets["recipients"].value = tuple([sd.to_path for sd in imail.sender])
+        if imail.external_reference_no and not self.widgets["external_reference_no"].value:
             self.widgets["external_reference_no"].value = imail.external_reference_no
-        if imail.recipient_groups:
+        if imail.recipient_groups and not self.widgets["recipient_groups"].value:
             self.widgets["recipient_groups"].value = imail.recipient_groups
         DmsOutgoingMailUpdateWidgets(self)
 

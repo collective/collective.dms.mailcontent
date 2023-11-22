@@ -4,8 +4,8 @@ Changelog
 1.15.1 (unreleased)
 -------------------
 
-- Nothing changed yet.
-
+- Ensured to reuse already modified values when a form validation occurs
+  [sgeulette]
 
 1.15.0 (2023-09-13)
 -------------------
