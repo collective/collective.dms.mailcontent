@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.15.1 (unreleased)
+1.15.1 (2023-11-28)
 -------------------
 
 - Ensured to reuse already modified values when a form validation occurs
