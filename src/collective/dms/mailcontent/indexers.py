@@ -48,7 +48,7 @@ def om_external_reference_number_indexer(obj):
 
 def add_parent_organizations(obj, index):
     for org in obj.get_organizations_chain():
-        index.append('l:%s' % org.UID())
+        index.append("l:%s" % org.UID())
 
 
 def relations_index(obj, attr):
@@ -66,9 +66,9 @@ def relations_index(obj, attr):
         related = rel.to_object
         index.append(related.UID())
 
-        if related.portal_type == 'organization':
+        if related.portal_type == "organization":
             add_parent_organizations(related, index)
-        elif related.portal_type == 'held_position':
+        elif related.portal_type == "held_position":
             add_parent_organizations(related.get_organization(), index)
     if index:
         # make unique items
@@ -84,7 +84,7 @@ def sender_index(obj):
         * the sender UIDs
         * the organizations chain UIDs if the sender is an organization or a held position, prefixed by 'l:'
     """
-    return relations_index(obj, 'sender')
+    return relations_index(obj, "sender")
 
 
 @indexer(IDmsDocument)
@@ -95,4 +95,4 @@ def recipients_index(obj):
         * the recipient UIDs
         * the organizations chain UIDs if the recipient is an organization or a held position, prefixed by 'l:'
     """
-    return relations_index(obj, 'recipients')
+    return relations_index(obj, "recipients")

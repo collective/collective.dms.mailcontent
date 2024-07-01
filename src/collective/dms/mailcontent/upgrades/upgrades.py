@@ -10,13 +10,13 @@ import os
 import transaction
 
 
-logger = logging.getLogger('collective.dms.mailcontent: upgrade. ')
+logger = logging.getLogger("collective.dms.mailcontent: upgrade. ")
 
 
 def v2(context):
     default_time = time(10, 0)
-    catalog = api.portal.get_tool('portal_catalog')
-    brains = catalog.searchResults({'portal_type': 'dmsincomingmail'})
+    catalog = api.portal.get_tool("portal_catalog")
+    brains = catalog.searchResults({"portal_type": "dmsincomingmail"})
     for brain in brains:
         obj = brain.getObject()
         reception_date = obj.reception_date
@@ -25,95 +25,100 @@ def v2(context):
 
 
 def v3(context):
-    catalog = api.portal.get_tool('portal_catalog')
-    setup = api.portal.get_tool('portal_setup')
-    setup.runAllImportStepsFromProfile('profile-collective.dms.mailcontent:default')
-    brains = catalog.searchResults({'portal_type': 'dmsincomingmail'})
+    catalog = api.portal.get_tool("portal_catalog")
+    setup = api.portal.get_tool("portal_setup")
+    setup.runAllImportStepsFromProfile("profile-collective.dms.mailcontent:default")
+    brains = catalog.searchResults({"portal_type": "dmsincomingmail"})
     for brain in brains:
         obj = brain.getObject()
-        obj.reindexObject(idxs=('Title', 'SearchableText', 'sortable_title'))
+        obj.reindexObject(idxs=("Title", "SearchableText", "sortable_title"))
 
 
 def v4(context):
-    setup = api.portal.get_tool('portal_setup')
-    setup.runImportStepFromProfile('profile-collective.dms.mailcontent:default', 'typeinfo')
-    catalog = api.portal.get_tool('portal_catalog')
+    setup = api.portal.get_tool("portal_setup")
+    setup.runImportStepFromProfile("profile-collective.dms.mailcontent:default", "typeinfo")
+    catalog = api.portal.get_tool("portal_catalog")
     migrated = False
-    for brain in catalog.searchResults(portal_type=['dmsincomingmail', 'dmsoutgoingmail']):
+    for brain in catalog.searchResults(portal_type=["dmsincomingmail", "dmsoutgoingmail"]):
         obj = brain.getObject()
-        if migrateField(obj, {'fieldName': 'in_reply_to', 'newFieldName': 'reply_to'}):
+        if migrateField(obj, {"fieldName": "in_reply_to", "newFieldName": "reply_to"}):
             migrated = True
-    logger.info("%s object fields were migrated" % (migrated and 'Some' or 'None'))
+    logger.info("%s object fields were migrated" % (migrated and "Some" or "None"))
 
 
 def v5(context):
-    setup = api.portal.get_tool('portal_setup')
-    setup.runImportStepFromProfile('profile-collective.dms.mailcontent:default', 'catalog')
-    catalog = api.portal.get_tool('portal_catalog')
+    setup = api.portal.get_tool("portal_setup")
+    setup.runImportStepFromProfile("profile-collective.dms.mailcontent:default", "catalog")
+    catalog = api.portal.get_tool("portal_catalog")
     nb = 0
-    for brain in catalog.searchResults(portal_type=['dmsincomingmail', 'dmsoutgoingmail']):
+    for brain in catalog.searchResults(portal_type=["dmsincomingmail", "dmsoutgoingmail"]):
         nb += 1
         obj = brain.getObject()
-        obj.reindexObject(idxs=['sender'])
+        obj.reindexObject(idxs=["sender"])
     logger.info("%d objects were migrated" % nb)
 
 
 def v6(context):
-    setup = api.portal.get_tool('portal_setup')
-    setup.runImportStepFromProfile('profile-collective.dms.mailcontent:default', 'catalog')
-    setup.runImportStepFromProfile('profile-collective.dms.mailcontent:default', 'plone.app.registry')
-    catalog = api.portal.get_tool('portal_catalog')
+    setup = api.portal.get_tool("portal_setup")
+    setup.runImportStepFromProfile("profile-collective.dms.mailcontent:default", "catalog")
+    setup.runImportStepFromProfile("profile-collective.dms.mailcontent:default", "plone.app.registry")
+    catalog = api.portal.get_tool("portal_catalog")
     nb = 0
-    for brain in catalog.searchResults(portal_type=['dmsincomingmail', 'dmsoutgoingmail']):
+    for brain in catalog.searchResults(portal_type=["dmsincomingmail", "dmsoutgoingmail"]):
         nb += 1
         obj = brain.getObject()
-        obj.reindexObject(idxs=['recipients'])
+        obj.reindexObject(idxs=["recipients"])
     logger.info("%d objects were migrated" % nb)
 
 
 def v7(context):
-    catalog = api.portal.get_tool('portal_catalog')
+    catalog = api.portal.get_tool("portal_catalog")
     nb = 0
-    for brain in catalog.searchResults(portal_type=['dmsincomingmail']):
+    for brain in catalog.searchResults(portal_type=["dmsincomingmail"]):
         nb += 1
         obj = brain.getObject()
         sender = obj.sender
         if sender and not isinstance(sender, list):
             obj.sender = [sender]
-            obj.reindexObject(idxs=['sender_index'])
+            obj.reindexObject(idxs=["sender_index"])
     logger.info("%d objects were migrated" % nb)
 
 
 def v8(context):
-    """ Avoid warning about unresolved dependencies """
-    setup = api.portal.get_tool('portal_setup')
-    step = 'dmsmailcontent-postInstall'
+    """Avoid warning about unresolved dependencies"""
+    setup = api.portal.get_tool("portal_setup")
+    step = "dmsmailcontent-postInstall"
     registry = setup.getImportStepRegistry()
-    registry._registered.get(step)['dependencies'] = (u'catalog', u'controlpanel', u'plone.app.registry', u'rolemap',
-                                                      u'typeinfo')
+    registry._registered.get(step)["dependencies"] = (
+        u"catalog",
+        u"controlpanel",
+        u"plone.app.registry",
+        u"rolemap",
+        u"typeinfo",
+    )
     setup._p_changed = True
     logger.info("Import step dependency corrected")
 
 
 def v10(context):
-    """ Upgrade indexes """
-    setup = api.portal.get_tool('portal_setup')
-    setup.runImportStepFromProfile('profile-collective.dms.mailcontent:default', 'catalog')
-    catalog = api.portal.get_tool('portal_catalog')
-    catalog.manage_reindexIndex(ids=['sender_index', 'recipients_index'])
+    """Upgrade indexes"""
+    setup = api.portal.get_tool("portal_setup")
+    setup.runImportStepFromProfile("profile-collective.dms.mailcontent:default", "catalog")
+    catalog = api.portal.get_tool("portal_catalog")
+    catalog.manage_reindexIndex(ids=["sender_index", "recipients_index"])
     logger.info("Catalog updated")
 
 
 def v11(context):
-    setup = api.portal.get_tool('portal_setup')
-    setup.runImportStepFromProfile('profile-collective.dms.mailcontent:default', 'catalog')
-    catalog = api.portal.get_tool('portal_catalog')
+    setup = api.portal.get_tool("portal_setup")
+    setup.runImportStepFromProfile("profile-collective.dms.mailcontent:default", "catalog")
+    catalog = api.portal.get_tool("portal_catalog")
     nb = 0
-    commit_value = int(os.getenv('COMMIT', '0'))
-    for brain in catalog.searchResults(portal_type=['dmsincomingmail', 'dmsoutgoingmail']):
+    commit_value = int(os.getenv("COMMIT", "0"))
+    for brain in catalog.searchResults(portal_type=["dmsincomingmail", "dmsoutgoingmail"]):
         nb += 1
         obj = brain.getObject()
-        obj.reindexObject(idxs=['external_reference_number'])
+        obj.reindexObject(idxs=["external_reference_number"])
         if commit_value and nb % commit_value == 0:
             transaction.commit()
             logger.info("On mailcontent commit {}".format(nb))

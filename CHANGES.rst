@@ -4,8 +4,8 @@ Changelog
 1.15.2 (unreleased)
 -------------------
 
-- Nothing changed yet.
-
+- Blacked and isorted files.
+  [sgeulette]
 
 1.15.1 (2023-11-28)
 -------------------

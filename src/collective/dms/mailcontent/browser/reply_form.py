@@ -29,7 +29,7 @@ class ReplyForm(DefaultAddForm):
     def _get_linked_mails(self, imail):
         if self.linked_paths is not None:
             return self.linked_paths
-        ret = ['/'.join(imail.getPhysicalPath())]
+        ret = ["/".join(imail.getPhysicalPath())]
         # get directly imail linked mails
         if imail.reply_to:
             ret.extend([rv.to_path for rv in imail.reply_to])
@@ -38,7 +38,7 @@ class ReplyForm(DefaultAddForm):
             intids = getUtility(IIntIds)
             catalog = getUtility(ICatalog)
             imail_id = intids.getId(imail)
-            for ref in catalog.findRelations({'to_id': imail_id, 'from_attribute': 'reply_to'}):
+            for ref in catalog.findRelations({"to_id": imail_id, "from_attribute": "reply_to"}):
                 if ref.from_path not in ret:
                     ret.append(ref.from_path)
         self.linked_paths = tuple(ret)
@@ -46,27 +46,29 @@ class ReplyForm(DefaultAddForm):
 
     @property
     def label(self):
-        return _(u"Reply to ${ref}", mapping={'ref': safe_unicode(self.context.Title())})
+        return _(u"Reply to ${ref}", mapping={"ref": safe_unicode(self.context.Title())})
 
     def update_fields_irn(self):
-        """ update fields regarding irn setting """
-        edit_irn = api.portal.get_registry_record('collective.dms.mailcontent.browser.settings.IDmsMailConfig.'
-                                                  'outgoingmail_edit_irn')
-        self.request['_hide_irn'] = True
+        """update fields regarding irn setting"""
+        edit_irn = api.portal.get_registry_record(
+            "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_edit_irn"
+        )
+        self.request["_hide_irn"] = True
         # a user can edit irn. we don't use number incrementation
-        if edit_irn in ('show', 'reply'):
-            self.request['_hide_irn'] = False
-            if not api.portal.get_registry_record('collective.dms.mailcontent.browser.settings.IDmsMailConfig.'
-                                                  'outgoingmail_increment_number'):
-                self.request['_auto_ref'] = False
+        if edit_irn in ("show", "reply"):
+            self.request["_hide_irn"] = False
+            if not api.portal.get_registry_record(
+                "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_increment_number"
+            ):
+                self.request["_auto_ref"] = False
 
     def updateFields(self):
         super(ReplyForm, self).updateFields()
         imail = self.context
         # put original mail irn in request to be used in irn expression
-        self.request['_irn'] = imail.internal_reference_no
+        self.request["_irn"] = imail.internal_reference_no
         self.update_fields_irn()
-        if self.request.get('masterID'):  # in MS anonymous call
+        if self.request.get("masterID"):  # in MS anonymous call
             return
         form = self.request.form
         # Completing form values wasn't working anymore, but relations must be set here too !
@@ -84,7 +86,7 @@ class ReplyForm(DefaultAddForm):
             self.widgets["IDublinCore.title"].value = safe_unicode(imail.title)
         if not self.widgets["treating_groups"].value:
             self.widgets["treating_groups"].value = imail.treating_groups
-        if self.request.get('masterID'):  # in MS anonymous call
+        if self.request.get("masterID"):  # in MS anonymous call
             return
         if not self.widgets["reply_to"].value:
             self.widgets["reply_to"].value = self._get_linked_mails(imail)
@@ -99,18 +101,18 @@ class ReplyForm(DefaultAddForm):
     def add_content(self, obj):
         """Is overrided in inherited view"""
         try:
-            utils_view = getMultiAdapter((self.context, self.request), name=u'cdmc-utils')
+            utils_view = getMultiAdapter((self.context, self.request), name=u"cdmc-utils")
         except ComponentLookupError:
-            return 'Error getting cdmc-utils view...'
+            return "Error getting cdmc-utils view..."
         container = utils_view.outgoingmail_folder()
         return container, addContentToContainer(container, obj)
 
     def add(self, obj):
         """Create outgoing mail in outgoing-mail folder."""
-        setattr(obj, '_is_response', True)
+        setattr(obj, "_is_response", True)
 
-        if not self.request.get('_auto_ref', True):
-            setattr(obj, '_auto_ref', False)
+        if not self.request.get("_auto_ref", True):
+            setattr(obj, "_auto_ref", False)
         # python:request.get('_auto_ref', True) and 'S%04d' % int(number) or 'S/%s/1' % request.get('_irn', '')
 
         container, new_object = self.add_content(obj)
@@ -132,14 +134,10 @@ class ReplyForm(DefaultAddForm):
             for missing in missings:
                 obj.recipient_groups.append(missing)
         if omrgs != obj.recipient_groups:
-            obj.reindexObject(idxs=['recipient_groups'])
+            obj.reindexObject(idxs=["recipient_groups"])
 
         fti = getUtility(IDexterityFTI, name=self.portal_type)
         if fti.immediate_view:
-            self.immediate_view = "/".join(
-                [container.absolute_url(), new_object.id, fti.immediate_view]
-            )
+            self.immediate_view = "/".join([container.absolute_url(), new_object.id, fti.immediate_view])
         else:
-            self.immediate_view = "/".join(
-                [container.absolute_url(), new_object.id]
-            )
+            self.immediate_view = "/".join([container.absolute_url(), new_object.id])
