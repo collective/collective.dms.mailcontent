@@ -69,6 +69,21 @@ class InternalReferenceBaseValidator(validator.SimpleFieldValidator):
             )
 
 
+class ReplyToValidator(validator.SimpleFieldValidator):
+    """Validates reply_to field to check if selected object is not itself."""
+
+    def validate(self, value, force=False):
+        # we call the already defined validators
+        super(ReplyToValidator, self).validate(value, force=force)
+        # value contains a list of linked objects
+        if self.context in value or []:
+            raise Invalid(
+                _(
+                    u"You cannot choose the current object as a reply to.",
+                )
+            )
+
+
 class IDmsIncomingMail(IDmsDocument):
     """ """
 
@@ -130,9 +145,14 @@ class InternalReferenceIncomingMailValidator(InternalReferenceBaseValidator):
     type_interface = IDmsIncomingMail
 
 
+class IMReplyToValidator(ReplyToValidator):
+    """IM reply_to validator class"""
+
+
 validator.WidgetValidatorDiscriminators(
     InternalReferenceIncomingMailValidator, field=IDmsIncomingMail["internal_reference_no"]
 )
+validator.WidgetValidatorDiscriminators(IMReplyToValidator, field=IDmsIncomingMail["reply_to"])
 
 
 @default_value(field=IDmsIncomingMail["reception_date"])
@@ -281,9 +301,14 @@ class InternalReferenceOutgoingMailValidator(InternalReferenceBaseValidator):
     type_interface = IDmsOutgoingMail
 
 
+class OMReplyToValidator(ReplyToValidator):
+    """OM reply_to validator class"""
+
+
 validator.WidgetValidatorDiscriminators(
     InternalReferenceOutgoingMailValidator, field=IDmsOutgoingMail["internal_reference_no"]
 )
+validator.WidgetValidatorDiscriminators(OMReplyToValidator, field=IDmsOutgoingMail["reply_to"])
 
 
 def incrementOutgoingMailNumber(outgoingmail, event):

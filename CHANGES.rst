@@ -6,6 +6,8 @@ Changelog
 
 - Blacked and isorted files.
   [sgeulette]
+- Added reply_to validator to avoid self selection.
+  [sgeulette]
 
 1.15.1 (2023-11-28)
 -------------------

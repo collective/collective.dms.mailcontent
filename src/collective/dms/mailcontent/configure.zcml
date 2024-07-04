@@ -63,6 +63,8 @@
 
   <adapter factory=".dmsmail.InternalReferenceIncomingMailValidator" />
   <adapter factory=".dmsmail.InternalReferenceOutgoingMailValidator" />
+  <adapter factory=".dmsmail.IMReplyToValidator" />
+  <adapter factory=".dmsmail.OMReplyToValidator" />
   <adapter name="internal_reference_number" factory=".indexers.im_internal_reference_number_indexer" />
   <adapter name="internal_reference_number" factory=".indexers.om_internal_reference_number_indexer" />
   <adapter name="external_reference_number" factory=".indexers.im_external_reference_number_indexer" />
