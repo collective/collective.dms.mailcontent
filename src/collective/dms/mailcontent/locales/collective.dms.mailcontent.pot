@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2022-03-25 08:04+0000\n"
+"POT-Creation-Date: 2024-07-04 09:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,11 +45,11 @@ msgstr ""
 msgid "Always hide"
 msgstr ""
 
-#: ../browser/settings.py:15
+#: ../browser/settings.py:16
 msgid "Always show"
 msgstr ""
 
-#: ../browser/settings.py:73
+#: ../browser/settings.py:81
 msgid "Check if the outgoing mail 'mail date' field will default to today at creation."
 msgstr ""
 
@@ -57,63 +57,63 @@ msgstr ""
 msgid "Collective Dms Mailcontent testing profile"
 msgstr ""
 
-#: ../browser/settings.py:83
+#: ../browser/settings.py:92
 msgid "Dms Mail settings"
 msgstr ""
 
-#: ../dmsmail.py:339
+#: ../dmsmail.py:405
 msgid "Email"
 msgstr ""
 
-#: ../dmsmail.py:322
+#: ../dmsmail.py:388
 msgid "Email attachments"
 msgstr ""
 
-#: ../dmsmail.py:329
+#: ../dmsmail.py:395
 msgid "Email body"
 msgstr ""
 
-#: ../dmsmail.py:315
+#: ../dmsmail.py:381
 msgid "Email cc"
 msgstr ""
 
-#: ../dmsmail.py:309
+#: ../dmsmail.py:375
 msgid "Email recipient"
 msgstr ""
 
-#: ../dmsmail.py:304
+#: ../dmsmail.py:370
 msgid "Email sender"
 msgstr ""
 
-#: ../dmsmail.py:294
+#: ../dmsmail.py:360
 msgid "Email status"
 msgstr ""
 
-#: ../dmsmail.py:300
+#: ../dmsmail.py:366
 msgid "Email subject"
 msgstr ""
 
-#: ../dmsmail.py:80
+#: ../dmsmail.py:107
 msgid "External Reference Number"
 msgstr ""
 
-#: ../browser/settings.py:67
+#: ../browser/settings.py:75
 msgid "If False, number will not be incremented only if user can edit internal reference number"
 msgstr ""
 
-#: ../dmsmail.py:97
+#: ../dmsmail.py:122
 msgid "In Reply To"
 msgstr ""
 
-#: ../browser/settings.py:30
+#: ../browser/settings.py:34
 msgid "Incoming mail"
 msgstr ""
 
-#: ../browser/settings.py:39
+#: ../browser/settings.py:43
 msgid "Incoming mail internal reference default value expression"
 msgstr ""
 
-#: ../browser/settings.py:66
+#: ../browser/settings.py:74
 msgid "Increment number used in internal reference number"
 msgstr ""
 
@@ -121,23 +121,23 @@ msgstr ""
 msgid "Installs the collective.dms.mailcontent package"
 msgstr ""
 
-#: ../dmsmail.py:85
+#: ../dmsmail.py:113
 msgid "Internal Reference Number"
 msgstr ""
 
-#: ../browser/settings.py:60
+#: ../browser/settings.py:70
 msgid "Internal reference number edition field"
 msgstr ""
 
-#: ../dmsmail.py:196
+#: ../dmsmail.py:235
 msgid "Mail Date"
 msgstr ""
 
-#: ../browser/settings.py:72
+#: ../browser/settings.py:80
 msgid "Mail date is today"
 msgstr ""
 
-#: ../dmsmail.py:310
+#: ../dmsmail.py:376
 msgid "Multiple values must be separated by a comma."
 msgstr ""
 
@@ -145,31 +145,31 @@ msgstr ""
 msgid "Normal"
 msgstr ""
 
-#: ../browser/settings.py:35
+#: ../browser/settings.py:38
 msgid "Number of next incoming mail"
 msgstr ""
 
-#: ../browser/settings.py:51
+#: ../browser/settings.py:60
 msgid "Number of next outgoing mail"
 msgstr ""
 
-#: ../dmsmail.py:72
+#: ../dmsmail.py:91
 msgid "Original Mail Date"
 msgstr ""
 
-#: ../browser/settings.py:45
+#: ../browser/settings.py:49
 msgid "Outgoing mail"
 msgstr ""
 
-#: ../browser/settings.py:55
+#: ../browser/settings.py:65
 msgid "Outgoing mail internal reference default value expression"
 msgstr ""
 
-#: ../dmsmail.py:76
+#: ../dmsmail.py:99
 msgid "Reception Date"
 msgstr ""
 
-#: ../dmsmail.py:93
+#: ../dmsmail.py:119
 msgid "Recipients"
 msgstr ""
 
@@ -181,11 +181,11 @@ msgstr ""
 msgid "Reply to ${ref}"
 msgstr ""
 
-#: ../dmsmail.py:89
+#: ../dmsmail.py:117
 msgid "Sender"
 msgstr ""
 
-#: ../behaviors.py:21
+#: ../behaviors.py:23
 msgid "Sending type"
 msgstr ""
 
@@ -197,24 +197,28 @@ msgstr ""
 msgid "SendingType"
 msgstr ""
 
-#: ../browser/settings.py:20
+#: ../browser/settings.py:23
 msgid "Show only when replying"
 msgstr ""
 
-#: ../browser/settings.py:40
+#: ../browser/settings.py:44
 msgid "Tal expression where you can use portal, number, context, request, date as variable"
 msgstr ""
 
-#: ../dmsmail.py:45
+#: ../dmsmail.py:46
 msgid "This value is already used"
 msgstr ""
 
-#: ../dmsmail.py:64
+#: ../dmsmail.py:65
 msgid "This value is already used. A good value would be: ${good_value}"
 msgstr ""
 
-#: ../browser/settings.py:36
+#: ../browser/settings.py:39
 msgid "This value is used as 'number' variable in linked tal expression"
+msgstr ""
+
+#: ../dmsmail.py:81
+msgid "You cannot choose the current object as a reply to."
 msgstr ""
 
 #: ../configure.zcml:42
