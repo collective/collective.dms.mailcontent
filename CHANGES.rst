@@ -8,6 +8,8 @@ Changelog
   [sgeulette]
 - Added reply_to validator to avoid self selection.
   [sgeulette]
+- Added email_bcc field
+  [sgeulette]
 
 1.15.1 (2023-11-28)
 -------------------

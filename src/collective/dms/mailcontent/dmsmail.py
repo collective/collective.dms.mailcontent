@@ -384,6 +384,13 @@ class IOutgoingEmail(model.Schema):
         constraint=validate_email_addresses,
     )
 
+    email_bcc = schema.TextLine(
+        title=_(u"Email bcc"),
+        description=_(u"Hidden emails."),
+        required=False,
+        constraint=validate_email_addresses,
+    )
+
     email_attachments = schema.List(
         title=_(u"Email attachments"),
         required=False,
@@ -409,6 +416,7 @@ class IFieldsetOutgoingEmail(IOutgoingEmail):
             "email_sender",
             "email_recipient",
             "email_cc",
+            "email_bcc",
             "email_attachments",
             "email_body",
         ],
