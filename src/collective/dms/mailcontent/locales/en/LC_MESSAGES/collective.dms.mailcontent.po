@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2024-07-04 09:33+0000\n"
+"POT-Creation-Date: 2024-09-05 09:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -59,15 +59,19 @@ msgstr ""
 msgid "Dms Mail settings"
 msgstr ""
 
-#: ../dmsmail.py:405
+#: ../dmsmail.py:412
 msgid "Email"
 msgstr ""
 
-#: ../dmsmail.py:388
+#: ../dmsmail.py:395
 msgid "Email attachments"
 msgstr ""
 
-#: ../dmsmail.py:395
+#: ../dmsmail.py:388
+msgid "Email bcc"
+msgstr ""
+
+#: ../dmsmail.py:402
 msgid "Email body"
 msgstr ""
 

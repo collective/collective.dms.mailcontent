@@ -386,7 +386,7 @@ class IOutgoingEmail(model.Schema):
 
     email_bcc = schema.TextLine(
         title=_(u"Email bcc"),
-        description=_(u"Hidden emails."),
+        # description=_(u"Hidden emails."),
         required=False,
         constraint=validate_email_addresses,
     )
