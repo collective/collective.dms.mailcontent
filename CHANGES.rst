@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.15.2 (unreleased)
+1.16.0 (2024-09-17)
 -------------------
 
 - Blacked and isorted files.
