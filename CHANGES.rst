@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.16.1 (unreleased)
+1.16.1 (2024-09-18)
 -------------------
 
 - Don't create wheel.
