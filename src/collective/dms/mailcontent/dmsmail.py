@@ -76,6 +76,9 @@ class ReplyToValidator(validator.SimpleFieldValidator):
         # we call the already defined validators
         super(ReplyToValidator, self).validate(value, force=force)
         # value contains a list of linked objects
+        # on reply, self.context is an incomingmail and future outgoingmail cannot be selected
+        if self.view.__name__ == "reply":
+            return
         if self.context in value or []:
             raise Invalid(
                 _(

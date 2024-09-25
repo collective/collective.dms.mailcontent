@@ -4,8 +4,8 @@ Changelog
 1.16.2 (unreleased)
 -------------------
 
-- Nothing changed yet.
-
+- Corrected reply_to validator on reply.
+  [sgeulette]
 
 1.16.1 (2024-09-18)
 -------------------
