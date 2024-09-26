@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.16.2 (unreleased)
+1.16.2 (2024-09-26)
 -------------------
 
 - Corrected reply_to validator on reply.
