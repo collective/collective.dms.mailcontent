@@ -196,7 +196,7 @@ def internalReferenceIncomingMailDefaultValue(data):
         data.context,
         data.request,
         "collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number",
-        "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "incomingmail_talexpression",
+        "collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_talexpression",
     ).decode("utf8")
 
 
@@ -222,8 +222,8 @@ def incrementIncomingMailNumber(incomingmail, event):
         internal_reference_no = evaluateInternalReference(
             incomingmail,
             incomingmail.REQUEST,
-            "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "incomingmail_number",
-            "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "incomingmail_talexpression",
+            "collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number",
+            "collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_talexpression",
         )
         incomingmail.internal_reference_no = internal_reference_no
         incomingmail.reindexObject(idxs=("Title", "internal_reference_number", "SearchableText", "sortable_title"))
@@ -281,7 +281,7 @@ class IDmsOutgoingMail(IDmsDocument):
 def mailDateDefaultValue(data):
     # return the day date
     today = api.portal.get_registry_record(
-        "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_today_mail_date"
+        "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_today_mail_date"
     )
     if today:
         return datetime.date.today()
@@ -296,7 +296,7 @@ def internalReferenceOutgoingMailDefaultValue(data):
         data.context,
         data.request,
         "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number",
-        "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_talexpression",
+        "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_talexpression",
     ).decode("utf8")
 
 
@@ -324,8 +324,8 @@ def incrementOutgoingMailNumber(outgoingmail, event):
         internal_reference_no = evaluateInternalReference(
             outgoingmail,
             outgoingmail.REQUEST,
-            "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_number",
-            "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_talexpression",
+            "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number",
+            "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_talexpression",
         )
         outgoingmail.internal_reference_no = internal_reference_no
         outgoingmail.reindexObject(idxs=("Title", "internal_reference_number", "SearchableText", "sortable_title"))

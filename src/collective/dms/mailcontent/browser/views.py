@@ -40,14 +40,14 @@ class OMEdit(DmsDocumentEdit):
     def updateFields(self):
         super(OMEdit, self).updateFields()
         edit_irn = api.portal.get_registry_record(
-            "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_edit_irn"
+            "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_edit_irn"
         )
         if edit_irn == "hide" or (
             edit_irn == "reply" and (not getattr(self.context, "_is_response", False) or not self.is_initial_state())
         ):
             self.request["_hide_irn"] = True
         elif not api.portal.get_registry_record(
-            "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_increment_number"
+            "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_increment_number"
         ):
             self.request["_auto_ref"] = False  # add it to request than can be used in default method, etc...
 
@@ -63,12 +63,12 @@ class OMCustomAddForm(DefaultAddForm):
     def updateFields(self):
         super(OMCustomAddForm, self).updateFields()
         edit_irn = api.portal.get_registry_record(
-            "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_edit_irn"
+            "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_edit_irn"
         )
         if edit_irn in ("hide", "reply"):
             self.request["_hide_irn"] = True
         elif not api.portal.get_registry_record(
-            "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_increment_number"
+            "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_increment_number"
         ):
             self.request["_auto_ref"] = False
 

@@ -51,14 +51,14 @@ class ReplyForm(DefaultAddForm):
     def update_fields_irn(self):
         """update fields regarding irn setting"""
         edit_irn = api.portal.get_registry_record(
-            "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_edit_irn"
+            "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_edit_irn"
         )
         self.request["_hide_irn"] = True
         # a user can edit irn. we don't use number incrementation
         if edit_irn in ("show", "reply"):
             self.request["_hide_irn"] = False
             if not api.portal.get_registry_record(
-                "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_increment_number"
+                "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_increment_number"
             ):
                 self.request["_auto_ref"] = False
 

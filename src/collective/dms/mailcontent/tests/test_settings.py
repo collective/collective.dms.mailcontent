@@ -52,30 +52,30 @@ class TestSettings(unittest.TestCase):
         # check default config
         self.assertEquals(
             api.portal.get_registry_record(
-                "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_number"
+                "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number"
             ),
             10,
         )
         self.assertEquals(
             api.portal.get_registry_record(
-                "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_talexpression"
+                "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_talexpression"
             ),
             u"python:'test-out/'+number",
         )
         self.assertEquals(
             api.portal.get_registry_record(
-                "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_edit_irn"
+                "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_edit_irn"
             ),
             u"show",
         )
         self.assertTrue(
             api.portal.get_registry_record(
-                "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_increment_number"
+                "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_increment_number"
             )
         )
         self.assertTrue(
             api.portal.get_registry_record(
-                "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_today_mail_date"
+                "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_today_mail_date"
             )
         )
 
@@ -92,7 +92,7 @@ class TestSettings(unittest.TestCase):
         self.assertFalse(hasattr(om, "_auto_ref"))
         self.assertEquals(
             api.portal.get_registry_record(
-                "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_number"
+                "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number"
             ),
             11,
         )
@@ -107,7 +107,7 @@ class TestSettings(unittest.TestCase):
         # set outgoingmail_increment_number to False
         # => no number incrementation because irn field is editable
         api.portal.set_registry_record(
-            "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_increment_number", False
+            "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_increment_number", False
         )
         add.update()
         self.assertNotIn("_hide_irn", self.request.keys())
@@ -119,7 +119,7 @@ class TestSettings(unittest.TestCase):
         self.assertEquals(om._auto_ref, False)
         self.assertEquals(
             api.portal.get_registry_record(
-                "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_number"
+                "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number"
             ),
             11,
         )  # No increment
@@ -134,7 +134,7 @@ class TestSettings(unittest.TestCase):
         # set outgoingmail_increment_number to False and outgoingmail_edit_irn to hide
         # => number incrementation because irn field is not editable
         api.portal.set_registry_record(
-            "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_edit_irn", "hide"
+            "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_edit_irn", "hide"
         )
         add.update()
         self.assertEquals(self.request["_hide_irn"], True)
@@ -147,7 +147,7 @@ class TestSettings(unittest.TestCase):
         self.assertFalse(hasattr(om, "_auto_ref"))
         self.assertEquals(
             api.portal.get_registry_record(
-                "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_number"
+                "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number"
             ),
             12,
         )
@@ -162,7 +162,7 @@ class TestSettings(unittest.TestCase):
         # set outgoingmail_increment_number to False and outgoingmail_edit_irn to reply
         # => number incrementation because irn field is not editable
         api.portal.set_registry_record(
-            "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_edit_irn", "reply"
+            "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_edit_irn", "reply"
         )
         add.update()
         self.assertEquals(self.request["_hide_irn"], True)
@@ -175,7 +175,7 @@ class TestSettings(unittest.TestCase):
         self.assertFalse(hasattr(om, "_auto_ref"))
         self.assertEquals(
             api.portal.get_registry_record(
-                "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_number"
+                "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number"
             ),
             13,
         )
@@ -228,10 +228,10 @@ class TestSettings(unittest.TestCase):
             treating_groups=["Administrators"],
         )
         api.portal.set_registry_record(
-            "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_edit_irn", "show"
+            "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_edit_irn", "show"
         )
         api.portal.set_registry_record(
-            "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_increment_number", True
+            "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_increment_number", True
         )
         reply = ReplyForm(im, self.request)
         reply.update()
@@ -246,7 +246,7 @@ class TestSettings(unittest.TestCase):
         self.assertEquals(om._is_response, True)
         self.assertEquals(
             api.portal.get_registry_record(
-                "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_number"
+                "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number"
             ),
             14,
         )
@@ -255,7 +255,7 @@ class TestSettings(unittest.TestCase):
         # set outgoingmail_increment_number to False
         # => no number incrementation because irn field is editable
         api.portal.set_registry_record(
-            "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_increment_number", False
+            "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_increment_number", False
         )
         reply.update()
         self.assertEquals(self.request["_hide_irn"], False)
@@ -267,7 +267,7 @@ class TestSettings(unittest.TestCase):
         self.assertEquals(om._auto_ref, False)
         self.assertEquals(
             api.portal.get_registry_record(
-                "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_number"
+                "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number"
             ),
             14,
         )  # No increment
@@ -276,7 +276,7 @@ class TestSettings(unittest.TestCase):
         # set outgoingmail_increment_number to False and outgoingmail_edit_irn to hide
         # => number incrementation because irn field is not editable
         api.portal.set_registry_record(
-            "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_edit_irn", "hide"
+            "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_edit_irn", "hide"
         )
         reply.update()
         self.assertEquals(self.request["_hide_irn"], True)
@@ -289,7 +289,7 @@ class TestSettings(unittest.TestCase):
         self.assertFalse(hasattr(om, "_auto_ref"))
         self.assertEquals(
             api.portal.get_registry_record(
-                "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_number"
+                "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number"
             ),
             15,
         )
@@ -298,7 +298,7 @@ class TestSettings(unittest.TestCase):
         # set outgoingmail_increment_number to False and outgoingmail_edit_irn to reply
         # => number incrementation because irn field is not editable
         api.portal.set_registry_record(
-            "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_edit_irn", "reply"
+            "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_edit_irn", "reply"
         )
         reply.update()
         self.assertEquals(self.request["_hide_irn"], False)
@@ -310,7 +310,7 @@ class TestSettings(unittest.TestCase):
         self.assertEquals(om._auto_ref, False)
         self.assertEquals(
             api.portal.get_registry_record(
-                "collective.dms.mailcontent.browser.settings.IDmsMailConfig." "outgoingmail_number"
+                "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number"
             ),
             15,
         )  # No increment
