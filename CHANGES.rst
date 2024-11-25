@@ -4,8 +4,10 @@ Changelog
 1.16.3 (unreleased)
 -------------------
 
-- Nothing changed yet.
-
+- Corrected typo after black adaptations.
+  [sgeulette]
+- Corrected internal_reference validator using now correct default value.
+  [sgeulette]
 
 1.16.2 (2024-09-26)
 -------------------

@@ -55,7 +55,10 @@ class InternalReferenceBaseValidator(validator.SimpleFieldValidator):
 
     type_interface = None
 
-    def validate(self, value):
+    def good_value(self):
+        return ""
+
+    def validate(self, value, force=False):
         # we call the already defined validators
         # super(InternalReferenceValidator, self).validate(value)
         try:
@@ -64,7 +67,7 @@ class InternalReferenceBaseValidator(validator.SimpleFieldValidator):
             raise Invalid(
                 _(
                     u"This value is already used. A good value would be: ${good_value}",
-                    mapping={"good_value": internalReferenceIncomingMailDefaultValue(self)},
+                    mapping={"good_value": self.good_value()},
                 )
             )
 
@@ -146,6 +149,9 @@ class IDmsIncomingMail(IDmsDocument):
 class InternalReferenceIncomingMailValidator(InternalReferenceBaseValidator):
 
     type_interface = IDmsIncomingMail
+
+    def good_value(self):
+        return internalReferenceIncomingMailDefaultValue(self)
 
 
 class IMReplyToValidator(ReplyToValidator):
@@ -302,6 +308,9 @@ def internalReferenceOutgoingMailDefaultValue(data):
 
 class InternalReferenceOutgoingMailValidator(InternalReferenceBaseValidator):
     type_interface = IDmsOutgoingMail
+
+    def good_value(self):
+        return internalReferenceOutgoingMailDefaultValue(self)
 
 
 class OMReplyToValidator(ReplyToValidator):
