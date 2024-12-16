@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.16.3 (unreleased)
+1.16.3 (2024-12-16)
 -------------------
 
 - Corrected typo after black adaptations.
