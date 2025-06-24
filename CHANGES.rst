@@ -4,8 +4,8 @@ Changelog
 1.16.4 (unreleased)
 -------------------
 
-- Nothing changed yet.
-
+- Corrected tests.
+  [sgeulette]
 
 1.16.3 (2024-12-16)
 -------------------

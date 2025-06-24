@@ -6,7 +6,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
@@ -15,9 +15,9 @@ jobs:
             plone: 4.3
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Set up pyenv and Python
-        uses: "gabrielfalcao/pyenv-action@v14"
+        uses: "gabrielfalcao/pyenv-action@v18"
         with:
           default: "${{ matrix.python }}"
       - name: Setup Env
@@ -25,7 +25,7 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt
       - name: Cache eggs
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         env:
           cache-name: cache-eggs
         with:
