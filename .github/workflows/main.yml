@@ -22,6 +22,7 @@ jobs:
           default: "${{ matrix.python }}"
       - name: Setup Env
         run: |
+          mkdir -p buildout-cache/{eggs,downloads}
           pip install --upgrade pip
           pip install -r requirements.txt
       - name: Cache eggs
