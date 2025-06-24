@@ -3,10 +3,13 @@
 *.pyc
 .installed.cfg
 .mr.developer.cfg
+.plone*
 .project
 .pydevproject
 .settings/
 bin/
+CACHEDIR.TAG
+checkversion*
 develop-eggs/
 include/
 lib/
