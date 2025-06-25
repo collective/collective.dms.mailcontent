@@ -45,14 +45,12 @@ setup(
         "setuptools",
         "plone.api",
         "plone.app.dexterity",
-        "plone.directives.form",
         "collective.contact.core",
         "collective.dexteritytextindexer",
         "collective.dms.basecontent>1.99",
         "imio.helpers>=0.55",
         "plone.formwidget.datetime",
         # "plone.app.relationfield",
-        "five.grok",
     ],
     extras_require={
         "test": [
