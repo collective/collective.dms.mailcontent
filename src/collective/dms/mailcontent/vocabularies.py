@@ -8,16 +8,15 @@ from imio.helpers.content import find
 from plone import api
 from Products.CMFPlone.utils import safe_unicode
 from zope.annotation import IAnnotations
-from zope.interface import implements
+from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
 
+@implementer(IVocabularyFactory)
 class EmailAttachmentsVocabulary(object):
     """Vocabulary listing outgoing mail files and related ones, as possible email attachments"""
-
-    implements(IVocabularyFactory)
 
     def __call__(self, context):
         terms = []
