@@ -23,7 +23,7 @@
   <include package="plone.app.relationfield" />
   <include package="collective.dms.basecontent" />
   <include package="collective.contact.core" />
-  <include package="plone.formwidget.datetime" />
+  <!-- TODO MIGRATION-PLONE6 include package="plone.formwidget.datetime" /-->
   <include package="collective.dexteritytextindexer"/>
 
   <genericsetup:registerProfile

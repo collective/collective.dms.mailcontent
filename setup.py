@@ -48,7 +48,7 @@ setup(
         "collective.dexteritytextindexer",
         "collective.dms.basecontent",
         "imio.helpers>=0.55",
-        "plone.formwidget.datetime",
+        # "plone.formwidget.datetime",  # TODO MIGRATION-PLONE6
         # 'plone.app.relationfield',
     ],
     extras_require={
