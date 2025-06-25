@@ -20,7 +20,7 @@ class TestReplyForm(unittest.TestCase):
         self.portal = self.layer["portal"]
         setRoles(self.portal, TEST_USER_ID, ["Contributor"])
         self.folder = api.content.create(container=self.portal, type="Folder", id="folder", title="Folder")
-        config = [{"name": u"ud", "token": u"ud"}]
+        config = [{"name": "ud", "token": "ud"}]
         self.dir = api.content.create(
             container=self.portal,
             type="directory",
@@ -37,15 +37,15 @@ class TestReplyForm(unittest.TestCase):
             container=self.folder,
             type="dmsincomingmail",
             id="im",
-            title=u"I mail",
+            title="I mail",
             sender=[RelationValue(intids.getId(self.c1))],
-            external_reference_no=u"xx/1",
+            external_reference_no="xx/1",
             treating_groups=["Administrators"],
         )
         self.view = self.im.unrestrictedTraverse("@@reply")
 
     def test_rf_label(self):
-        self.assertEqual(translate(self.view.label), u"Reply to test-in/10 - I mail")
+        self.assertEqual(translate(self.view.label), "Reply to test-in/10 - I mail")
 
     def ttest_update_fields_irn(self):
         """done in test_settings"""
@@ -57,13 +57,13 @@ class TestReplyForm(unittest.TestCase):
 
     def test_rf_updateWidgets(self):
         self.view.update()
-        self.assertEqual(self.view.widgets["IDublinCore.title"].value, u"I mail")
+        self.assertEqual(self.view.widgets["IDublinCore.title"].value, "I mail")
         self.assertEqual(self.view.widgets["treating_groups"].value, ["Administrators"])
         self.assertEqual(self.view.widgets["reply_to"].value, ("/plone/folder/im",))
         self.assertEqual(self.view.widgets["recipients"].value, ("/plone/dir/imio",))
-        self.assertEqual(self.view.widgets["external_reference_no"].value, u"xx/1")
+        self.assertEqual(self.view.widgets["external_reference_no"].value, "xx/1")
         self.assertEqual(self.view.widgets["recipient_groups"].value, ())
-        self.assertEqual(self.view.widgets["internal_reference_no"].value, u"test-out/10")
+        self.assertEqual(self.view.widgets["internal_reference_no"].value, "test-out/10")
 
     def test_rf_add(self):
         setRoles(self.portal, TEST_USER_ID, ["Member", "Manager"])

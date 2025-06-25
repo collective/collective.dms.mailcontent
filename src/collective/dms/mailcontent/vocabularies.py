@@ -44,17 +44,17 @@ class EmailAttachmentsVocabulary(object):
             if ftitle.lower() == obj.file.filename.lower() or not IDmsAppendixFile.providedBy(obj):
                 title = ftitle
             else:
-                title = u"{}  (« {} »)".format(ftitle, obj.file.filename)
+                title = "{}  (« {} »)".format(ftitle, obj.file.filename)
             # TODO Mark signed version
             document = obj.aq_parent
             cat_elems = getattr(document, "categorized_elements", {})  # from collective.iconifiedcategory
             signed = cat_elems.get(brain.UID, {}).get("signed", False)
             if signed:
-                typ = u"{} signed".format(brain.portal_type)
+                typ = "{} signed".format(brain.portal_type)
             else:
                 typ = brain.portal_type
             terms.append(
-                SimpleTerm(brain.UID, brain.UID, _tr(u"({}) => ${{title}}".format(typ), mapping={"title": title}))
+                SimpleTerm(brain.UID, brain.UID, _tr("({}) => ${{title}}".format(typ), mapping={"title": title}))
             )
         # then we find files of related mails
         pc = api.portal.get_tool("portal_catalog")
@@ -82,12 +82,12 @@ class EmailAttachmentsVocabulary(object):
                 if ftitle.lower() == obj.file.filename.lower() or (is_om and not IDmsAppendixFile.providedBy(obj)):
                     title = ftitle
                 else:
-                    title = u"{}  (« {} »)".format(ftitle, obj.file.filename)
+                    title = "{}  (« {} »)".format(ftitle, obj.file.filename)
                 document = obj.aq_parent
                 cat_elems = getattr(document, "categorized_elements", {})  # from collective.iconifiedcategory
                 signed = cat_elems.get(brain.UID, {}).get("signed", False)
                 if signed:
-                    typ = u"{} signed".format(brain.portal_type)
+                    typ = "{} signed".format(brain.portal_type)
                 else:
                     typ = brain.portal_type
                 terms.append(
@@ -95,7 +95,7 @@ class EmailAttachmentsVocabulary(object):
                         brain.UID,
                         brain.UID,
                         _tr(
-                            u"${{ref}} ({}) => ${{title}}".format(typ),
+                            "${{ref}} ({}) => ${{title}}".format(typ),
                             mapping={"ref": rv.to_object.internal_reference_no, "title": title},
                         ),
                     )

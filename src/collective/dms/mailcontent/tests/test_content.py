@@ -45,28 +45,28 @@ class TestDmsmailMethods(TestContentTypes):
             self.portal, "dmsincomingmail", **{"internal_reference_no": "12345", "title": "Test 1"}
         )
         # test with container as context, value doesn't exist
-        self.assertEquals(
+        self.assertEqual(
             dmsmail.validateIndexValueUniqueness(
                 self.portal, dmsmail.IDmsIncomingMail, "internal_reference_number", "54321"
             ),
             None,
         )
         # test with container as context, value exists
-        self.assertRaisesRegexp(
+        self.assertRaisesRegex(
             Invalid,
-            u"This value is already used",
+            "This value is already used",
             dmsmail.validateIndexValueUniqueness,
             *[self.portal, dmsmail.IDmsIncomingMail, "internal_reference_number", "12345"]
         )
         # test with object as context, value doesn't exist
-        self.assertEquals(
+        self.assertEqual(
             dmsmail.validateIndexValueUniqueness(
                 imail1, dmsmail.IDmsIncomingMail, "internal_reference_number", "54321"
             ),
             None,
         )
         # test with object as context, value exists on the same object
-        self.assertEquals(
+        self.assertEqual(
             dmsmail.validateIndexValueUniqueness(
                 imail1, dmsmail.IDmsIncomingMail, "internal_reference_number", "12345"
             ),
@@ -74,7 +74,7 @@ class TestDmsmailMethods(TestContentTypes):
         )
         # test with object as context and a sub element in the folder, value exists on the same object
         createContentInContainer(imail1, "dmsmainfile", **{"title": "File 1"})
-        self.assertEquals(
+        self.assertEqual(
             dmsmail.validateIndexValueUniqueness(
                 imail1, dmsmail.IDmsIncomingMail, "internal_reference_number", "12345"
             ),
@@ -84,9 +84,9 @@ class TestDmsmailMethods(TestContentTypes):
         imail2 = createContentInContainer(
             self.portal, "dmsincomingmail", **{"internal_reference_no": "12345", "title": "Test 2"}
         )
-        self.assertRaisesRegexp(
+        self.assertRaisesRegex(
             Invalid,
-            u"This value is already used",
+            "This value is already used",
             dmsmail.validateIndexValueUniqueness,
             *[imail2, dmsmail.IDmsIncomingMail, "internal_reference_number", "12345"]
         )
@@ -94,19 +94,19 @@ class TestDmsmailMethods(TestContentTypes):
         imail3 = createContentInContainer(
             self.portal, "dmsincomingmail", **{"internal_reference_no": "", "title": "Test 2"}
         )
-        self.assertEquals(
+        self.assertEqual(
             dmsmail.validateIndexValueUniqueness(
                 self.portal, dmsmail.IDmsIncomingMail, "internal_reference_number", ""
             ),
             None,
         )
-        self.assertEquals(
+        self.assertEqual(
             dmsmail.validateIndexValueUniqueness(imail3, dmsmail.IDmsIncomingMail, "internal_reference_number", ""),
             None,
         )
 
     def test_evaluateInternalReference(self):
-        self.assertEquals(
+        self.assertEqual(
             dmsmail.evaluateInternalReference(
                 self.portal,
                 self.portal.REQUEST,
@@ -122,19 +122,19 @@ class TestDmsmailMethods(TestContentTypes):
         imail1 = createContentInContainer(
             self.portal, "dmsincomingmail", **{"internal_reference_no": "12345", "title": "Test 1"}
         )
-        self.assertEquals(
+        self.assertEqual(
             registry["collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number"], old_value + 1
         )
-        self.assertEquals(imail1.internal_reference_no, "12345")
+        self.assertEqual(imail1.internal_reference_no, "12345")
         # we create a dmsincomingmail without internal_reference_no, it will be generated
         imail2 = createContentInContainer(self.portal, "dmsincomingmail", **{"title": "Test 2"})
-        self.assertEquals(imail2.internal_reference_no, "test-in/11")
+        self.assertEqual(imail2.internal_reference_no, "test-in/11")
 
     def test_title(self):
         imail1 = createContentInContainer(
             self.portal, "dmsincomingmail", **{"internal_reference_no": "12345", "title": "Test 1"}
         )
-        self.assertEquals(imail1.Title(), "12345 - Test 1")
+        self.assertEqual(imail1.Title(), "12345 - Test 1")
 
     def test_indexes(self):
         imail1 = createContentInContainer(
@@ -142,12 +142,12 @@ class TestDmsmailMethods(TestContentTypes):
         )
         # get brain
         brains = self.portal.portal_catalog(path="/".join(imail1.getPhysicalPath()))
-        self.assertEquals(len(brains), 1)
-        self.assertEquals(imail1, brains[0].getObject())
+        self.assertEqual(len(brains), 1)
+        self.assertEqual(imail1, brains[0].getObject())
         # search by title
         brains = self.portal.portal_catalog(Title="12345")
-        self.assertEquals(len(brains), 1)
-        self.assertEquals(imail1, brains[0].getObject())
+        self.assertEqual(len(brains), 1)
+        self.assertEqual(imail1, brains[0].getObject())
         # search by SearchableText: must be done in doc tests or robot
         brains = self.portal.portal_catalog(SearchableText="12345")
 

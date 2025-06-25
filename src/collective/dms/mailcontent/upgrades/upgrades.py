@@ -90,11 +90,11 @@ def v8(context):
     step = "dmsmailcontent-postInstall"
     registry = setup.getImportStepRegistry()
     registry._registered.get(step)["dependencies"] = (
-        u"catalog",
-        u"controlpanel",
-        u"plone.app.registry",
-        u"rolemap",
-        u"typeinfo",
+        "catalog",
+        "controlpanel",
+        "plone.app.registry",
+        "rolemap",
+        "typeinfo",
     )
     setup._p_changed = True
     logger.info("Import step dependency corrected")
