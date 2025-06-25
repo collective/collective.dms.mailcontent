@@ -12,7 +12,6 @@ from plone import api
 from plone.app.textfield import RichText
 from plone.autoform import directives as form
 from plone.dexterity.schema import DexteritySchemaPolicy
-from plone.directives.form.value import default_value
 from plone.formwidget.datetime.z3cform.widget import DateFieldWidget
 from plone.formwidget.datetime.z3cform.widget import DatetimeFieldWidget
 from plone.registry.interfaces import IRegistry
@@ -28,6 +27,7 @@ from zope.interface import implementer
 from zope.interface import Invalid
 from zope.interface import provider
 from zope.interface.interfaces import ComponentLookupError
+from zope.schema.interfaces import IContextAwareDefaultFactory
 
 import datetime
 
@@ -91,6 +91,29 @@ class ReplyToValidator(validator.SimpleFieldValidator):
             )
 
 
+def receptionDateDefaultValue():
+    # return the current datetime
+    return datetime.datetime.now()
+
+
+def originalMailDateDefaultValue():
+    # return 3 days before
+    return datetime.date.today() - datetime.timedelta(days=3)
+
+
+@provider(IContextAwareDefaultFactory)
+def internalReferenceIncomingMailDefaultValue(context):
+    """
+    Default value of internal_reference_no for dmsincomingmail
+    """
+    return evaluateInternalReference(
+        context,
+        context.REQUEST,
+        "collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number",
+        "collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_talexpression",
+    ).decode("utf8")
+
+
 class IDmsIncomingMail(IDmsDocument):
     """ """
 
@@ -99,6 +122,7 @@ class IDmsIncomingMail(IDmsDocument):
         required=False,
         min=datetime.date(1990, 1, 1),
         max=datetime.date.today() + datetime.timedelta(days=7),
+        defaultFactory=originalMailDateDefaultValue,
     )
     form.widget(original_mail_date=DateFieldWidget)
 
@@ -107,6 +131,7 @@ class IDmsIncomingMail(IDmsDocument):
         required=False,
         min=datetime.datetime(1990, 1, 1),
         max=datetime.datetime.today() + datetime.timedelta(days=7),
+        defaultFactory=receptionDateDefaultValue,
     )
     form.widget("reception_date", DatetimeFieldWidget, show_time=True)
 
@@ -119,6 +144,7 @@ class IDmsIncomingMail(IDmsDocument):
     internal_reference_no = schema.TextLine(
         title=_("Internal Reference Number"),
         required=False,
+        defaultFactory=internalReferenceIncomingMailDefaultValue,
     )
 
     sender = ContactList(title=_("Sender"), required=True)
@@ -152,7 +178,7 @@ class InternalReferenceIncomingMailValidator(InternalReferenceBaseValidator):
     type_interface = IDmsIncomingMail
 
     def good_value(self):
-        return internalReferenceIncomingMailDefaultValue(self)
+        return internalReferenceIncomingMailDefaultValue(self.context)
 
 
 class IMReplyToValidator(ReplyToValidator):
@@ -163,18 +189,6 @@ validator.WidgetValidatorDiscriminators(
     InternalReferenceIncomingMailValidator, field=IDmsIncomingMail["internal_reference_no"]
 )
 validator.WidgetValidatorDiscriminators(IMReplyToValidator, field=IDmsIncomingMail["reply_to"])
-
-
-@default_value(field=IDmsIncomingMail["reception_date"])
-def receptionDateDefaultValue(data):
-    # return the current datetime
-    return datetime.datetime.now()
-
-
-@default_value(field=IDmsIncomingMail["original_mail_date"])
-def originalMailDateDefaultValue(data):
-    # return 3 days before
-    return datetime.date.today() - datetime.timedelta(days=3)
 
 
 def evaluateInternalReference(context, request, number_registry_name, talexpression_registry_name):
@@ -192,19 +206,6 @@ def evaluateInternalReference(context, request, number_registry_name, talexpress
     expression = registry.get(talexpression_registry_name)
     value = settings_view.evaluateTalExpression(expression, context, request, portal_state.portal(), number)
     return value
-
-
-@default_value(field=IDmsIncomingMail["internal_reference_no"])
-def internalReferenceIncomingMailDefaultValue(data):
-    """
-    Default value of internal_reference_no for dmsincomingmail
-    """
-    return evaluateInternalReference(
-        data.context,
-        data.request,
-        "collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number",
-        "collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_talexpression",
-    ).decode("utf8")
 
 
 @implementer(IDmsIncomingMail)
@@ -238,6 +239,28 @@ def incrementIncomingMailNumber(incomingmail, event):
     registry["collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number"] += 1
 
 
+def mailDateDefaultValue():
+    # return the day date
+    today = api.portal.get_registry_record(
+        "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_today_mail_date"
+    )
+    if today:
+        return datetime.date.today()
+
+
+@provider(IContextAwareDefaultFactory)
+def internalReferenceOutgoingMailDefaultValue(context):
+    """
+    Default value of internal_reference_no for dmsoutgoingmail
+    """
+    return evaluateInternalReference(
+        context,
+        context.REQUEST,
+        "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number",
+        "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_talexpression",
+    ).decode("utf8")
+
+
 class IDmsOutgoingMail(IDmsDocument):
     """ """
 
@@ -246,12 +269,14 @@ class IDmsOutgoingMail(IDmsDocument):
         required=False,
         min=datetime.date(1990, 1, 1),
         max=datetime.date(datetime.date.today().year + 1, 12, 31),
+        defaultFactory=mailDateDefaultValue,
     )
 
     dexteritytextindexer.searchable("internal_reference_no")
     internal_reference_no = schema.TextLine(
         title=_("Internal Reference Number"),
         required=False,
+        defaultFactory=internalReferenceOutgoingMailDefaultValue,
     )
 
     sender = ContactChoice(title=_("Sender"), required=False)
@@ -284,34 +309,11 @@ class IDmsOutgoingMail(IDmsDocument):
     form.order_after(notes="related_docs")
 
 
-@default_value(field=IDmsOutgoingMail["mail_date"])
-def mailDateDefaultValue(data):
-    # return the day date
-    today = api.portal.get_registry_record(
-        "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_today_mail_date"
-    )
-    if today:
-        return datetime.date.today()
-
-
-@default_value(field=IDmsOutgoingMail["internal_reference_no"])
-def internalReferenceOutgoingMailDefaultValue(data):
-    """
-    Default value of internal_reference_no for dmsoutgoingmail
-    """
-    return evaluateInternalReference(
-        data.context,
-        data.request,
-        "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number",
-        "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_talexpression",
-    ).decode("utf8")
-
-
 class InternalReferenceOutgoingMailValidator(InternalReferenceBaseValidator):
     type_interface = IDmsOutgoingMail
 
     def good_value(self):
-        return internalReferenceOutgoingMailDefaultValue(self)
+        return internalReferenceOutgoingMailDefaultValue(self.context)
 
 
 class OMReplyToValidator(ReplyToValidator):
