@@ -12,8 +12,6 @@ from plone import api
 from plone.app.textfield import RichText
 from plone.autoform import directives as form
 from plone.dexterity.schema import DexteritySchemaPolicy
-from plone.formwidget.datetime.z3cform.widget import DateFieldWidget
-from plone.formwidget.datetime.z3cform.widget import DatetimeFieldWidget
 from plone.registry.interfaces import IRegistry
 from plone.supermodel import model
 from plone.supermodel.directives import fieldset
@@ -30,6 +28,11 @@ from zope.interface.interfaces import ComponentLookupError
 from zope.schema.interfaces import IContextAwareDefaultFactory
 
 import datetime
+
+
+# TODO: MIGRATION-PLONE6
+# from plone.formwidget.datetime.z3cform.widget import DateFieldWidget
+# from plone.formwidget.datetime.z3cform.widget import DatetimeFieldWidget
 
 
 def validateIndexValueUniqueness(context, type_interface, index_name, value):
@@ -124,7 +127,8 @@ class IDmsIncomingMail(IDmsDocument):
         max=datetime.date.today() + datetime.timedelta(days=7),
         defaultFactory=originalMailDateDefaultValue,
     )
-    form.widget(original_mail_date=DateFieldWidget)
+    # TODO: MIGRATION-PLONE6
+    # form.widget(original_mail_date=DateFieldWidget)
 
     reception_date = schema.Datetime(
         title=_("Reception Date"),
@@ -133,7 +137,8 @@ class IDmsIncomingMail(IDmsDocument):
         max=datetime.datetime.today() + datetime.timedelta(days=7),
         defaultFactory=receptionDateDefaultValue,
     )
-    form.widget("reception_date", DatetimeFieldWidget, show_time=True)
+    # TODO: MIGRATION-PLONE6
+    # form.widget("reception_date", DatetimeFieldWidget, show_time=True)
 
     external_reference_no = schema.TextLine(
         title=_("External Reference Number"),
