@@ -4,8 +4,6 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="collective.dms.mailcontent">
 
-    <include package="plone.app.controlpanel" file="permissions.zcml" />
-
     <!-- settings -->
     <browser:page
         name="dmsmailcontent-settings"
