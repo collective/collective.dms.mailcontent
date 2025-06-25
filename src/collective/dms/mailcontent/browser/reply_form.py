@@ -10,7 +10,7 @@ from Products.CMFPlone.utils import safe_unicode
 from zc.relation.interfaces import ICatalog
 from zope.component import getMultiAdapter
 from zope.component import getUtility
-from zope.component.interfaces import ComponentLookupError
+from zope.interface.interfaces import ComponentLookupError
 from zope.intid.interfaces import IIntIds
 
 

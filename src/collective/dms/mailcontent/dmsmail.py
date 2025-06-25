@@ -24,9 +24,10 @@ from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from zope import schema
 from zope.component import getMultiAdapter
 from zope.component import getUtility
-from zope.component.interfaces import ComponentLookupError
-from zope.interface import implements
+from zope.interface import implementer
 from zope.interface import Invalid
+from zope.interface import provider
+from zope.interface.interfaces import ComponentLookupError
 
 import datetime
 
@@ -206,10 +207,10 @@ def internalReferenceIncomingMailDefaultValue(data):
     ).decode("utf8")
 
 
+@implementer(IDmsIncomingMail)
 class DmsIncomingMail(DmsDocument):
     """ """
 
-    implements(IDmsIncomingMail)
     __ac_local_roles_block__ = False
 
     def Title(self):
@@ -343,10 +344,9 @@ def incrementOutgoingMailNumber(outgoingmail, event):
         registry["collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number"] += 1
 
 
+@implementer(IDmsOutgoingMail)
 class DmsOutgoingMail(DmsDocument):
     """ """
-
-    implements(IDmsOutgoingMail)
 
     def Title(self):
         if self.internal_reference_no is None:
