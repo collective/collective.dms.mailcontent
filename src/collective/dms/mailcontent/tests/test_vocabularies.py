@@ -1,6 +1,5 @@
 # -*- coding: utf8 -*-
 
-from collective.dms.mailcontent import dmsmail
 from collective.dms.mailcontent.testing import INTEGRATION
 from collective.dms.mailcontent.vocabularies import EmailAttachmentsVocabulary
 from plone import api
@@ -8,13 +7,11 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.dexterity.utils import createContentInContainer
 from plone.namedfile import NamedBlobFile
-from plone.registry.interfaces import IRegistry
 from z3c.relationfield import RelationValue
 from zope.annotation import IAnnotations
 from zope.component import getUtility
 from zope.intid import IIntIds
 
-import datetime
 import unittest2 as unittest
 
 
