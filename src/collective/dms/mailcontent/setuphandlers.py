@@ -5,14 +5,13 @@
 # GNU General Public License (GPL)
 #
 
+from plone.registry.interfaces import IRegistry
+from zope.component import getUtility
+
 import logging
 
 
 logger = logging.getLogger("collective.dms.mailcontent: setuphandlers")
-from plone.registry.interfaces import IRegistry
-from zope.component import getUtility
-from zope.component import queryUtility
-from zope.i18n.interfaces import ITranslationDomain
 
 
 def isNotGoodProfile(context):
