@@ -18,7 +18,7 @@ class ReplyForm(DefaultAddForm):
 
     """Form to reply to an incoming mail."""
 
-    description = u""
+    description = ""
     portal_type = "dmsoutgoingmail"
     reply_backrefs = True
 
@@ -46,7 +46,7 @@ class ReplyForm(DefaultAddForm):
 
     @property
     def label(self):
-        return _(u"Reply to ${ref}", mapping={"ref": safe_unicode(self.context.Title())})
+        return _("Reply to ${ref}", mapping={"ref": safe_unicode(self.context.Title())})
 
     def update_fields_irn(self):
         """update fields regarding irn setting"""
@@ -101,7 +101,7 @@ class ReplyForm(DefaultAddForm):
     def add_content(self, obj):
         """Is overrided in inherited view"""
         try:
-            utils_view = getMultiAdapter((self.context, self.request), name=u"cdmc-utils")
+            utils_view = getMultiAdapter((self.context, self.request), name="cdmc-utils")
         except ComponentLookupError:
             return "Error getting cdmc-utils view..."
         container = utils_view.outgoingmail_folder()

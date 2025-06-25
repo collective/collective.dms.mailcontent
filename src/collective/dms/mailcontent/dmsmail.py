@@ -43,12 +43,12 @@ def validateIndexValueUniqueness(context, type_interface, index_name, value):
     if not type_interface.providedBy(context):
         # we create the dmsincomingmail, the context is the container
         if brains:
-            raise Invalid(_(u"This value is already used"))
+            raise Invalid(_("This value is already used"))
     else:
         # we edit the type, the context is itself
         # if multiple brains (normally not possible), we are sure there are other objects with same index value
         if len(brains) > 1 or (len(brains) == 1 and brains[0].UID != context.UID()):
-            raise Invalid(_(u"This value is already used"))
+            raise Invalid(_("This value is already used"))
 
 
 class InternalReferenceBaseValidator(validator.SimpleFieldValidator):
@@ -66,7 +66,7 @@ class InternalReferenceBaseValidator(validator.SimpleFieldValidator):
         except Invalid:
             raise Invalid(
                 _(
-                    u"This value is already used. A good value would be: ${good_value}",
+                    "This value is already used. A good value would be: ${good_value}",
                     mapping={"good_value": self.good_value()},
                 )
             )
@@ -85,7 +85,7 @@ class ReplyToValidator(validator.SimpleFieldValidator):
         if self.context in value or []:
             raise Invalid(
                 _(
-                    u"You cannot choose the current object as a reply to.",
+                    "You cannot choose the current object as a reply to.",
                 )
             )
 
@@ -94,7 +94,7 @@ class IDmsIncomingMail(IDmsDocument):
     """ """
 
     original_mail_date = schema.Date(
-        title=_(u"Original Mail Date"),
+        title=_("Original Mail Date"),
         required=False,
         min=datetime.date(1990, 1, 1),
         max=datetime.date.today() + datetime.timedelta(days=7),
@@ -102,7 +102,7 @@ class IDmsIncomingMail(IDmsDocument):
     form.widget(original_mail_date=DateFieldWidget)
 
     reception_date = schema.Datetime(
-        title=_(u"Reception Date"),
+        title=_("Reception Date"),
         required=False,
         min=datetime.datetime(1990, 1, 1),
         max=datetime.datetime.today() + datetime.timedelta(days=7),
@@ -110,22 +110,22 @@ class IDmsIncomingMail(IDmsDocument):
     form.widget("reception_date", DatetimeFieldWidget, show_time=True)
 
     external_reference_no = schema.TextLine(
-        title=_(u"External Reference Number"),
+        title=_("External Reference Number"),
         required=False,
     )
 
     dexteritytextindexer.searchable("internal_reference_no")
     internal_reference_no = schema.TextLine(
-        title=_(u"Internal Reference Number"),
+        title=_("Internal Reference Number"),
         required=False,
     )
 
-    sender = ContactList(title=_(u"Sender"), required=True)
+    sender = ContactList(title=_("Sender"), required=True)
 
-    recipients = ContactList(title=_(u"Recipients"), required=False)
+    recipients = ContactList(title=_("Recipients"), required=False)
 
     reply_to = RelatedDocs(
-        title=_(u"In Reply To"),
+        title=_("In Reply To"),
         required=False,
         object_provides=(
             "collective.dms.mailcontent.dmsmail.IDmsIncomingMail",
@@ -183,8 +183,8 @@ def evaluateInternalReference(context, request, number_registry_name, talexpress
     number = registry.get(number_registry_name) or 1
     # we get the portal
     try:
-        portal_state = getMultiAdapter((context, request), name=u"plone_portal_state")
-        settings_view = getMultiAdapter((portal_state.portal(), request), name=u"dmsmailcontent-settings")
+        portal_state = getMultiAdapter((context, request), name="plone_portal_state")
+        settings_view = getMultiAdapter((portal_state.portal(), request), name="dmsmailcontent-settings")
     except ComponentLookupError:
         return "Error getting view..."
     # we evaluate the expression
@@ -241,7 +241,7 @@ class IDmsOutgoingMail(IDmsDocument):
     """ """
 
     mail_date = schema.Date(
-        title=_(u"Mail Date"),
+        title=_("Mail Date"),
         required=False,
         min=datetime.date(1990, 1, 1),
         max=datetime.date(datetime.date.today().year + 1, 12, 31),
@@ -249,16 +249,16 @@ class IDmsOutgoingMail(IDmsDocument):
 
     dexteritytextindexer.searchable("internal_reference_no")
     internal_reference_no = schema.TextLine(
-        title=_(u"Internal Reference Number"),
+        title=_("Internal Reference Number"),
         required=False,
     )
 
-    sender = ContactChoice(title=_(u"Sender"), required=False)
+    sender = ContactChoice(title=_("Sender"), required=False)
 
-    recipients = ContactList(title=_(u"Recipients"), required=True)
+    recipients = ContactList(title=_("Recipients"), required=True)
 
     reply_to = RelatedDocs(
-        title=_(u"In Reply To"),
+        title=_("In Reply To"),
         required=False,
         object_provides=(
             "collective.dms.mailcontent.dmsmail.IDmsIncomingMail",
@@ -268,7 +268,7 @@ class IDmsOutgoingMail(IDmsDocument):
     )
 
     external_reference_no = schema.TextLine(
-        title=_(u"External Reference Number"),
+        title=_("External Reference Number"),
         required=False,
     )
 
@@ -369,50 +369,50 @@ class IOutgoingEmail(model.Schema):
     """ """
 
     email_status = schema.TextLine(
-        title=_(u"Email status"),
+        title=_("Email status"),
         required=False,
     )
     form.write_permission(email_status="cmf.ManagePortal")
 
     email_subject = schema.TextLine(
-        title=_(u"Email subject"),
+        title=_("Email subject"),
     )
 
     email_sender = schema.TextLine(
-        title=_(u"Email sender"),
+        title=_("Email sender"),
         constraint=validate_email_address,
     )
 
     email_recipient = schema.TextLine(
-        title=_(u"Email recipient"),
-        description=_(u"Multiple values must be separated by a comma."),
+        title=_("Email recipient"),
+        description=_("Multiple values must be separated by a comma."),
         constraint=validate_email_addresses,
     )
 
     email_cc = schema.TextLine(
-        title=_(u"Email cc"),
+        title=_("Email cc"),
         # description=_(u"Multiple values must be separated by a comma."),
         required=False,
         constraint=validate_email_addresses,
     )
 
     email_bcc = schema.TextLine(
-        title=_(u"Email bcc"),
+        title=_("Email bcc"),
         # description=_(u"Hidden emails."),
         required=False,
         constraint=validate_email_addresses,
     )
 
     email_attachments = schema.List(
-        title=_(u"Email attachments"),
+        title=_("Email attachments"),
         required=False,
-        value_type=schema.Choice(vocabulary=u"collective.dms.mailcontent.email_attachments_voc"),
+        value_type=schema.Choice(vocabulary="collective.dms.mailcontent.email_attachments_voc"),
     )
     form.widget("email_attachments", CheckBoxFieldWidget, multiple="multiple", size=10)
 
     email_body = RichText(
-        title=_(u"Email body"),
-        allowed_mime_types=(u"text/html",),
+        title=_("Email body"),
+        allowed_mime_types=("text/html",),
     )
 
 
@@ -421,7 +421,7 @@ class IFieldsetOutgoingEmail(IOutgoingEmail):
 
     fieldset(
         "email",
-        label=_(u"Email"),
+        label=_("Email"),
         fields=[
             "email_status",
             "email_subject",

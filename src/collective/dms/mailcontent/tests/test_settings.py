@@ -23,7 +23,7 @@ class TestSettings(unittest.TestCase):
         self.portal = self.layer["portal"]
         setRoles(self.portal, TEST_USER_ID, ["Contributor"])
         self.folder = api.content.create(container=self.portal, type="Folder", id="folder", title="Folder")
-        config = [{"name": u"ud", "token": u"ud"}]
+        config = [{"name": "ud", "token": "ud"}]
         self.dir = api.content.create(
             container=self.portal,
             type="directory",
@@ -43,30 +43,30 @@ class TestSettings(unittest.TestCase):
 
     def om_params(self, view):
         return {
-            "IDublinCore.title": u"test",
+            "IDublinCore.title": "test",
             "internal_reference_no": view.widgets["internal_reference_no"].value,
             # 'sender': self.c1, 'recipients': [self.c1]
         }
 
     def test_settings(self):
         # check default config
-        self.assertEquals(
+        self.assertEqual(
             api.portal.get_registry_record(
                 "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number"
             ),
             10,
         )
-        self.assertEquals(
+        self.assertEqual(
             api.portal.get_registry_record(
                 "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_talexpression"
             ),
-            u"python:'test-out/'+number",
+            "python:'test-out/'+number",
         )
-        self.assertEquals(
+        self.assertEqual(
             api.portal.get_registry_record(
                 "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_edit_irn"
             ),
-            u"show",
+            "show",
         )
         self.assertTrue(
             api.portal.get_registry_record(
@@ -83,14 +83,14 @@ class TestSettings(unittest.TestCase):
         add = OMCustomAddForm(self.folder, self.request)
         add.portal_type = "dmsoutgoingmail"
         add.update()
-        self.assertNotIn("_hide_irn", self.request.keys())
-        self.assertNotIn("_auto_ref", self.request.keys())
-        self.assertEquals(add.widgets["internal_reference_no"].mode, "input")  # not hidden
-        self.assertEquals(add.widgets["internal_reference_no"].value, u"test-out/10")
+        self.assertNotIn("_hide_irn", list(self.request.keys()))
+        self.assertNotIn("_auto_ref", list(self.request.keys()))
+        self.assertEqual(add.widgets["internal_reference_no"].mode, "input")  # not hidden
+        self.assertEqual(add.widgets["internal_reference_no"].value, "test-out/10")
         obj = add.createAndAdd(self.om_params(add))
         om = api.content.find(self.folder, id=obj.id)[0].getObject()
         self.assertFalse(hasattr(om, "_auto_ref"))
-        self.assertEquals(
+        self.assertEqual(
             api.portal.get_registry_record(
                 "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number"
             ),
@@ -99,9 +99,9 @@ class TestSettings(unittest.TestCase):
         self.clean_request()
         edit = OMEdit(om, self.request)
         edit.update()
-        self.assertNotIn("_hide_irn", self.request.keys())
-        self.assertNotIn("_auto_ref", self.request.keys())
-        self.assertEquals(edit.widgets["internal_reference_no"].mode, "input")  # not hidden
+        self.assertNotIn("_hide_irn", list(self.request.keys()))
+        self.assertNotIn("_auto_ref", list(self.request.keys()))
+        self.assertEqual(edit.widgets["internal_reference_no"].mode, "input")  # not hidden
         self.clean_request()
 
         # set outgoingmail_increment_number to False
@@ -110,14 +110,14 @@ class TestSettings(unittest.TestCase):
             "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_increment_number", False
         )
         add.update()
-        self.assertNotIn("_hide_irn", self.request.keys())
-        self.assertEquals(self.request["_auto_ref"], False)
-        self.assertEquals(add.widgets["internal_reference_no"].mode, "input")  # not hidden
-        self.assertEquals(add.widgets["internal_reference_no"].value, u"test-out/11")
+        self.assertNotIn("_hide_irn", list(self.request.keys()))
+        self.assertEqual(self.request["_auto_ref"], False)
+        self.assertEqual(add.widgets["internal_reference_no"].mode, "input")  # not hidden
+        self.assertEqual(add.widgets["internal_reference_no"].value, "test-out/11")
         obj = add.createAndAdd(self.om_params(add))
         om = api.content.find(self.folder, id=obj.id)[0].getObject()
-        self.assertEquals(om._auto_ref, False)
-        self.assertEquals(
+        self.assertEqual(om._auto_ref, False)
+        self.assertEqual(
             api.portal.get_registry_record(
                 "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number"
             ),
@@ -126,9 +126,9 @@ class TestSettings(unittest.TestCase):
         self.clean_request()
         edit = OMEdit(om, self.request)
         edit.update()
-        self.assertNotIn("_hide_irn", self.request.keys())
-        self.assertEquals(self.request["_auto_ref"], False)
-        self.assertEquals(edit.widgets["internal_reference_no"].mode, "input")  # not hidden
+        self.assertNotIn("_hide_irn", list(self.request.keys()))
+        self.assertEqual(self.request["_auto_ref"], False)
+        self.assertEqual(edit.widgets["internal_reference_no"].mode, "input")  # not hidden
         self.clean_request()
 
         # set outgoingmail_increment_number to False and outgoingmail_edit_irn to hide
@@ -137,15 +137,15 @@ class TestSettings(unittest.TestCase):
             "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_edit_irn", "hide"
         )
         add.update()
-        self.assertEquals(self.request["_hide_irn"], True)
-        self.assertNotIn("_auto_ref", self.request.keys())
-        self.assertEquals(add.widgets["internal_reference_no"].mode, "hidden")
-        self.assertEquals(add.widgets["internal_reference_no"].value, u"")
+        self.assertEqual(self.request["_hide_irn"], True)
+        self.assertNotIn("_auto_ref", list(self.request.keys()))
+        self.assertEqual(add.widgets["internal_reference_no"].mode, "hidden")
+        self.assertEqual(add.widgets["internal_reference_no"].value, "")
         obj = add.createAndAdd(self.om_params(add))
         om = api.content.find(self.folder, id=obj.id)[0].getObject()
-        self.assertEquals(om.internal_reference_no, u"test-out/11")
+        self.assertEqual(om.internal_reference_no, "test-out/11")
         self.assertFalse(hasattr(om, "_auto_ref"))
-        self.assertEquals(
+        self.assertEqual(
             api.portal.get_registry_record(
                 "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number"
             ),
@@ -154,9 +154,9 @@ class TestSettings(unittest.TestCase):
         self.clean_request()
         edit = OMEdit(om, self.request)
         edit.update()
-        self.assertEquals(self.request["_hide_irn"], True)
-        self.assertNotIn("_auto_ref", self.request.keys())
-        self.assertEquals(edit.widgets["internal_reference_no"].mode, "hidden")
+        self.assertEqual(self.request["_hide_irn"], True)
+        self.assertNotIn("_auto_ref", list(self.request.keys()))
+        self.assertEqual(edit.widgets["internal_reference_no"].mode, "hidden")
         self.clean_request()
 
         # set outgoingmail_increment_number to False and outgoingmail_edit_irn to reply
@@ -165,15 +165,15 @@ class TestSettings(unittest.TestCase):
             "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_edit_irn", "reply"
         )
         add.update()
-        self.assertEquals(self.request["_hide_irn"], True)
-        self.assertNotIn("_auto_ref", self.request.keys())
-        self.assertEquals(add.widgets["internal_reference_no"].mode, "hidden")
-        self.assertEquals(add.widgets["internal_reference_no"].value, u"")
+        self.assertEqual(self.request["_hide_irn"], True)
+        self.assertNotIn("_auto_ref", list(self.request.keys()))
+        self.assertEqual(add.widgets["internal_reference_no"].mode, "hidden")
+        self.assertEqual(add.widgets["internal_reference_no"].value, "")
         obj = add.createAndAdd(self.om_params(add))
         om = api.content.find(self.folder, id=obj.id)[0].getObject()
-        self.assertEquals(om.internal_reference_no, u"test-out/12")
+        self.assertEqual(om.internal_reference_no, "test-out/12")
         self.assertFalse(hasattr(om, "_auto_ref"))
-        self.assertEquals(
+        self.assertEqual(
             api.portal.get_registry_record(
                 "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number"
             ),
@@ -183,37 +183,37 @@ class TestSettings(unittest.TestCase):
         edit = OMEdit(om, self.request)
         edit.update()
         # is not a response
-        self.assertEquals(self.request["_hide_irn"], True)
-        self.assertNotIn("_auto_ref", self.request.keys())
-        self.assertEquals(edit.widgets["internal_reference_no"].mode, "hidden")
+        self.assertEqual(self.request["_hide_irn"], True)
+        self.assertNotIn("_auto_ref", list(self.request.keys()))
+        self.assertEqual(edit.widgets["internal_reference_no"].mode, "hidden")
         self.clean_request()
         # is a response but no workflow
         setattr(om, "_is_response", True)
         edit.update()
-        self.assertEquals(api.content.get_state(om, default="no_workflow"), "no_workflow")
-        self.assertEquals(edit.is_initial_state(), True)  # has no workflow
-        self.assertNotIn("_hide_irn", self.request.keys())
-        self.assertEquals(self.request["_auto_ref"], False)
-        self.assertEquals(edit.widgets["internal_reference_no"].mode, "input")  # not hidden
+        self.assertEqual(api.content.get_state(om, default="no_workflow"), "no_workflow")
+        self.assertEqual(edit.is_initial_state(), True)  # has no workflow
+        self.assertNotIn("_hide_irn", list(self.request.keys()))
+        self.assertEqual(self.request["_auto_ref"], False)
+        self.assertEqual(edit.widgets["internal_reference_no"].mode, "input")  # not hidden
         self.clean_request()
         # is a response, workflow and initial state
         pw = self.portal.portal_workflow
         pw.setChainForPortalTypes(["dmsoutgoingmail"], "intranet_workflow")
         edit.update()
-        self.assertEquals(api.content.get_state(om), "internal")
-        self.assertEquals(edit.is_initial_state(), True)
-        self.assertNotIn("_hide_irn", self.request.keys())
-        self.assertEquals(self.request["_auto_ref"], False)
-        self.assertEquals(edit.widgets["internal_reference_no"].mode, "input")  # not hidden
+        self.assertEqual(api.content.get_state(om), "internal")
+        self.assertEqual(edit.is_initial_state(), True)
+        self.assertNotIn("_hide_irn", list(self.request.keys()))
+        self.assertEqual(self.request["_auto_ref"], False)
+        self.assertEqual(edit.widgets["internal_reference_no"].mode, "input")  # not hidden
         self.clean_request()
         # is a response, workflow and not initial state
         api.content.transition(om, "submit")
         edit.update()
-        self.assertEquals(api.content.get_state(om), "pending")
-        self.assertEquals(edit.is_initial_state(), False)
-        self.assertEquals(self.request["_hide_irn"], True)
-        self.assertNotIn("_auto_ref", self.request.keys())
-        self.assertEquals(edit.widgets["internal_reference_no"].mode, "hidden")
+        self.assertEqual(api.content.get_state(om), "pending")
+        self.assertEqual(edit.is_initial_state(), False)
+        self.assertEqual(self.request["_hide_irn"], True)
+        self.assertNotIn("_auto_ref", list(self.request.keys()))
+        self.assertEqual(edit.widgets["internal_reference_no"].mode, "hidden")
         self.clean_request()
 
         # Testing reply view
@@ -222,9 +222,9 @@ class TestSettings(unittest.TestCase):
             container=self.folder,
             type="dmsincomingmail",
             id="im",
-            title=u"I mail",
+            title="I mail",
             sender=[RelationValue(intids.getId(self.c1))],
-            external_reference_no=u"xx/1",
+            external_reference_no="xx/1",
             treating_groups=["Administrators"],
         )
         api.portal.set_registry_record(
@@ -235,16 +235,16 @@ class TestSettings(unittest.TestCase):
         )
         reply = ReplyForm(im, self.request)
         reply.update()
-        self.assertEquals(self.request["_irn"], "test-in/10")
-        self.assertEquals(self.request["_hide_irn"], False)
-        self.assertNotIn("_auto_ref", self.request.keys())
-        self.assertEquals(reply.widgets["internal_reference_no"].mode, "input")  # not hidden
-        self.assertEquals(reply.widgets["internal_reference_no"].value, u"test-out/13")
+        self.assertEqual(self.request["_irn"], "test-in/10")
+        self.assertEqual(self.request["_hide_irn"], False)
+        self.assertNotIn("_auto_ref", list(self.request.keys()))
+        self.assertEqual(reply.widgets["internal_reference_no"].mode, "input")  # not hidden
+        self.assertEqual(reply.widgets["internal_reference_no"].value, "test-out/13")
         obj = reply.createAndAdd(self.om_params(reply))
         om = api.content.find(self.folder, id=obj.id)[0].getObject()
         self.assertFalse(hasattr(om, "_auto_ref"))
-        self.assertEquals(om._is_response, True)
-        self.assertEquals(
+        self.assertEqual(om._is_response, True)
+        self.assertEqual(
             api.portal.get_registry_record(
                 "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number"
             ),
@@ -258,14 +258,14 @@ class TestSettings(unittest.TestCase):
             "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_increment_number", False
         )
         reply.update()
-        self.assertEquals(self.request["_hide_irn"], False)
-        self.assertEquals(self.request["_auto_ref"], False)
-        self.assertEquals(reply.widgets["internal_reference_no"].mode, "input")  # not hidden
-        self.assertEquals(reply.widgets["internal_reference_no"].value, u"test-out/14")
+        self.assertEqual(self.request["_hide_irn"], False)
+        self.assertEqual(self.request["_auto_ref"], False)
+        self.assertEqual(reply.widgets["internal_reference_no"].mode, "input")  # not hidden
+        self.assertEqual(reply.widgets["internal_reference_no"].value, "test-out/14")
         obj = reply.createAndAdd(self.om_params(reply))
         om = api.content.find(self.folder, id=obj.id)[0].getObject()
-        self.assertEquals(om._auto_ref, False)
-        self.assertEquals(
+        self.assertEqual(om._auto_ref, False)
+        self.assertEqual(
             api.portal.get_registry_record(
                 "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number"
             ),
@@ -279,15 +279,15 @@ class TestSettings(unittest.TestCase):
             "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_edit_irn", "hide"
         )
         reply.update()
-        self.assertEquals(self.request["_hide_irn"], True)
-        self.assertNotIn("_auto_ref", self.request.keys())
-        self.assertEquals(reply.widgets["internal_reference_no"].mode, "hidden")
-        self.assertEquals(reply.widgets["internal_reference_no"].value, u"")
+        self.assertEqual(self.request["_hide_irn"], True)
+        self.assertNotIn("_auto_ref", list(self.request.keys()))
+        self.assertEqual(reply.widgets["internal_reference_no"].mode, "hidden")
+        self.assertEqual(reply.widgets["internal_reference_no"].value, "")
         obj = reply.createAndAdd(self.om_params(reply))
         om = api.content.find(self.folder, id=obj.id)[0].getObject()
-        self.assertEquals(om.internal_reference_no, u"test-out/14")
+        self.assertEqual(om.internal_reference_no, "test-out/14")
         self.assertFalse(hasattr(om, "_auto_ref"))
-        self.assertEquals(
+        self.assertEqual(
             api.portal.get_registry_record(
                 "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number"
             ),
@@ -301,14 +301,14 @@ class TestSettings(unittest.TestCase):
             "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_edit_irn", "reply"
         )
         reply.update()
-        self.assertEquals(self.request["_hide_irn"], False)
-        self.assertEquals(self.request["_auto_ref"], False)
-        self.assertEquals(reply.widgets["internal_reference_no"].mode, "input")  # not hidden
-        self.assertEquals(reply.widgets["internal_reference_no"].value, u"test-out/15")
+        self.assertEqual(self.request["_hide_irn"], False)
+        self.assertEqual(self.request["_auto_ref"], False)
+        self.assertEqual(reply.widgets["internal_reference_no"].mode, "input")  # not hidden
+        self.assertEqual(reply.widgets["internal_reference_no"].value, "test-out/15")
         obj = reply.createAndAdd(self.om_params(reply))
         om = api.content.find(self.folder, id=obj.id)[0].getObject()
-        self.assertEquals(om._auto_ref, False)
-        self.assertEquals(
+        self.assertEqual(om._auto_ref, False)
+        self.assertEqual(
             api.portal.get_registry_record(
                 "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number"
             ),
