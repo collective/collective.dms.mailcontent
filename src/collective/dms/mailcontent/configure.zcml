@@ -42,16 +42,6 @@
       name="schema_policy_dmsoutgoingmail"
       />
 
-  <browser:resource
-      name="dmsincomingmail_icon.png"
-      image="dmsincomingmail_icon.png"
-      />
-
-  <browser:resource
-      name="dmsoutgoingmail_icon.png"
-      image="dmsoutgoingmail_icon.png"
-      />
-
   <adapter factory=".dmsmail.InternalReferenceIncomingMailValidator" />
   <adapter factory=".dmsmail.InternalReferenceOutgoingMailValidator" />
   <adapter factory=".dmsmail.IMReplyToValidator" />
