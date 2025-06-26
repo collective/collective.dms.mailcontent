@@ -12,7 +12,7 @@ from zope.annotation import IAnnotations
 from zope.component import getUtility
 from zope.intid import IIntIds
 
-import unittest2 as unittest
+import unittest
 
 
 class TestVocabularies(unittest.TestCase):
@@ -28,9 +28,7 @@ class TestVocabularies(unittest.TestCase):
             container=self.portal, type="dmsincomingmail", id="im1", title="I mail", treating_groups=["Administrators"]
         )
         createContentInContainer(self.im1, "dmsmainfile", title="D001", file=NamedBlobFile(filename="scanned.pdf"))
-        createContentInContainer(
-            self.im1, "dmsappendixfile", title="A001", file=NamedBlobFile(filename="appendix.odt")
-        )
+        createContentInContainer(self.im1, "dmsappendixfile", title="A001", file=NamedBlobFile(filename="appendix.odt"))
         self.om1 = api.content.create(
             container=self.portal,
             type="dmsoutgoingmail",
