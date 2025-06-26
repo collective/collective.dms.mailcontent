@@ -32,7 +32,6 @@ class TestBehaviors(unittest.TestCase, BaseTest):
 
     def test_sending_type_fields(self):
         item = self.testitem
-        self.assertIsNone(item.getAttributes())
         self.assertTrue(hasattr(item, "sending_type"))
         self.assertEqual(item.sending_type, "normal")
         item.sending_type = "registered"

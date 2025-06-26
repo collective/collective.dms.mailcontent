@@ -21,6 +21,7 @@ from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from zope import schema
 from zope.component import getMultiAdapter
 from zope.component import getUtility
+from zope.globalrequest import getRequest
 from zope.interface import implementer
 from zope.interface import Invalid
 from zope.interface import provider
@@ -111,7 +112,7 @@ def internalReferenceIncomingMailDefaultValue(context):
     """
     return evaluateInternalReference(
         context,
-        context.REQUEST,
+        getRequest(),
         "collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number",
         "collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_talexpression",
     )
@@ -203,13 +204,13 @@ def evaluateInternalReference(context, request, number_registry_name, talexpress
     number = registry.get(number_registry_name) or 1
     # we get the portal
     try:
-        portal_state = getMultiAdapter((context, request), name="plone_portal_state")
-        settings_view = getMultiAdapter((portal_state.portal(), request), name="dmsmailcontent-settings")
+        portal = api.portal.get()
+        settings_view = getMultiAdapter((portal, request), name="dmsmailcontent-settings")
     except ComponentLookupError:
         return "Error getting view..."
     # we evaluate the expression
     expression = registry.get(talexpression_registry_name)
-    value = settings_view.evaluateTalExpression(expression, context, request, portal_state.portal(), number)
+    value = settings_view.evaluateTalExpression(expression, context, request, portal, number)
     return value
 
 
@@ -234,7 +235,7 @@ def incrementIncomingMailNumber(incomingmail, event):
     if not incomingmail.internal_reference_no:
         internal_reference_no = evaluateInternalReference(
             incomingmail,
-            incomingmail.REQUEST,
+            getRequest(),
             "collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number",
             "collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_talexpression",
         )
@@ -258,9 +259,10 @@ def internalReferenceOutgoingMailDefaultValue(context):
     """
     Default value of internal_reference_no for dmsoutgoingmail
     """
+
     return evaluateInternalReference(
         context,
-        context.REQUEST,
+        getRequest(),
         "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number",
         "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_talexpression",
     )
@@ -340,7 +342,7 @@ def incrementOutgoingMailNumber(outgoingmail, event):
     if not outgoingmail.internal_reference_no:
         internal_reference_no = evaluateInternalReference(
             outgoingmail,
-            outgoingmail.REQUEST,
+            getRequest(),
             "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number",
             "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_talexpression",
         )
