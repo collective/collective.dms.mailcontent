@@ -11,7 +11,7 @@
         category="Products"
         condition_expr=""
         url_expr="string:${portal_url}/@@dmsmailcontent-settings"
-        icon_expr=""
+        icon_expr="string:envelope-at"
         visible="True"
         i18n:attributes="title">
         <permission>Plone Site Setup: Site</permission>
