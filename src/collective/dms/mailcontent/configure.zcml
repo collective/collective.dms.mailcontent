@@ -13,8 +13,6 @@
   <include package=".upgrades" />
   <include file="behaviors.zcml" />
 
-  <include package="plone.app.controlpanel" />
-
   <i18n:registerTranslations directory="locales" />
 
   <include package="plone.api" />
@@ -24,7 +22,6 @@
   <include package="collective.dms.basecontent" />
   <include package="collective.contact.core" />
   <!-- TODO MIGRATION-PLONE6 include package="plone.formwidget.datetime" /-->
-  <include package="collective.dexteritytextindexer"/>
 
   <genericsetup:registerProfile
       name="default"

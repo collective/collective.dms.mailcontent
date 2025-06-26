@@ -1,4 +1,3 @@
-from collective import dexteritytextindexer
 from collective.contact.widget.schema import ContactChoice
 from collective.contact.widget.schema import ContactList
 from collective.dms.basecontent.dmsdocument import DmsDocument
@@ -9,6 +8,7 @@ from imio.helpers.content import get_relations
 from imio.helpers.emailer import validate_email_address
 from imio.helpers.emailer import validate_email_addresses
 from plone import api
+from plone.app.dexterity import textindexer
 from plone.app.textfield import RichText
 from plone.autoform import directives as form
 from plone.dexterity.schema import DexteritySchemaPolicy
@@ -145,7 +145,7 @@ class IDmsIncomingMail(IDmsDocument):
         required=False,
     )
 
-    dexteritytextindexer.searchable("internal_reference_no")
+    textindexer.searchable("internal_reference_no")
     internal_reference_no = schema.TextLine(
         title=_("Internal Reference Number"),
         required=False,
@@ -277,7 +277,7 @@ class IDmsOutgoingMail(IDmsDocument):
         defaultFactory=mailDateDefaultValue,
     )
 
-    dexteritytextindexer.searchable("internal_reference_no")
+    textindexer.searchable("internal_reference_no")
     internal_reference_no = schema.TextLine(
         title=_("Internal Reference Number"),
         required=False,
