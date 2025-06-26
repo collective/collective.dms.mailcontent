@@ -114,7 +114,7 @@ def internalReferenceIncomingMailDefaultValue(context):
         context.REQUEST,
         "collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number",
         "collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_talexpression",
-    ).decode("utf8")
+    )
 
 
 class IDmsIncomingMail(IDmsDocument):
@@ -221,8 +221,8 @@ class DmsIncomingMail(DmsDocument):
 
     def Title(self):
         if self.internal_reference_no is None:
-            return self.title.encode("utf8")
-        return "%s - %s" % (self.internal_reference_no.encode("utf8"), self.title.encode("utf8"))
+            return self.title
+        return "%s - %s" % (self.internal_reference_no, self.title)
 
 
 def incrementIncomingMailNumber(incomingmail, event):
@@ -263,7 +263,7 @@ def internalReferenceOutgoingMailDefaultValue(context):
         context.REQUEST,
         "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number",
         "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_talexpression",
-    ).decode("utf8")
+    )
 
 
 class IDmsOutgoingMail(IDmsDocument):
@@ -357,8 +357,8 @@ class DmsOutgoingMail(DmsDocument):
 
     def Title(self):
         if self.internal_reference_no is None:
-            return self.title.encode("utf8")
-        return "%s - %s" % (self.internal_reference_no.encode("utf8"), self.title.encode("utf8"))
+            return self.title
+        return "%s - %s" % (self.internal_reference_no, self.title)
 
     def get_replied(self, first=True, intf=IDmsIncomingMail):
         normals = [obj for obj in get_relations(self, "reply_to", backrefs=False, as_obj=True) if intf.providedBy(obj)]
