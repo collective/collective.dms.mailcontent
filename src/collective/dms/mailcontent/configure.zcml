@@ -6,6 +6,7 @@
     i18n_domain="collective.dms.mailcontent">
 
   <include package="Products.CMFCore" />  <!-- for cmf permissions /-->
+  <include package="Products.CMFPlone" />  <!-- for controlpanel permissions /-->
 
   <include file="permissions.zcml" />
 
