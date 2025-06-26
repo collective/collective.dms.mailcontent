@@ -1,9 +1,9 @@
 from collective.dms.basecontent.dmsdocument import IDmsDocument
 from collective.dms.mailcontent.dmsmail import IDmsIncomingMail
 from collective.dms.mailcontent.dmsmail import IDmsOutgoingMail
+from plone.base.utils import base_hasattr
 from plone.indexer import indexer
-from Products.CMFPlone.utils import base_hasattr
-from Products.PluginIndexes.common.UnIndex import _marker
+from Products.PluginIndexes.unindex import _marker
 
 
 @indexer(IDmsIncomingMail)

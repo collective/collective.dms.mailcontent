@@ -15,7 +15,7 @@ from zope.intid import IIntIds
 from zope.lifecycleevent import modified
 
 import datetime
-import unittest2 as unittest
+import unittest
 
 
 class TestContentTypes(unittest.TestCase):

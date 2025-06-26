@@ -9,7 +9,7 @@ from plone.autoform.interfaces import IFormFieldProvider
 from plone.behavior.interfaces import IBehavior
 from zope.component import getUtility
 
-import unittest2 as unittest
+import unittest
 
 
 class TestBehaviors(unittest.TestCase, BaseTest):
