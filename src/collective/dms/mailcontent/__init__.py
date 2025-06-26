@@ -13,7 +13,6 @@ def initialize(context):
 
 def _tr(msgid, domain="collective.dms.mailcontent", mapping=None):
     translation_domain = getUtility(ITranslationDomain, domain)
-    sp = api.portal.get().portal_properties.site_properties
     return translation_domain.translate(
-        msgid, target_language=sp.getProperty("default_language", "fr"), mapping=mapping
+        msgid, target_language=api.portal.get_registry_record("plone.default_language", default="fr"), mapping=mapping
     )
