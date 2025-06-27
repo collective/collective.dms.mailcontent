@@ -6,10 +6,12 @@ from plone import api
 from plone.dexterity.browser.add import DefaultAddForm
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity.utils import addContentToContainer
+from plone.z3cform.interfaces import IDeferSecurityCheck
 from Products.CMFPlone.utils import safe_unicode
 from zc.relation.interfaces import ICatalog
 from zope.component import getMultiAdapter
 from zope.component import getUtility
+from zope.interface import alsoProvides
 from zope.interface.interfaces import ComponentLookupError
 from zope.intid.interfaces import IIntIds
 
@@ -25,6 +27,7 @@ class ReplyForm(DefaultAddForm):
     def __init__(self, context, request, ti=None):
         super(ReplyForm, self).__init__(context, request, ti=ti)
         self.linked_paths = None
+        alsoProvides(request, IDeferSecurityCheck)
 
     def _get_linked_mails(self, imail):
         if self.linked_paths is not None:

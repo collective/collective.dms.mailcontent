@@ -31,14 +31,14 @@ class TestContentTypes(unittest.TestCase):
 
 class TestDmsmailMethods(TestContentTypes):
     def test_reception_date_default_value(self):
-        reception_date = dmsmail.receptionDateDefaultValue("")
+        reception_date = dmsmail.receptionDateDefaultValue()
         current_date = datetime.datetime.now()
         self.assertEqual(reception_date.date(), current_date.date())
         self.assertEqual(reception_date.hour, current_date.hour)
         self.assertEqual(reception_date.minute, current_date.minute)
 
     def test_original_date_default_value(self):
-        self.assertEqual(dmsmail.originalMailDateDefaultValue(""), datetime.date.today() - datetime.timedelta(3))
+        self.assertEqual(dmsmail.originalMailDateDefaultValue(), datetime.date.today() - datetime.timedelta(3))
 
     def test_validateIndexValueUniqueness(self):
         imail1 = createContentInContainer(
