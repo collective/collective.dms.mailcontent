@@ -198,7 +198,7 @@ validator.WidgetValidatorDiscriminators(IMReplyToValidator, field=IDmsIncomingMa
 
 
 def evaluateInternalReference(context, request, number_registry_name, talexpression_registry_name):
-    # return a generated internal reference number
+    """Return a generated internal reference number"""
     registry = getUtility(IRegistry)
     # we get the following mail number, stored in registry
     number = registry.get(number_registry_name) or 1
@@ -232,7 +232,8 @@ def incrementIncomingMailNumber(incomingmail, event):
     # useless if the internal_reference_no field is hidden (in this case,
     #                                                       default value must be empty to bypass validator)
     # useless to manage automatically the internal_reference_no value without user action
-    if not incomingmail.internal_reference_no:
+    # to be sure checking the value is really set and not getting default value when accessing fieldname
+    if "internal_reference_no" not in incomingmail.__dict__:
         internal_reference_no = evaluateInternalReference(
             incomingmail,
             getRequest(),
@@ -339,7 +340,8 @@ def incrementOutgoingMailNumber(outgoingmail, event):
     # useful if the internal_reference_no field is hidden (in this case,
     #                                                      default value must be empty to bypass validator)
     # useful to manage automatically the internal_reference_no value without user action
-    if not outgoingmail.internal_reference_no:
+    # to be sure checking the value is really set and not getting default value when accessing fieldname
+    if "internal_reference_no" not in outgoingmail.__dict__:
         internal_reference_no = evaluateInternalReference(
             outgoingmail,
             getRequest(),
