@@ -2,7 +2,6 @@ from collective.contact.widget.schema import ContactChoice
 from collective.contact.widget.schema import ContactList
 from collective.dms.basecontent.dmsdocument import DmsDocument
 from collective.dms.basecontent.dmsdocument import IDmsDocument
-from collective.dms.basecontent.relateddocs import RelatedDocs
 from collective.dms.mailcontent import _
 from imio.helpers.content import get_relations
 from imio.helpers.emailer import validate_email_address
@@ -10,6 +9,7 @@ from imio.helpers.emailer import validate_email_addresses
 from plone import api
 from plone.app.dexterity import textindexer
 from plone.app.textfield import RichText
+from plone.app.vocabularies.catalog import CatalogSource
 from plone.autoform import directives as form
 from plone.dexterity.schema import DexteritySchemaPolicy
 from plone.registry.interfaces import IRegistry
@@ -18,6 +18,8 @@ from plone.supermodel.directives import fieldset
 from Products.CMFPlone.utils import getToolByName
 from z3c.form import validator
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
+from z3c.relationfield import RelationChoice
+from z3c.relationfield import RelationList
 from zope import schema
 from zope.component import getMultiAdapter
 from zope.component import getUtility
@@ -157,14 +159,19 @@ class IDmsIncomingMail(IDmsDocument):
 
     recipients = ContactList(title=_("Recipients"), required=False)
 
-    reply_to = RelatedDocs(
+    reply_to = RelationList(
         title=_("In Reply To"),
         required=False,
-        object_provides=(
-            "collective.dms.mailcontent.dmsmail.IDmsIncomingMail",
-            "collective.dms.mailcontent.dmsmail.IDmsOutgoingMail",
+        value_type=RelationChoice(
+            title=u"",
+            source=CatalogSource(
+                object_provides=(
+                    "collective.dms.mailcontent.dmsmail.IDmsIncomingMail",
+                    "collective.dms.mailcontent.dmsmail.IDmsOutgoingMail",
+                )
+            ),
         ),
-        display_backrefs=True,
+        # display_backrefs=True,  TODO MIGRATION-PLONE6 option not available in widget
     )
 
     form.order_before(sender="treating_groups")
@@ -291,14 +298,19 @@ class IDmsOutgoingMail(IDmsDocument):
 
     recipients = ContactList(title=_("Recipients"), required=True)
 
-    reply_to = RelatedDocs(
+    reply_to = RelationList(
         title=_("In Reply To"),
         required=False,
-        object_provides=(
-            "collective.dms.mailcontent.dmsmail.IDmsIncomingMail",
-            "collective.dms.mailcontent.dmsmail.IDmsOutgoingMail",
+        value_type=RelationChoice(
+            title=u"",
+            source=CatalogSource(
+                object_provides=(
+                    "collective.dms.mailcontent.dmsmail.IDmsIncomingMail",
+                    "collective.dms.mailcontent.dmsmail.IDmsOutgoingMail",
+                )
+            ),
         ),
-        display_backrefs=True,
+        # display_backrefs=True,  TODO MIGRATION-PLONE6 option not available in widget
     )
 
     external_reference_no = schema.TextLine(
