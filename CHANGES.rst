@@ -4,8 +4,8 @@ Changelog
 1.17.2 (unreleased)
 -------------------
 
-- Nothing changed yet.
-
+- Migrated to Plone 6.1.
+  [sgeulette]
 
 1.17.1 (2026-03-26)
 -------------------
