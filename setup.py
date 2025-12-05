@@ -48,7 +48,7 @@ setup(
         "plone.directives.form",
         "collective.contact.core",
         "collective.dexteritytextindexer",
-        "collective.dms.basecontent",
+        "collective.dms.basecontent>=1.14",
         "imio.helpers>=0.55",
         "plone.formwidget.datetime",
         #'plone.app.relationfield',
