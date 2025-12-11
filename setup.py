@@ -48,10 +48,10 @@ setup(
         "plone.directives.form",
         "collective.contact.core",
         "collective.dexteritytextindexer",
-        "collective.dms.basecontent",
+        "collective.dms.basecontent>1.99",
         "imio.helpers>=0.55",
         "plone.formwidget.datetime",
-        #'plone.app.relationfield',
+        # "plone.app.relationfield",
         "five.grok",
     ],
     extras_require={

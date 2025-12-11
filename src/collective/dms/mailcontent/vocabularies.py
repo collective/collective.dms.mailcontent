@@ -46,7 +46,10 @@ class EmailAttachmentsVocabulary(object):
             else:
                 title = u"{}  (« {} »)".format(ftitle, obj.file.filename)
             # TODO Mark signed version
-            if getattr(brain, "signed", False):  # from collective.dms.scanbehavior
+            document = obj.aq_parent
+            cat_elems = getattr(document, "categorized_elements", {})  # from collective.iconifiedcategory
+            signed = cat_elems.get(brain.UID, {}).get("signed", False)
+            if signed:
                 typ = u"{} signed".format(brain.portal_type)
             else:
                 typ = brain.portal_type
@@ -80,7 +83,10 @@ class EmailAttachmentsVocabulary(object):
                     title = ftitle
                 else:
                     title = u"{}  (« {} »)".format(ftitle, obj.file.filename)
-                if getattr(brain, "signed", False):  # from collective.dms.scanbehavior
+                document = obj.aq_parent
+                cat_elems = getattr(document, "categorized_elements", {})  # from collective.iconifiedcategory
+                signed = cat_elems.get(brain.UID, {}).get("signed", False)
+                if signed:
                     typ = u"{} signed".format(brain.portal_type)
                 else:
                     typ = brain.portal_type
