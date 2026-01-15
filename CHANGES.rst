@@ -4,15 +4,14 @@ Changelog
 1.17.1 (unreleased)
 -------------------
 
-- Nothing changed yet.
-
+- Made gha and tests run again.
+  [sgeulette]
 
 1.17.0 (2026-01-15)
 -------------------
 
 - Removed 'to_sign' and 'signed' fields from scanbehavior.
   [chris-adam]
-
 
 1.16.4 (2025-06-24)
 -------------------
