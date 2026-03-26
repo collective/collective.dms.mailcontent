@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.17.1 (unreleased)
+1.17.1 (2026-03-26)
 -------------------
 
 - Made gha and tests run again.
