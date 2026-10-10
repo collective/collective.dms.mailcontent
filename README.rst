@@ -1,3 +1,9 @@
+.. image:: https://github.com/collective/collective.dms.mailcontent/actions/workflows/main.yml/badge.svg
+    :target: https://github.com/collective/collective.dms.mailcontent/actions/workflows/main.yml
+
+.. image:: https://coveralls.io/repos/github/collective/collective.dms.mailcontent/badge.svg
+    :target: https://coveralls.io/github/collective/collective.dms.mailcontent
+
 Introduction
 ============
 
@@ -13,11 +19,3 @@ Features
 - Add dmsoutgoingmail type : content type to handle metadata of an outgoing mail
 
 Handle a reply form to create an outgoing mail from an incoming mail.
-
-Tests
-=====
-
-This add-on is tested using Travis CI. The current status of the add-on is :
-
-.. image:: https://secure.travis-ci.org/collective/collective.dms.mailcontent.png
-    :target: http://travis-ci.org/collective/collective.dms.mailcontent

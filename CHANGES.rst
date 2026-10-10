@@ -1,11 +1,11 @@
 Changelog
 =========
 
-1.17.2 (unreleased)
--------------------
+2.0.0 (unreleased)
+------------------
 
-- Migrated to Plone 6.1.
-  [sgeulette]
+- Migrated to Plone 6.2, based on the work started by @sgeulette on `plone6`.
+  [sgeulette, chris-adam]
 
 1.17.1 (2026-03-26)
 -------------------

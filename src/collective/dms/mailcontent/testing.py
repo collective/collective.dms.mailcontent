@@ -13,6 +13,7 @@ from zope.globalrequest.local import setLocal
 import collective.dms.mailcontent
 import collective.iconifiedcategory
 import os
+import transaction
 
 
 class MailcontentLayer(PloneSandboxLayer):
@@ -58,6 +59,9 @@ class MailcontentLayer(PloneSandboxLayer):
                 # only_pdf=True,
                 show_preview=False,
             )
+        # the indexing queue (image scales need the registry) must run before the layer unsets the site
+        transaction.commit()
+        setLocal("request", None)
 
 
 COLLECTIVE_DMS_MAILCONTENT = MailcontentLayer()

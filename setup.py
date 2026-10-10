@@ -4,7 +4,7 @@ from setuptools import find_packages
 from setuptools import setup
 
 
-version = "1.17.2.dev0"
+version = "2.0.0.dev0"
 
 long_description = (
     open("README.rst").read() + "\n" + "Contributors\n"
@@ -20,7 +20,7 @@ setup(
         "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
         "Framework :: Plone",
-        "Framework :: Plone :: 6.1",
+        "Framework :: Plone :: 6.2",
         "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
@@ -36,23 +36,22 @@ setup(
     license="gpl",
     packages=find_packages("src"),
     package_dir={"": "src"},
-    namespace_packages=["collective", "collective.dms"],
     include_package_data=True,
     zip_safe=False,
+    python_requires=">=3.10",
     install_requires=[
         "setuptools",
         "plone.api",
         "plone.app.dexterity",
         "collective.contact.core",
+        "collective.contact.widget",
         "collective.dms.basecontent>1.99",
         "imio.helpers>=0.55",
-        # "plone.formwidget.datetime",  # TODO MIGRATION-PLONE6
-        # "plone.app.relationfield",
+        "plone.app.relationfield",
     ],
     extras_require={
         "test": [
             "plone.app.testing",
-            "unittest2",
             "ecreall.helpers.testing",
         ],
     },

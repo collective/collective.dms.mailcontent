@@ -240,7 +240,7 @@ def incrementIncomingMailNumber(incomingmail, event):
     #                                                       default value must be empty to bypass validator)
     # useless to manage automatically the internal_reference_no value without user action
     # to be sure checking the value is really set and not getting default value when accessing fieldname
-    if "internal_reference_no" not in incomingmail.__dict__:
+    if not incomingmail.__dict__.get("internal_reference_no"):
         internal_reference_no = evaluateInternalReference(
             incomingmail,
             getRequest(),
@@ -353,7 +353,7 @@ def incrementOutgoingMailNumber(outgoingmail, event):
     #                                                      default value must be empty to bypass validator)
     # useful to manage automatically the internal_reference_no value without user action
     # to be sure checking the value is really set and not getting default value when accessing fieldname
-    if "internal_reference_no" not in outgoingmail.__dict__:
+    if not outgoingmail.__dict__.get("internal_reference_no"):
         internal_reference_no = evaluateInternalReference(
             outgoingmail,
             getRequest(),
