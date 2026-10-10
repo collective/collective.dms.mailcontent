@@ -154,7 +154,7 @@ class IDmsIncomingMail(IDmsDocument):
         title=_("In Reply To"),
         required=False,
         value_type=RelationChoice(
-            title=u"",
+            title="",
             source=CatalogSource(
                 object_provides=(
                     "collective.dms.mailcontent.dmsmail.IDmsIncomingMail",
@@ -297,7 +297,7 @@ class IDmsOutgoingMail(IDmsDocument):
         title=_("In Reply To"),
         required=False,
         value_type=RelationChoice(
-            title=u"",
+            title="",
             source=CatalogSource(
                 object_provides=(
                     "collective.dms.mailcontent.dmsmail.IDmsIncomingMail",

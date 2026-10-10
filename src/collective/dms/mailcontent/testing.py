@@ -53,7 +53,7 @@ class MailcontentLayer(PloneSandboxLayer):
                 type="ContentCategory",
                 title="To sign",
                 container=category_group,
-                icon=NamedBlobImage(fl.read(), filename=u"icône1.png"),
+                icon=NamedBlobImage(fl.read(), filename="icône1.png"),
                 id="to_sign",
                 predefined_title="To be signed",
                 # confidential=True,

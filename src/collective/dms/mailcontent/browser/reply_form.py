@@ -17,7 +17,6 @@ from zope.intid.interfaces import IIntIds
 
 
 class ReplyForm(DefaultAddForm):
-
     """Form to reply to an incoming mail."""
 
     description = ""

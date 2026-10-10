@@ -28,12 +28,12 @@ def postInstall(context):
     if not registry.get("collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number"):
         registry["collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number"] = 1
     if not registry.get("collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_talexpression"):
-        registry[
-            "collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_talexpression"
-        ] = "python:'in/'+number"
+        registry["collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_talexpression"] = (
+            "python:'in/'+number"
+        )
     if not registry.get("collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number"):
         registry["collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number"] = 1
     if not registry.get("collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_talexpression"):
-        registry[
-            "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_talexpression"
-        ] = "python:'out/'+number"
+        registry["collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_talexpression"] = (
+            "python:'out/'+number"
+        )
