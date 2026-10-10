@@ -74,12 +74,14 @@ class IDmsMailConfig(model.Schema):
         title=_("Increment number used in internal reference number"),
         description=_("If False, number will not be incremented only if user can edit internal reference number"),
         default=True,
+        required=False,
     )
 
     outgoingmail_today_mail_date = schema.Bool(
         title=_("Mail date is today"),
         description=_("Check if the outgoing mail 'mail date' field will default to today at creation."),
         default=True,
+        required=False,
     )
 
 

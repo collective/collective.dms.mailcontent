@@ -61,9 +61,9 @@ def relations_index(obj, attr):
     if not isinstance(value, list):
         value = [value]
     for rel in value:
-        if rel.isBroken():
-            continue
         related = rel.to_object
+        if related is None:  # broken, or dangling (relations of a deleted contact unindexed by contact.core)
+            continue
         index.append(related.UID())
 
         if related.portal_type == "organization":

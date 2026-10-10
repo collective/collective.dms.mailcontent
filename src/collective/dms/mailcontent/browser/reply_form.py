@@ -82,7 +82,7 @@ class ReplyForm(DefaultAddForm):
         if "form.widgets.reply_to" not in form:
             form["form.widgets.reply_to"] = self._get_linked_mails(imail)
         if "form.widgets.recipients" not in form:
-            form["form.widgets.recipients"] = tuple([sd.to_path for sd in imail.sender])
+            form["form.widgets.recipients"] = tuple([sd.to_path for sd in imail.sender or []])
 
     def updateWidgets(self, prefix=None):
         super(ReplyForm, self).updateWidgets(prefix=prefix)
@@ -96,7 +96,7 @@ class ReplyForm(DefaultAddForm):
         if not self.widgets["reply_to"].value:
             self.widgets["reply_to"].value = self._get_linked_mails(imail)
         if not self.widgets["recipients"].value:
-            self.widgets["recipients"].value = tuple([sd.to_path for sd in imail.sender])
+            self.widgets["recipients"].value = tuple([sd.to_path for sd in imail.sender or []])
         if imail.external_reference_no and not self.widgets["external_reference_no"].value:
             self.widgets["external_reference_no"].value = imail.external_reference_no
         if imail.recipient_groups and not self.widgets["recipient_groups"].value:
@@ -132,10 +132,10 @@ class ReplyForm(DefaultAddForm):
         omrgs = list(obj.recipient_groups)
         for rel in obj.reply_to or []:
             im = intids.getObject(rel.to_id)
-            itgs = im.treating_groups
+            itgs = im.treating_groups or []
             if not isinstance(itgs, (list, tuple)):  # can be a unique value like in imio.dms.mail
                 itgs = [itgs]
-            missings = set(itgs) - (set(otgs) | set(omrgs))
+            missings = set(itgs) - (set(otgs) | set(obj.recipient_groups))
             for missing in missings:
                 obj.recipient_groups.append(missing)
         if omrgs != obj.recipient_groups:
