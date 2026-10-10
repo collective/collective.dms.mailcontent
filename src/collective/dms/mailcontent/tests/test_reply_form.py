@@ -52,14 +52,14 @@ class TestReplyForm(unittest.TestCase):
 
     def test_rf_updateFields(self):
         self.view.updateFields()
-        self.assertEqual(self.view.request["form.widgets.reply_to"], ("/plone/folder/im",))
+        self.assertEqual(self.view.request["form.widgets.reply_to"], self.im.UID())
         self.assertEqual(self.view.request["form.widgets.recipients"], ("/plone/dir/imio",))
 
     def test_rf_updateWidgets(self):
         self.view.update()
         self.assertEqual(self.view.widgets["IDublinCore.title"].value, "I mail")
         self.assertEqual(self.view.widgets["treating_groups"].value, ["Administrators"])
-        self.assertEqual(self.view.widgets["reply_to"].value, ("/plone/folder/im",))
+        self.assertEqual(self.view.widgets["reply_to"].value, self.im.UID())
         self.assertEqual(self.view.widgets["recipients"].value, ("/plone/dir/imio",))
         self.assertEqual(self.view.widgets["external_reference_no"].value, "xx/1")
         self.assertEqual(self.view.widgets["recipient_groups"].value, ())

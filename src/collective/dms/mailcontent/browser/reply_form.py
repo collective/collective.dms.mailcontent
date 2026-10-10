@@ -3,11 +3,11 @@
 from collective.dms.mailcontent import _
 from collective.dms.mailcontent.browser.views import DmsOutgoingMailUpdateWidgets
 from plone import api
+from plone.base.utils import safe_text
 from plone.dexterity.browser.add import DefaultAddForm
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity.utils import addContentToContainer
 from plone.z3cform.interfaces import IDeferSecurityCheck
-from Products.CMFPlone.utils import safe_unicode
 from zc.relation.interfaces import ICatalog
 from zope.component import getMultiAdapter
 from zope.component import getUtility
@@ -26,30 +26,32 @@ class ReplyForm(DefaultAddForm):
 
     def __init__(self, context, request, ti=None):
         super(ReplyForm, self).__init__(context, request, ti=ti)
-        self.linked_paths = None
+        self.linked_uids = None
+        # the outgoing mail isn't added in the incoming mail: skip the allowed types check of the add form
         alsoProvides(request, IDeferSecurityCheck)
 
     def _get_linked_mails(self, imail):
-        if self.linked_paths is not None:
-            return self.linked_paths
-        ret = ["/".join(imail.getPhysicalPath())]
+        """UIDs of imail, its reply_to and back references, as the reply_to widget value"""
+        if self.linked_uids is not None:
+            return self.linked_uids
+        ret = [imail.UID()]
         # get directly imail linked mails
         if imail.reply_to:
-            ret.extend([rv.to_path for rv in imail.reply_to])
+            ret.extend([rv.to_object.UID() for rv in imail.reply_to if rv.to_object])
         # we get backrefs too (depending of an option ?)
         if self.reply_backrefs:
             intids = getUtility(IIntIds)
             catalog = getUtility(ICatalog)
             imail_id = intids.getId(imail)
             for ref in catalog.findRelations({"to_id": imail_id, "from_attribute": "reply_to"}):
-                if ref.from_path not in ret:
-                    ret.append(ref.from_path)
-        self.linked_paths = tuple(ret)
-        return self.linked_paths
+                if ref.from_object.UID() not in ret:
+                    ret.append(ref.from_object.UID())
+        self.linked_uids = ";".join(ret)
+        return self.linked_uids
 
     @property
     def label(self):
-        return _("Reply to ${ref}", mapping={"ref": safe_unicode(self.context.Title())})
+        return _("Reply to ${ref}", mapping={"ref": safe_text(self.context.Title())})
 
     def update_fields_irn(self):
         """update fields regarding irn setting"""
@@ -86,7 +88,7 @@ class ReplyForm(DefaultAddForm):
         super(ReplyForm, self).updateWidgets(prefix=prefix)
         imail = self.context
         if not self.widgets["IDublinCore.title"].value:
-            self.widgets["IDublinCore.title"].value = safe_unicode(imail.title)
+            self.widgets["IDublinCore.title"].value = safe_text(imail.title)
         if not self.widgets["treating_groups"].value:
             self.widgets["treating_groups"].value = imail.treating_groups
         if self.request.get("masterID"):  # in MS anonymous call

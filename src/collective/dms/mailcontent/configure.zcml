@@ -5,8 +5,8 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="collective.dms.mailcontent">
 
-  <include package="Products.CMFCore" />  <!-- for cmf permissions /-->
-  <include package="Products.CMFPlone" />  <!-- for controlpanel permissions /-->
+  <include package="Products.CMFCore" file="permissions.zcml" />
+  <include package="Products.CMFPlone.controlpanel" file="permissions.zcml" />
 
   <include file="permissions.zcml" />
 
@@ -22,7 +22,6 @@
   <include package="plone.app.relationfield" />
   <include package="collective.dms.basecontent" />
   <include package="collective.contact.core" />
-  <!-- TODO MIGRATION-PLONE6 include package="plone.formwidget.datetime" /-->
 
   <genericsetup:registerProfile
       name="default"
@@ -46,6 +45,11 @@
   <adapter factory=".dmsmail.InternalReferenceOutgoingMailValidator" />
   <adapter factory=".dmsmail.IMReplyToValidator" />
   <adapter factory=".dmsmail.OMReplyToValidator" />
+  <adapter factory=".dmsmail.ReceptionDateDefault" name="default" />
+  <adapter factory=".dmsmail.OriginalMailDateDefault" name="default" />
+  <adapter factory=".dmsmail.InternalReferenceIncomingMailDefault" name="default" />
+  <adapter factory=".dmsmail.MailDateDefault" name="default" />
+  <adapter factory=".dmsmail.InternalReferenceOutgoingMailDefault" name="default" />
   <adapter name="internal_reference_number" factory=".indexers.im_internal_reference_number_indexer" />
   <adapter name="internal_reference_number" factory=".indexers.om_internal_reference_number_indexer" />
   <adapter name="external_reference_number" factory=".indexers.im_external_reference_number_indexer" />

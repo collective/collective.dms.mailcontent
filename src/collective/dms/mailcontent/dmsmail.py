@@ -2,6 +2,7 @@ from collective.contact.widget.schema import ContactChoice
 from collective.contact.widget.schema import ContactList
 from collective.dms.basecontent.dmsdocument import DmsDocument
 from collective.dms.basecontent.dmsdocument import IDmsDocument
+from collective.dms.basecontent.relateddocs import RelatedDocsFieldWidget
 from collective.dms.mailcontent import _
 from imio.helpers.content import get_relations
 from imio.helpers.emailer import validate_email_address
@@ -10,14 +11,17 @@ from plone import api
 from plone.app.dexterity import textindexer
 from plone.app.textfield import RichText
 from plone.app.vocabularies.catalog import CatalogSource
+from plone.app.z3cform.widgets.datetime import DateFieldWidget
+from plone.app.z3cform.widgets.datetime import DatetimeFieldWidget
 from plone.autoform import directives as form
 from plone.dexterity.schema import DexteritySchemaPolicy
 from plone.registry.interfaces import IRegistry
 from plone.supermodel import model
 from plone.supermodel.directives import fieldset
-from Products.CMFPlone.utils import getToolByName
+from Products.CMFCore.utils import getToolByName
 from z3c.form import validator
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
+from z3c.form.widget import ComputedWidgetAttribute
 from z3c.relationfield import RelationChoice
 from z3c.relationfield import RelationList
 from zope import schema
@@ -26,16 +30,9 @@ from zope.component import getUtility
 from zope.globalrequest import getRequest
 from zope.interface import implementer
 from zope.interface import Invalid
-from zope.interface import provider
 from zope.interface.interfaces import ComponentLookupError
-from zope.schema.interfaces import IContextAwareDefaultFactory
 
 import datetime
-
-
-# TODO: MIGRATION-PLONE6
-# from plone.formwidget.datetime.z3cform.widget import DateFieldWidget
-# from plone.formwidget.datetime.z3cform.widget import DatetimeFieldWidget
 
 
 def validateIndexValueUniqueness(context, type_interface, index_name, value):
@@ -89,7 +86,7 @@ class ReplyToValidator(validator.SimpleFieldValidator):
         # on reply, self.context is an incomingmail and future outgoingmail cannot be selected
         if self.view.__name__ == "reply":
             return
-        if self.context in value or []:
+        if self.context in (value or []):
             raise Invalid(
                 _(
                     "You cannot choose the current object as a reply to.",
@@ -97,24 +94,23 @@ class ReplyToValidator(validator.SimpleFieldValidator):
             )
 
 
-def receptionDateDefaultValue():
+def receptionDateDefaultValue(data):
     # return the current datetime
     return datetime.datetime.now()
 
 
-def originalMailDateDefaultValue():
+def originalMailDateDefaultValue(data):
     # return 3 days before
     return datetime.date.today() - datetime.timedelta(days=3)
 
 
-@provider(IContextAwareDefaultFactory)
-def internalReferenceIncomingMailDefaultValue(context):
+def internalReferenceIncomingMailDefaultValue(data):
     """
     Default value of internal_reference_no for dmsincomingmail
     """
     return evaluateInternalReference(
-        context,
-        getRequest(),
+        data.context,
+        data.request,
         "collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number",
         "collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_talexpression",
     )
@@ -128,20 +124,16 @@ class IDmsIncomingMail(IDmsDocument):
         required=False,
         min=datetime.date(1990, 1, 1),
         max=datetime.date.today() + datetime.timedelta(days=7),
-        defaultFactory=originalMailDateDefaultValue,
     )
-    # TODO: MIGRATION-PLONE6
-    # form.widget(original_mail_date=DateFieldWidget)
+    form.widget(original_mail_date=DateFieldWidget)
 
     reception_date = schema.Datetime(
         title=_("Reception Date"),
         required=False,
         min=datetime.datetime(1990, 1, 1),
         max=datetime.datetime.today() + datetime.timedelta(days=7),
-        defaultFactory=receptionDateDefaultValue,
     )
-    # TODO: MIGRATION-PLONE6
-    # form.widget("reception_date", DatetimeFieldWidget, show_time=True)
+    form.widget(reception_date=DatetimeFieldWidget)
 
     external_reference_no = schema.TextLine(
         title=_("External Reference Number"),
@@ -152,7 +144,6 @@ class IDmsIncomingMail(IDmsDocument):
     internal_reference_no = schema.TextLine(
         title=_("Internal Reference Number"),
         required=False,
-        defaultFactory=internalReferenceIncomingMailDefaultValue,
     )
 
     sender = ContactList(title=_("Sender"), required=True)
@@ -171,8 +162,8 @@ class IDmsIncomingMail(IDmsDocument):
                 )
             ),
         ),
-        # display_backrefs=True,  TODO MIGRATION-PLONE6 option not available in widget
     )
+    form.widget(reply_to=RelatedDocsFieldWidget)
 
     form.order_before(sender="treating_groups")
     form.order_after(recipients="sender")
@@ -191,7 +182,7 @@ class InternalReferenceIncomingMailValidator(InternalReferenceBaseValidator):
     type_interface = IDmsIncomingMail
 
     def good_value(self):
-        return internalReferenceIncomingMailDefaultValue(self.context)
+        return internalReferenceIncomingMailDefaultValue(self)
 
 
 class IMReplyToValidator(ReplyToValidator):
@@ -202,6 +193,15 @@ validator.WidgetValidatorDiscriminators(
     InternalReferenceIncomingMailValidator, field=IDmsIncomingMail["internal_reference_no"]
 )
 validator.WidgetValidatorDiscriminators(IMReplyToValidator, field=IDmsIncomingMail["reply_to"])
+
+# form defaults (add forms), as Plone 4 plone.directives.form default_value: no value on attribute access
+ReceptionDateDefault = ComputedWidgetAttribute(receptionDateDefaultValue, field=IDmsIncomingMail["reception_date"])
+OriginalMailDateDefault = ComputedWidgetAttribute(
+    originalMailDateDefaultValue, field=IDmsIncomingMail["original_mail_date"]
+)
+InternalReferenceIncomingMailDefault = ComputedWidgetAttribute(
+    internalReferenceIncomingMailDefaultValue, field=IDmsIncomingMail["internal_reference_no"]
+)
 
 
 def evaluateInternalReference(context, request, number_registry_name, talexpression_registry_name):
@@ -239,8 +239,7 @@ def incrementIncomingMailNumber(incomingmail, event):
     # useless if the internal_reference_no field is hidden (in this case,
     #                                                       default value must be empty to bypass validator)
     # useless to manage automatically the internal_reference_no value without user action
-    # to be sure checking the value is really set and not getting default value when accessing fieldname
-    if not incomingmail.__dict__.get("internal_reference_no"):
+    if not incomingmail.internal_reference_no:
         internal_reference_no = evaluateInternalReference(
             incomingmail,
             getRequest(),
@@ -253,7 +252,7 @@ def incrementIncomingMailNumber(incomingmail, event):
     registry["collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number"] += 1
 
 
-def mailDateDefaultValue():
+def mailDateDefaultValue(data):
     # return the day date
     today = api.portal.get_registry_record(
         "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_today_mail_date"
@@ -262,15 +261,13 @@ def mailDateDefaultValue():
         return datetime.date.today()
 
 
-@provider(IContextAwareDefaultFactory)
-def internalReferenceOutgoingMailDefaultValue(context):
+def internalReferenceOutgoingMailDefaultValue(data):
     """
     Default value of internal_reference_no for dmsoutgoingmail
     """
-
     return evaluateInternalReference(
-        context,
-        getRequest(),
+        data.context,
+        data.request,
         "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number",
         "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_talexpression",
     )
@@ -284,14 +281,12 @@ class IDmsOutgoingMail(IDmsDocument):
         required=False,
         min=datetime.date(1990, 1, 1),
         max=datetime.date(datetime.date.today().year + 1, 12, 31),
-        defaultFactory=mailDateDefaultValue,
     )
 
     textindexer.searchable("internal_reference_no")
     internal_reference_no = schema.TextLine(
         title=_("Internal Reference Number"),
         required=False,
-        defaultFactory=internalReferenceOutgoingMailDefaultValue,
     )
 
     sender = ContactChoice(title=_("Sender"), required=False)
@@ -310,8 +305,8 @@ class IDmsOutgoingMail(IDmsDocument):
                 )
             ),
         ),
-        # display_backrefs=True,  TODO MIGRATION-PLONE6 option not available in widget
     )
+    form.widget(reply_to=RelatedDocsFieldWidget)
 
     external_reference_no = schema.TextLine(
         title=_("External Reference Number"),
@@ -333,7 +328,7 @@ class InternalReferenceOutgoingMailValidator(InternalReferenceBaseValidator):
     type_interface = IDmsOutgoingMail
 
     def good_value(self):
-        return internalReferenceOutgoingMailDefaultValue(self.context)
+        return internalReferenceOutgoingMailDefaultValue(self)
 
 
 class OMReplyToValidator(ReplyToValidator):
@@ -345,6 +340,11 @@ validator.WidgetValidatorDiscriminators(
 )
 validator.WidgetValidatorDiscriminators(OMReplyToValidator, field=IDmsOutgoingMail["reply_to"])
 
+MailDateDefault = ComputedWidgetAttribute(mailDateDefaultValue, field=IDmsOutgoingMail["mail_date"])
+InternalReferenceOutgoingMailDefault = ComputedWidgetAttribute(
+    internalReferenceOutgoingMailDefaultValue, field=IDmsOutgoingMail["internal_reference_no"]
+)
+
 
 def incrementOutgoingMailNumber(outgoingmail, event):
     """Increment the value in registry"""
@@ -352,8 +352,7 @@ def incrementOutgoingMailNumber(outgoingmail, event):
     # useful if the internal_reference_no field is hidden (in this case,
     #                                                      default value must be empty to bypass validator)
     # useful to manage automatically the internal_reference_no value without user action
-    # to be sure checking the value is really set and not getting default value when accessing fieldname
-    if not outgoingmail.__dict__.get("internal_reference_no"):
+    if not outgoingmail.internal_reference_no:
         internal_reference_no = evaluateInternalReference(
             outgoingmail,
             getRequest(),
