@@ -2,6 +2,7 @@
 
 from collective.dms.mailcontent.testing import INTEGRATION
 from collective.dms.mailcontent.vocabularies import EmailAttachmentsVocabulary
+from collective.iconifiedcategory.utils import calculate_category_id
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -11,6 +12,7 @@ from z3c.relationfield import RelationValue
 from zope.annotation import IAnnotations
 from zope.component import getUtility
 from zope.intid import IIntIds
+from zope.schema.interfaces import IVocabularyFactory
 
 import unittest
 
@@ -56,12 +58,32 @@ class TestVocabularies(unittest.TestCase):
             self.om2, "dmsappendixfile", title="A021", file=NamedBlobFile(filename="appendix2.pdf")
         )
 
+    def add_signed_file(self, mail, title, filename):
+        """A file of the "to sign" category (testing layer), signed: iconifiedcategory marks it in the mail."""
+        group = self.portal["annexes_types"]["annexes"]
+        group.signed_activated = True
+        return createContentInContainer(
+            mail,
+            "dmsmainfile",
+            title=title,
+            file=NamedBlobFile(filename=filename),
+            content_category=calculate_category_id(group["to_sign"]),
+            to_sign=True,
+            signed=True,
+        )
+
     def test_EmailAttachmentsVocabulary(self):
         voc = EmailAttachmentsVocabulary()
+        self.assertIsInstance(
+            getUtility(IVocabularyFactory, "collective.dms.mailcontent.email_attachments_voc"),
+            EmailAttachmentsVocabulary,
+        )
         self.assertListEqual(
             [t.title for t in voc(self.om1)],
             ["(dmsappendixfile) => A011  (\xab appendix1.pdf \xbb)", "(dmsmainfile) => D011"],
         )
+        # the term value and token are the file UID
+        self.assertEqual([(t.value, t.token) for t in voc(self.om1)][1], (self.od1.UID(), self.od1.UID()))
         self.od3 = createContentInContainer(
             self.om1, "dmsmainfile", title="D012", file=NamedBlobFile(filename="mailing.odt")
         )
@@ -132,5 +154,42 @@ class TestVocabularies(unittest.TestCase):
                 "test-in/10 (dmsmainfile) => D001  (\xab scanned.pdf \xbb)",
                 "test-out/11 (dmsappendixfile) => A021  (\xab appendix2.pdf \xbb)",
                 "test-out/11 (dmsmainfile) => D021",
+            ],
+        )
+        # signed versions (categorized_elements of the mail), of the mail and of a linked mail (title by basecontent)
+        signed = self.add_signed_file(self.om1, "D013", "generated.pdf")
+        self.assertTrue(self.om1.categorized_elements[signed.UID()]["signed"])
+        self.add_signed_file(self.om2, "D023", "generated.pdf")
+        # an appendix named as its file: the file name is not repeated
+        createContentInContainer(self.om1, "dmsappendixfile", title="plan.pdf", file=NamedBlobFile(filename="Plan.pdf"))
+        self.om1.reply_to = [RelationValue(self.intids.getId(self.om2))]
+        titles = [
+            "(dmsappendixfile) => A011  (\xab appendix1.pdf \xbb)",
+            "(dmsappendixfile) => plan.pdf",
+            "(dmsmainfile signed) => Signed version",
+            "(dmsmainfile) => D011",
+            "test-out/11 (dmsappendixfile) => A021  (\xab appendix2.pdf \xbb)",
+            "test-out/11 (dmsmainfile signed) => Signed version",
+            "test-out/11 (dmsmainfile) => D021",
+        ]
+        self.assertListEqual([t.title for t in voc(self.om1)], titles)
+        # the files are found unrestrictedly
+        self.od1.manage_permission("View", ["Manager"], acquire=False)
+        self.od1.reindexObjectSecurity()
+        setRoles(self.portal, TEST_USER_ID, ["Member"])
+        self.assertListEqual([t.title for t in voc(self.om1)], titles)
+        # translated in the site language
+        # Plone 6: registry record (Plone 4: site_properties)
+        api.portal.set_registry_record("plone.default_language", "fr")
+        self.assertListEqual(
+            [t.title for t in voc(self.om1)],
+            [
+                "(A) => A011  (\xab appendix1.pdf \xbb)",
+                "(A) => plan.pdf",
+                "(V) => D011",
+                "(VS) => Version sign\xe9e",
+                "test-out/11 (A) => A021  (\xab appendix2.pdf \xbb)",
+                "test-out/11 (V) => D021",
+                "test-out/11 (VS) => Version sign\xe9e",
             ],
         )
