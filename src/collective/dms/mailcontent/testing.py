@@ -1,5 +1,6 @@
 # -*- coding: utf8 -*-
 from plone import api
+from plone.app.dexterity.textindexer.indexer import dynamic_searchable_text_indexer
 from plone.app.robotframework.content import Content
 from plone.app.robotframework.remote import RemoteLibraryLayer
 from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
@@ -13,6 +14,7 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.namedfile.file import NamedBlobImage
 from plone.testing.zope import WSGI_SERVER_FIXTURE
+from zope.component import provideAdapter
 from zope.globalrequest.local import setLocal
 
 import collective.dms.mailcontent
@@ -29,6 +31,9 @@ class MailcontentLayer(PloneSandboxLayer):
         # Load any other ZCML that is required for your tests.
         # The z3c.autoinclude feature is disabled in the Plone fixture base layer.
         self.loadZCML(package=collective.dms.mailcontent, name="testing.zcml")
+        # the text indexer is registered below this layer (PLONE_FIXTURE), where basecontent's SearchableText
+        # indexer would win whatever the behaviors: registered again here, as it wins in an instance
+        provideAdapter(dynamic_searchable_text_indexer, name="SearchableText")
 
     def setUpPloneSite(self, portal):
         setLocal("request", portal.REQUEST)  # to avoid error with empty request in P6

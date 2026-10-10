@@ -155,13 +155,16 @@ class TestIndexers(unittest.TestCase):
         self.assertIs(sender_index(document)(), _marker)
         # a broken relation (deleted contact) is skipped
         person = api.content.create(container=self.mydirectory, type="person", id="temp", lastname="Temp")
-        self.imail1.recipients = [RelationValue(self.intids.getId(person))]
+        person_intid = self.intids.getId(person)
+        self.imail1.recipients = [RelationValue(person_intid)]
         modified(self.imail1)
         # (deletion not stopped by the link integrity check, as when the user confirms it)
         # Plone 6: plone.api checks it itself (Plone 4: site_properties enable_link_integrity_checks)
         api.content.delete(person, check_linkintegrity=False)
-        # Plone 6: dangling, not broken: collective.contact.core unindexes the relations of the deleted contact
-        # before z3c.relationfield can break them (Plone 4: isBroken())
+        self.assertTrue(self.imail1.recipients[0].isBroken())
+        self.assertIs(relations_index(self.imail1, "recipients"), _marker)
+        # a dangling relation (target gone, not marked broken) is skipped too
+        self.imail1.recipients = [RelationValue(person_intid)]
         self.assertFalse(self.imail1.recipients[0].isBroken())
         self.assertIsNone(self.imail1.recipients[0].to_object)
         self.assertIs(relations_index(self.imail1, "recipients"), _marker)

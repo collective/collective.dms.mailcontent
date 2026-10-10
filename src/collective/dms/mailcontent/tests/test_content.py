@@ -18,7 +18,6 @@ from collective.dms.mailcontent.tests.base import rel
 from collective.dms.mailcontent.tests.base import set_form
 from imio.helpers.emailer import InvalidEmailAddress
 from plone import api
-from plone.app.dexterity.textindexer.indexer import dynamic_searchable_text_indexer
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.textfield import RichText
@@ -37,7 +36,6 @@ from plone.supermodel.interfaces import ISchemaPolicy
 from z3c.form.browser.checkbox import CheckBoxWidget
 from z3c.form.interfaces import IValidator
 from z3c.relationfield import RelationList
-from zope.component import getGlobalSiteManager
 from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.interface import Invalid
@@ -92,11 +90,6 @@ class TestContentTypes(unittest.TestCase):
         # the publisher opens a security interaction, needed by the relation widgets
         newInteraction()
         self.addCleanup(endInteraction)
-        # Plone 6: the text indexer of plone.app.dexterity is registered below the layer, where the SearchableText
-        # indexer of collective.dms.basecontent wins whatever the behaviors; registered here as in a real instance
-        gsm = getGlobalSiteManager()
-        gsm.registerAdapter(dynamic_searchable_text_indexer, name="SearchableText")
-        self.addCleanup(gsm.unregisterAdapter, dynamic_searchable_text_indexer, name="SearchableText")
         self.folder = api.content.create(container=self.portal, type="Folder", id="folder", title="Folder")
 
     def add_form(self, portal_type, data=None, method="GET"):
