@@ -11,9 +11,11 @@ from zope.publisher.browser import BrowserPage
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
-
 im_irn_conditions = SimpleVocabulary(
-    [SimpleTerm("show", title=_("Always show")), SimpleTerm("hide", title=_("Always hide"))]
+    [
+        SimpleTerm("show", title=_("Always show")),
+        SimpleTerm("hide", title=_("Always hide")),
+    ]
 )
 
 om_irn_conditions = SimpleVocabulary(
@@ -31,17 +33,23 @@ class IDmsMailConfig(model.Schema):
     """
 
     model.fieldset(
-        "incomingmail", label=_("Incoming mail"), fields=["incomingmail_number", "incomingmail_talexpression"]
+        "incomingmail",
+        label=_("Incoming mail"),
+        fields=["incomingmail_number", "incomingmail_talexpression"],
     )
 
     incomingmail_number = schema.Int(
         title=_("Number of next incoming mail"),
-        description=_("This value is used as 'number' variable in linked tal expression"),
+        description=_(
+            "This value is used as 'number' variable in linked tal expression"
+        ),
     )
 
     incomingmail_talexpression = schema.TextLine(
         title=_("Incoming mail internal reference default value expression"),
-        description=_("Tal expression where you can use portal, number, context, request, date as variable"),
+        description=_(
+            "Tal expression where you can use portal, number, context, request, date as variable"
+        ),
     )
 
     model.fieldset(
@@ -58,28 +66,38 @@ class IDmsMailConfig(model.Schema):
 
     outgoingmail_number = schema.Int(
         title=_("Number of next outgoing mail"),
-        description=_("This value is used as 'number' variable in linked tal expression"),
+        description=_(
+            "This value is used as 'number' variable in linked tal expression"
+        ),
     )
 
     outgoingmail_talexpression = schema.TextLine(
         title=_("Outgoing mail internal reference default value expression"),
-        description=_("Tal expression where you can use portal, number, context, request, date as variable"),
+        description=_(
+            "Tal expression where you can use portal, number, context, request, date as variable"
+        ),
     )
 
     outgoingmail_edit_irn = schema.Choice(
-        title=_("Internal reference number edition field"), vocabulary=om_irn_conditions, default="show"
+        title=_("Internal reference number edition field"),
+        vocabulary=om_irn_conditions,
+        default="show",
     )
 
     outgoingmail_increment_number = schema.Bool(
         title=_("Increment number used in internal reference number"),
-        description=_("If False, number will not be incremented only if user can edit internal reference number"),
+        description=_(
+            "If False, number will not be incremented only if user can edit internal reference number"
+        ),
         default=True,
         required=False,
     )
 
     outgoingmail_today_mail_date = schema.Bool(
         title=_("Mail date is today"),
-        description=_("Check if the outgoing mail 'mail date' field will default to today at creation."),
+        description=_(
+            "Check if the outgoing mail 'mail date' field will default to today at creation."
+        ),
         default=True,
         required=False,
     )
@@ -104,7 +122,9 @@ class SettingsView(BrowserPage):
         view = view_factor(self.context, self.request)
         return view()
 
-    def evaluateTalExpression(self, expression, context, request, portal, number, **kwargs):
+    def evaluateTalExpression(
+        self, expression, context, request, portal, number, **kwargs
+    ):
         """
         evaluate the expression, considering portal and number in context
         """

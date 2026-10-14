@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
 """Reply form."""
+
 from collective.dms.mailcontent import _
 from collective.dms.mailcontent.browser.views import DmsOutgoingMailUpdateWidgets
 from plone import api
@@ -24,7 +24,7 @@ class ReplyForm(DefaultAddForm):
     reply_backrefs = True
 
     def __init__(self, context, request, ti=None):
-        super(ReplyForm, self).__init__(context, request, ti=ti)
+        super().__init__(context, request, ti=ti)
         self.linked_uids = None
         # the outgoing mail isn't added in the incoming mail: skip the allowed types check of the add form
         alsoProvides(request, IDeferSecurityCheck)
@@ -42,7 +42,9 @@ class ReplyForm(DefaultAddForm):
             intids = getUtility(IIntIds)
             catalog = getUtility(ICatalog)
             imail_id = intids.getId(imail)
-            for ref in catalog.findRelations({"to_id": imail_id, "from_attribute": "reply_to"}):
+            for ref in catalog.findRelations(
+                {"to_id": imail_id, "from_attribute": "reply_to"}
+            ):
                 if ref.from_object.UID() not in ret:
                     ret.append(ref.from_object.UID())
         self.linked_uids = ";".join(ret)
@@ -67,7 +69,7 @@ class ReplyForm(DefaultAddForm):
                 self.request["_auto_ref"] = False
 
     def updateFields(self):
-        super(ReplyForm, self).updateFields()
+        super().updateFields()
         imail = self.context
         # put original mail irn in request to be used in irn expression
         self.request["_irn"] = imail.internal_reference_no
@@ -81,10 +83,12 @@ class ReplyForm(DefaultAddForm):
         if "form.widgets.reply_to" not in form:
             form["form.widgets.reply_to"] = self._get_linked_mails(imail)
         if "form.widgets.recipients" not in form:
-            form["form.widgets.recipients"] = tuple([sd.to_path for sd in imail.sender or []])
+            form["form.widgets.recipients"] = tuple(
+                [sd.to_path for sd in imail.sender or []]
+            )
 
     def updateWidgets(self, prefix=None):
-        super(ReplyForm, self).updateWidgets(prefix=prefix)
+        super().updateWidgets(prefix=prefix)
         imail = self.context
         if not self.widgets["IDublinCore.title"].value:
             self.widgets["IDublinCore.title"].value = safe_text(imail.title)
@@ -95,17 +99,24 @@ class ReplyForm(DefaultAddForm):
         if not self.widgets["reply_to"].value:
             self.widgets["reply_to"].value = self._get_linked_mails(imail)
         if not self.widgets["recipients"].value:
-            self.widgets["recipients"].value = tuple([sd.to_path for sd in imail.sender or []])
-        if imail.external_reference_no and not self.widgets["external_reference_no"].value:
+            self.widgets["recipients"].value = tuple(
+                [sd.to_path for sd in imail.sender or []]
+            )
+        if (
+            imail.external_reference_no
+            and not self.widgets["external_reference_no"].value
+        ):
             self.widgets["external_reference_no"].value = imail.external_reference_no
         if imail.recipient_groups and not self.widgets["recipient_groups"].value:
             self.widgets["recipient_groups"].value = imail.recipient_groups
         DmsOutgoingMailUpdateWidgets(self)
 
     def add_content(self, obj):
-        """Is overrided in inherited view"""
+        """Is overridden in inherited view"""
         try:
-            utils_view = getMultiAdapter((self.context, self.request), name="cdmc-utils")
+            utils_view = getMultiAdapter(
+                (self.context, self.request), name="cdmc-utils"
+            )
         except ComponentLookupError:
             return "Error getting cdmc-utils view..."
         container = utils_view.outgoingmail_folder()
@@ -123,7 +134,9 @@ class ReplyForm(DefaultAddForm):
 
         # we made sure to add incomingmail treating_groups in recipient_groups if a recipient group has replied
         otgs = obj.treating_groups
-        if not isinstance(otgs, (list, tuple)):  # can be a unique value like in imio.dms.mail
+        if not isinstance(
+            otgs, (list, tuple)
+        ):  # can be a unique value like in imio.dms.mail
             otgs = [otgs]
         intids = getUtility(IIntIds)
         if obj.recipient_groups is None:
@@ -132,16 +145,20 @@ class ReplyForm(DefaultAddForm):
         for rel in obj.reply_to or []:
             im = intids.getObject(rel.to_id)
             itgs = im.treating_groups or []
-            if not isinstance(itgs, (list, tuple)):  # can be a unique value like in imio.dms.mail
+            if not isinstance(
+                itgs, (list, tuple)
+            ):  # can be a unique value like in imio.dms.mail
                 itgs = [itgs]
-            missings = set(itgs) - (set(otgs) | set(obj.recipient_groups))
-            for missing in missings:
+            missing_groups = set(itgs) - (set(otgs) | set(obj.recipient_groups))
+            for missing in missing_groups:
                 obj.recipient_groups.append(missing)
         if omrgs != obj.recipient_groups:
             obj.reindexObject(idxs=["recipient_groups"])
 
         fti = getUtility(IDexterityFTI, name=self.portal_type)
         if fti.immediate_view:
-            self.immediate_view = "/".join([container.absolute_url(), new_object.id, fti.immediate_view])
+            self.immediate_view = "/".join(
+                [container.absolute_url(), new_object.id, fti.immediate_view]
+            )
         else:
             self.immediate_view = "/".join([container.absolute_url(), new_object.id])

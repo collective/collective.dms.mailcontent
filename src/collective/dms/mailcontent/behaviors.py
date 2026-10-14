@@ -8,7 +8,6 @@ from zope.schema import Choice
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
-
 sending_types = SimpleVocabulary(
     [
         SimpleTerm(value="normal", title=_("Normal")),
@@ -20,7 +19,12 @@ sending_types = SimpleVocabulary(
 class ISendingType(model.Schema):
     """Sending type behavior"""
 
-    sending_type = Choice(title=_("Sending type"), vocabulary=sending_types, default="normal", required=False)
+    sending_type = Choice(
+        title=_("Sending type"),
+        vocabulary=sending_types,
+        default="normal",
+        required=False,
+    )
     form.widget(sending_type=RadioFieldWidget)
 
 

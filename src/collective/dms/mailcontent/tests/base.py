@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
 """Helpers shared by the test modules."""
+
 from plone import api
 from z3c.relationfield.relation import RelationValue
 from zope.component import getUtility
 from zope.i18n import translate
 from zope.intid.interfaces import IIntIds
-
 
 PREFIX = "collective.dms.mailcontent.browser.settings.IDmsMailConfig."
 IM_NUMBER = PREFIX + "incomingmail_number"
@@ -34,7 +33,9 @@ def create_contacts(portal):
         organization_levels=config,
         position_types=config,
     )
-    return api.content.create(container=directory, type="organization", id="imio", title="IMIO")
+    return api.content.create(
+        container=directory, type="organization", id="imio", title="IMIO"
+    )
 
 
 def set_form(request, data=None, method="GET"):
@@ -55,8 +56,8 @@ def clean_request(request):
 
 def form_errors(form):
     """The translated error messages of the form widgets, by widget name."""
-    return dict(
-        (name, translate(widget.error.message, context=form.request))
+    return {
+        name: translate(widget.error.message, context=form.request)
         for name, widget in form.widgets.items()
         if widget.error
-    )
+    }

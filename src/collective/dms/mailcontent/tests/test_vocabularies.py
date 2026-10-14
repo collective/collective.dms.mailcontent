@@ -1,5 +1,3 @@
-# -*- coding: utf8 -*-
-
 from collective.dms.mailcontent.testing import INTEGRATION
 from collective.dms.mailcontent.vocabularies import EmailAttachmentsVocabulary
 from collective.iconifiedcategory.utils import calculate_category_id
@@ -27,10 +25,24 @@ class TestVocabularies(unittest.TestCase):
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
         self.intids = getUtility(IIntIds)
         self.im1 = api.content.create(
-            container=self.portal, type="dmsincomingmail", id="im1", title="I mail", treating_groups=["Administrators"]
+            container=self.portal,
+            type="dmsincomingmail",
+            id="im1",
+            title="I mail",
+            treating_groups=["Administrators"],
         )
-        createContentInContainer(self.im1, "dmsmainfile", title="D001", file=NamedBlobFile(filename="scanned.pdf"))
-        createContentInContainer(self.im1, "dmsappendixfile", title="A001", file=NamedBlobFile(filename="appendix.odt"))
+        createContentInContainer(
+            self.im1,
+            "dmsmainfile",
+            title="D001",
+            file=NamedBlobFile(filename="scanned.pdf"),
+        )
+        createContentInContainer(
+            self.im1,
+            "dmsappendixfile",
+            title="A001",
+            file=NamedBlobFile(filename="appendix.odt"),
+        )
         self.om1 = api.content.create(
             container=self.portal,
             type="dmsoutgoingmail",
@@ -39,10 +51,16 @@ class TestVocabularies(unittest.TestCase):
             treating_groups=["Administrators"],
         )
         self.od1 = createContentInContainer(
-            self.om1, "dmsmainfile", title="D011", file=NamedBlobFile(filename="generated.odt")
+            self.om1,
+            "dmsmainfile",
+            title="D011",
+            file=NamedBlobFile(filename="generated.odt"),
         )
         createContentInContainer(
-            self.om1, "dmsappendixfile", title="A011", file=NamedBlobFile(filename="appendix1.pdf")
+            self.om1,
+            "dmsappendixfile",
+            title="A011",
+            file=NamedBlobFile(filename="appendix1.pdf"),
         )
         self.om2 = api.content.create(
             container=self.portal,
@@ -52,10 +70,16 @@ class TestVocabularies(unittest.TestCase):
             treating_groups=["Administrators"],
         )
         self.od2 = createContentInContainer(
-            self.om2, "dmsmainfile", title="D021", file=NamedBlobFile(filename="generated.odt")
+            self.om2,
+            "dmsmainfile",
+            title="D021",
+            file=NamedBlobFile(filename="generated.odt"),
         )
         createContentInContainer(
-            self.om2, "dmsappendixfile", title="A021", file=NamedBlobFile(filename="appendix2.pdf")
+            self.om2,
+            "dmsappendixfile",
+            title="A021",
+            file=NamedBlobFile(filename="appendix2.pdf"),
         )
 
     def add_signed_file(self, mail, title, filename):
@@ -75,17 +99,28 @@ class TestVocabularies(unittest.TestCase):
     def test_EmailAttachmentsVocabulary(self):
         voc = EmailAttachmentsVocabulary()
         self.assertIsInstance(
-            getUtility(IVocabularyFactory, "collective.dms.mailcontent.email_attachments_voc"),
+            getUtility(
+                IVocabularyFactory, "collective.dms.mailcontent.email_attachments_voc"
+            ),
             EmailAttachmentsVocabulary,
         )
         self.assertListEqual(
             [t.title for t in voc(self.om1)],
-            ["(dmsappendixfile) => A011  (\xab appendix1.pdf \xbb)", "(dmsmainfile) => D011"],
+            [
+                "(dmsappendixfile) => A011  (\xab appendix1.pdf \xbb)",
+                "(dmsmainfile) => D011",
+            ],
         )
         # the term value and token are the file UID
-        self.assertEqual([(t.value, t.token) for t in voc(self.om1)][1], (self.od1.UID(), self.od1.UID()))
+        self.assertEqual(
+            [(t.value, t.token) for t in voc(self.om1)][1],
+            (self.od1.UID(), self.od1.UID()),
+        )
         self.od3 = createContentInContainer(
-            self.om1, "dmsmainfile", title="D012", file=NamedBlobFile(filename="mailing.odt")
+            self.om1,
+            "dmsmainfile",
+            title="D012",
+            file=NamedBlobFile(filename="mailing.odt"),
         )
         annot = IAnnotations(self.od3)
         annot["documentgenerator"] = {"need_mailing": False}
@@ -101,7 +136,10 @@ class TestVocabularies(unittest.TestCase):
         # mailing work document is avoided
         self.assertListEqual(
             [t.title for t in voc(self.om1)],
-            ["(dmsappendixfile) => A011  (\xab appendix1.pdf \xbb)", "(dmsmainfile) => D011"],
+            [
+                "(dmsappendixfile) => A011  (\xab appendix1.pdf \xbb)",
+                "(dmsmainfile) => D011",
+            ],
         )
         # link to im1
         self.om1.reply_to = [RelationValue(self.intids.getId(self.im1))]
@@ -115,7 +153,10 @@ class TestVocabularies(unittest.TestCase):
             ],
         )
         # link to im1 and om2
-        self.om1.reply_to = [RelationValue(self.intids.getId(self.im1)), RelationValue(self.intids.getId(self.om2))]
+        self.om1.reply_to = [
+            RelationValue(self.intids.getId(self.im1)),
+            RelationValue(self.intids.getId(self.om2)),
+        ]
         self.assertListEqual(
             [t.title for t in voc(self.om1)],
             [
@@ -128,7 +169,10 @@ class TestVocabularies(unittest.TestCase):
             ],
         )
         self.od4 = createContentInContainer(
-            self.om2, "dmsmainfile", title="D022", file=NamedBlobFile(filename="mailing.odt")
+            self.om2,
+            "dmsmainfile",
+            title="D022",
+            file=NamedBlobFile(filename="mailing.odt"),
         )
         annot = IAnnotations(self.od4)
         annot["documentgenerator"] = {"need_mailing": False}
@@ -161,7 +205,12 @@ class TestVocabularies(unittest.TestCase):
         self.assertTrue(self.om1.categorized_elements[signed.UID()]["signed"])
         self.add_signed_file(self.om2, "D023", "generated.pdf")
         # an appendix named as its file: the file name is not repeated
-        createContentInContainer(self.om1, "dmsappendixfile", title="plan.pdf", file=NamedBlobFile(filename="Plan.pdf"))
+        createContentInContainer(
+            self.om1,
+            "dmsappendixfile",
+            title="plan.pdf",
+            file=NamedBlobFile(filename="Plan.pdf"),
+        )
         self.om1.reply_to = [RelationValue(self.intids.getId(self.om2))]
         titles = [
             "(dmsappendixfile) => A011  (\xab appendix1.pdf \xbb)",

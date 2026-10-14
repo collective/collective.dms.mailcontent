@@ -66,7 +66,9 @@ class InternalReferenceBaseValidator(validator.SimpleFieldValidator):
         # we call the already defined validators
         # super(InternalReferenceValidator, self).validate(value)
         try:
-            validateIndexValueUniqueness(self.context, self.type_interface, "internal_reference_number", value)
+            validateIndexValueUniqueness(
+                self.context, self.type_interface, "internal_reference_number", value
+            )
         except Invalid:
             raise Invalid(
                 _(
@@ -81,7 +83,7 @@ class ReplyToValidator(validator.SimpleFieldValidator):
 
     def validate(self, value, force=False):
         # we call the already defined validators
-        super(ReplyToValidator, self).validate(value, force=force)
+        super().validate(value, force=force)
         # value contains a list of linked objects
         # on reply, self.context is an incomingmail and future outgoingmail cannot be selected
         if self.view.__name__ == "reply":
@@ -190,21 +192,29 @@ class IMReplyToValidator(ReplyToValidator):
 
 
 validator.WidgetValidatorDiscriminators(
-    InternalReferenceIncomingMailValidator, field=IDmsIncomingMail["internal_reference_no"]
+    InternalReferenceIncomingMailValidator,
+    field=IDmsIncomingMail["internal_reference_no"],
 )
-validator.WidgetValidatorDiscriminators(IMReplyToValidator, field=IDmsIncomingMail["reply_to"])
+validator.WidgetValidatorDiscriminators(
+    IMReplyToValidator, field=IDmsIncomingMail["reply_to"]
+)
 
 # form defaults (add forms), as Plone 4 plone.directives.form default_value: no value on attribute access
-ReceptionDateDefault = ComputedWidgetAttribute(receptionDateDefaultValue, field=IDmsIncomingMail["reception_date"])
+ReceptionDateDefault = ComputedWidgetAttribute(
+    receptionDateDefaultValue, field=IDmsIncomingMail["reception_date"]
+)
 OriginalMailDateDefault = ComputedWidgetAttribute(
     originalMailDateDefaultValue, field=IDmsIncomingMail["original_mail_date"]
 )
 InternalReferenceIncomingMailDefault = ComputedWidgetAttribute(
-    internalReferenceIncomingMailDefaultValue, field=IDmsIncomingMail["internal_reference_no"]
+    internalReferenceIncomingMailDefaultValue,
+    field=IDmsIncomingMail["internal_reference_no"],
 )
 
 
-def evaluateInternalReference(context, request, number_registry_name, talexpression_registry_name):
+def evaluateInternalReference(
+    context, request, number_registry_name, talexpression_registry_name
+):
     """Return a generated internal reference number"""
     registry = getUtility(IRegistry)
     # we get the following mail number, stored in registry
@@ -212,12 +222,16 @@ def evaluateInternalReference(context, request, number_registry_name, talexpress
     # we get the portal
     try:
         portal = api.portal.get()
-        settings_view = getMultiAdapter((portal, request), name="dmsmailcontent-settings")
+        settings_view = getMultiAdapter(
+            (portal, request), name="dmsmailcontent-settings"
+        )
     except ComponentLookupError:
         return "Error getting view..."
     # we evaluate the expression
     expression = registry.get(talexpression_registry_name)
-    value = settings_view.evaluateTalExpression(expression, context, request, portal, number)
+    value = settings_view.evaluateTalExpression(
+        expression, context, request, portal, number
+    )
     return value
 
 
@@ -230,7 +244,7 @@ class DmsIncomingMail(DmsDocument):
     def Title(self):
         if self.internal_reference_no is None:
             return self.title
-        return "%s - %s" % (self.internal_reference_no, self.title)
+        return f"{self.internal_reference_no} - {self.title}"
 
 
 def incrementIncomingMailNumber(incomingmail, event):
@@ -247,9 +261,18 @@ def incrementIncomingMailNumber(incomingmail, event):
             "collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_talexpression",
         )
         incomingmail.internal_reference_no = internal_reference_no
-        incomingmail.reindexObject(idxs=("Title", "internal_reference_number", "SearchableText", "sortable_title"))
+        incomingmail.reindexObject(
+            idxs=(
+                "Title",
+                "internal_reference_number",
+                "SearchableText",
+                "sortable_title",
+            )
+        )
     registry = getUtility(IRegistry)
-    registry["collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number"] += 1
+    registry[
+        "collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number"
+    ] += 1
 
 
 def mailDateDefaultValue(data):
@@ -336,13 +359,19 @@ class OMReplyToValidator(ReplyToValidator):
 
 
 validator.WidgetValidatorDiscriminators(
-    InternalReferenceOutgoingMailValidator, field=IDmsOutgoingMail["internal_reference_no"]
+    InternalReferenceOutgoingMailValidator,
+    field=IDmsOutgoingMail["internal_reference_no"],
 )
-validator.WidgetValidatorDiscriminators(OMReplyToValidator, field=IDmsOutgoingMail["reply_to"])
+validator.WidgetValidatorDiscriminators(
+    OMReplyToValidator, field=IDmsOutgoingMail["reply_to"]
+)
 
-MailDateDefault = ComputedWidgetAttribute(mailDateDefaultValue, field=IDmsOutgoingMail["mail_date"])
+MailDateDefault = ComputedWidgetAttribute(
+    mailDateDefaultValue, field=IDmsOutgoingMail["mail_date"]
+)
 InternalReferenceOutgoingMailDefault = ComputedWidgetAttribute(
-    internalReferenceOutgoingMailDefaultValue, field=IDmsOutgoingMail["internal_reference_no"]
+    internalReferenceOutgoingMailDefaultValue,
+    field=IDmsOutgoingMail["internal_reference_no"],
 )
 
 
@@ -360,10 +389,19 @@ def incrementOutgoingMailNumber(outgoingmail, event):
             "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_talexpression",
         )
         outgoingmail.internal_reference_no = internal_reference_no
-        outgoingmail.reindexObject(idxs=("Title", "internal_reference_number", "SearchableText", "sortable_title"))
+        outgoingmail.reindexObject(
+            idxs=(
+                "Title",
+                "internal_reference_number",
+                "SearchableText",
+                "sortable_title",
+            )
+        )
     if getattr(outgoingmail, "_auto_ref", True):
         registry = getUtility(IRegistry)
-        registry["collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number"] += 1
+        registry[
+            "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number"
+        ] += 1
 
 
 @implementer(IDmsOutgoingMail)
@@ -373,11 +411,19 @@ class DmsOutgoingMail(DmsDocument):
     def Title(self):
         if self.internal_reference_no is None:
             return self.title
-        return "%s - %s" % (self.internal_reference_no, self.title)
+        return f"{self.internal_reference_no} - {self.title}"
 
     def get_replied(self, first=True, intf=IDmsIncomingMail):
-        normals = [obj for obj in get_relations(self, "reply_to", backrefs=False, as_obj=True) if intf.providedBy(obj)]
-        backs = [obj for obj in get_relations(self, "reply_to", backrefs=True, as_obj=True) if intf.providedBy(obj)]
+        normals = [
+            obj
+            for obj in get_relations(self, "reply_to", backrefs=False, as_obj=True)
+            if intf.providedBy(obj)
+        ]
+        backs = [
+            obj
+            for obj in get_relations(self, "reply_to", backrefs=True, as_obj=True)
+            if intf.providedBy(obj)
+        ]
         for obj in backs:
             if obj not in normals:
                 normals.append(obj)
@@ -428,7 +474,9 @@ class IOutgoingEmail(model.Schema):
     email_attachments = schema.List(
         title=_("Email attachments"),
         required=False,
-        value_type=schema.Choice(vocabulary="collective.dms.mailcontent.email_attachments_voc"),
+        value_type=schema.Choice(
+            vocabulary="collective.dms.mailcontent.email_attachments_voc"
+        ),
     )
     form.widget("email_attachments", CheckBoxFieldWidget, multiple="multiple", size=10)
 

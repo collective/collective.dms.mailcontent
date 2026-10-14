@@ -6,6 +6,8 @@ Changelog
 
 - Migrated to Plone 6.2, based on the work started by @sgeulette on `plone6`.
   [sgeulette, chris-adam]
+- Added plone.meta configuration (tox, pre-commit, GitHub Actions).
+  [chris-adam]
 
 1.17.1 (2026-03-26)
 -------------------
@@ -108,7 +110,7 @@ Changelog
 1.8 (2022-03-17)
 ----------------
 
-- Made separate `add_content` method to be overrided.
+- Made separate `add_content` method to be overridden.
   [sgeulette]
 
 1.7 (2022-02-10)
@@ -137,7 +139,7 @@ Changelog
 1.5 (2021-04-20)
 ----------------
 
-- Use interface to ckeck context in validateIndexValueUniqueness
+- Use interface to check context in validateIndexValueUniqueness
   (multiple types can use the same interface).
   [sgeulette]
 - RelatedDocs field (reply_to) use now object_provides criteria

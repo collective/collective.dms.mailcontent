@@ -1,13 +1,15 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-    i18n_domain="collective.dms.mailcontent">
+    i18n_domain="collective.dms.mailcontent"
+    >
 
-    <genericsetup:upgradeStep
+  <genericsetup:upgradeStep
       title="Migration profile for collective.dms.mailcontent to 11"
+      profile="collective.dms.mailcontent:default"
       source="10"
       destination="11"
-      profile="collective.dms.mailcontent:default"
-      handler=".upgrades.v11" />
+      handler=".upgrades.v11"
+      />
 
 </configure>

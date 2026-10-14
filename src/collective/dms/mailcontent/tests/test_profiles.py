@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
 """Results of the default profile (profiles/default) and of permissions.zcml."""
+
 from collective.dms.mailcontent.dmsmail import DmsIncomingMail
 from collective.dms.mailcontent.dmsmail import DmsOutgoingMail
 from collective.dms.mailcontent.testing import INTEGRATION
@@ -18,14 +18,27 @@ from zope.security.interfaces import IPermission
 
 import unittest
 
-
-ALIASES = {"(Default)": "(dynamic view)", "edit": "@@edit", "sharing": "@@sharing", "view": "(selected layout)"}
-BEHAVIORS = ("plone.app.content.interfaces.INameFromTitle", "plone.app.dexterity.behaviors.metadata.IDublinCore")
+ALIASES = {
+    "(Default)": "(dynamic view)",
+    "edit": "@@edit",
+    "sharing": "@@sharing",
+    "view": "(selected layout)",
+}
+BEHAVIORS = (
+    "plone.app.content.interfaces.INameFromTitle",
+    "plone.app.dexterity.behaviors.metadata.IDublinCore",
+)
 # Plone 6: icon names of plone.staticresources (Plone 4: png resources of the package)
 ICONS = {"dmsincomingmail": "box-arrow-in-down", "dmsoutgoingmail": "box-arrow-up"}
 PERMISSIONS = (
-    ("collective.dms.mailcontent.dmsincomingmail.add", "collective.dms.mailcontent: Add Incoming Mail"),
-    ("collective.dms.mailcontent.dmsoutgoingmail.add", "collective.dms.mailcontent: Add Outgoing Mail"),
+    (
+        "collective.dms.mailcontent.dmsincomingmail.add",
+        "collective.dms.mailcontent: Add Incoming Mail",
+    ),
+    (
+        "collective.dms.mailcontent.dmsoutgoingmail.add",
+        "collective.dms.mailcontent: Add Outgoing Mail",
+    ),
 )
 
 
@@ -37,7 +50,9 @@ class TestDefaultProfile(unittest.TestCase):
         self.portal = self.layer["portal"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
         self.types = self.portal.portal_types
-        self.folder = api.content.create(container=self.portal, type="Folder", id="folder", title="Folder")
+        self.folder = api.content.create(
+            container=self.portal, type="Folder", id="folder", title="Folder"
+        )
 
     def check_mail_fti(self, fti, name):
         """FTI properties common to both mail types."""
@@ -62,16 +77,25 @@ class TestDefaultProfile(unittest.TestCase):
             [("view", ("View",)), ("edit", ("Modify portal content",))],
         )
         self.assertIn(name, [t.getId() for t in self.folder.allowedContentTypes()])
-        mail = api.content.create(container=self.folder, type=name, id=name, title="Mail")
-        self.assertEqual(sorted([t.getId() for t in mail.allowedContentTypes()]), ["dmsappendixfile", "dmsmainfile"])
+        mail = api.content.create(
+            container=self.folder, type=name, id=name, title="Mail"
+        )
+        self.assertEqual(
+            sorted([t.getId() for t in mail.allowedContentTypes()]),
+            ["dmsappendixfile", "dmsmainfile"],
+        )
         return mail
 
     def test_type_dmsincomingmail(self):
         fti = self.types.dmsincomingmail
         self.assertEqual(fti.Title(), "Incoming Mail")
         self.assertEqual(fti.Description(), "Incoming dms mail document")
-        self.assertEqual(fti.klass, "collective.dms.mailcontent.dmsmail.DmsIncomingMail")
-        self.assertEqual(fti.add_permission, "collective.dms.mailcontent.dmsincomingmail.add")
+        self.assertEqual(
+            fti.klass, "collective.dms.mailcontent.dmsmail.DmsIncomingMail"
+        )
+        self.assertEqual(
+            fti.add_permission, "collective.dms.mailcontent.dmsincomingmail.add"
+        )
         # Plone 6: plone.textindexer (Plone 4: collective.dexteritytextindexer)
         self.assertEqual(fti.behaviors, BEHAVIORS + ("plone.textindexer",))
         mail = self.check_mail_fti(fti, "dmsincomingmail")
@@ -83,8 +107,12 @@ class TestDefaultProfile(unittest.TestCase):
         fti = self.types.dmsoutgoingmail
         self.assertEqual(fti.Title(), "Outgoing Mail")
         self.assertEqual(fti.Description(), "Outgoing dms mail document")
-        self.assertEqual(fti.klass, "collective.dms.mailcontent.dmsmail.DmsOutgoingMail")
-        self.assertEqual(fti.add_permission, "collective.dms.mailcontent.dmsoutgoingmail.add")
+        self.assertEqual(
+            fti.klass, "collective.dms.mailcontent.dmsmail.DmsOutgoingMail"
+        )
+        self.assertEqual(
+            fti.add_permission, "collective.dms.mailcontent.dmsoutgoingmail.add"
+        )
         # Plone 6: the text indexer behavior too, the internal reference is in the SearchableText (see test_content;
         # Plone 4: no text indexer behavior)
         self.assertEqual(fti.behaviors, BEHAVIORS + ("plone.textindexer",))
@@ -96,7 +124,13 @@ class TestDefaultProfile(unittest.TestCase):
     def test_types(self):
         self.assertEqual(
             [t for t in self.types.objectIds() if t.startswith("dms")],
-            ["dmsdocument", "dmsmainfile", "dmsappendixfile", "dmsincomingmail", "dmsoutgoingmail"],
+            [
+                "dmsdocument",
+                "dmsmainfile",
+                "dmsappendixfile",
+                "dmsincomingmail",
+                "dmsoutgoingmail",
+            ],
         )
 
     def test_catalog(self):
@@ -118,12 +152,15 @@ class TestDefaultProfile(unittest.TestCase):
         self.assertNotIn("recipients", catalog.indexes())
 
     def test_controlpanel(self):
-        configlets = dict((a.id, a) for a in self.portal.portal_controlpanel.listActions())
+        configlets = {a.id: a for a in self.portal.portal_controlpanel.listActions()}
         configlet = configlets["dmsmailcontent.settings"]
         self.assertEqual(configlet.title, "Dms Mail settings")
         self.assertEqual(configlet.appId, "dmsmailcontent")
         self.assertEqual(configlet.category, "Products")
-        self.assertEqual(configlet.getActionExpression(), "string:${portal_url}/@@dmsmailcontent-settings")
+        self.assertEqual(
+            configlet.getActionExpression(),
+            "string:${portal_url}/@@dmsmailcontent-settings",
+        )
         self.assertEqual(configlet.permissions, ("Plone Site Setup: Site",))
         # Plone 6: an icon name (Plone 4: no icon)
         self.assertEqual(configlet.getIconExpression(), "string:envelope-at")
@@ -134,32 +171,46 @@ class TestDefaultProfile(unittest.TestCase):
     def test_import_steps(self):
         registry = self.portal.portal_setup.getImportStepRegistry()
         step = registry.getStepMetadata("dmsmailcontent-postInstall")
-        self.assertEqual(step["handler"], "collective.dms.mailcontent.setuphandlers.postInstall")
         self.assertEqual(
-            sorted(step["dependencies"]), ["catalog", "controlpanel", "plone.app.registry", "rolemap", "typeinfo"]
+            step["handler"], "collective.dms.mailcontent.setuphandlers.postInstall"
+        )
+        self.assertEqual(
+            sorted(step["dependencies"]),
+            ["catalog", "controlpanel", "plone.app.registry", "rolemap", "typeinfo"],
         )
 
     def test_metadata(self):
         setup_tool = self.portal.portal_setup
-        self.assertEqual(setup_tool.getLastVersionForProfile("collective.dms.mailcontent:default"), ("11",))
+        self.assertEqual(
+            setup_tool.getLastVersionForProfile("collective.dms.mailcontent:default"),
+            ("11",),
+        )
         # Plone 6: no plone.formwidget.datetime dependency, replaced by the plone.app.z3cform date widgets
         self.assertNotIn(
             "profile-plone.formwidget.datetime:default",
-            setup_tool.getDependenciesForProfile("profile-collective.dms.mailcontent:default"),
+            setup_tool.getDependenciesForProfile(
+                "profile-collective.dms.mailcontent:default"
+            ),
         )
         for profile in (
             "plone.app.dexterity:default",
             "collective.dms.basecontent:default",
             "collective.contact.core:default",
         ):
-            self.assertNotEqual(setup_tool.getLastVersionForProfile(profile), "unknown", profile)
+            self.assertNotEqual(
+                setup_tool.getLastVersionForProfile(profile), "unknown", profile
+            )
 
     def test_registry(self):
         # the records of the settings schema; numbers and expressions of the testing profile
         self.assertEqual(api.portal.get_registry_record(IM_NUMBER), 10)
-        self.assertEqual(api.portal.get_registry_record(IM_EXPRESSION), "python:'test-in/'+number")
+        self.assertEqual(
+            api.portal.get_registry_record(IM_EXPRESSION), "python:'test-in/'+number"
+        )
         self.assertEqual(api.portal.get_registry_record(OM_NUMBER), 10)
-        self.assertEqual(api.portal.get_registry_record(OM_EXPRESSION), "python:'test-out/'+number")
+        self.assertEqual(
+            api.portal.get_registry_record(OM_EXPRESSION), "python:'test-out/'+number"
+        )
         self.assertEqual(api.portal.get_registry_record(OM_EDIT_IRN), "show")
         self.assertTrue(api.portal.get_registry_record(OM_INCREMENT))
         self.assertTrue(api.portal.get_registry_record(OM_TODAY))
@@ -168,12 +219,20 @@ class TestDefaultProfile(unittest.TestCase):
         for permission_id, permission in PERMISSIONS:
             # permissions.zcml
             self.assertEqual(getUtility(IPermission, permission_id).title, permission)
-            roles = [r["name"] for r in self.portal.rolesOfPermission(permission) if r["selected"]]
-            self.assertEqual(sorted(roles), ["Contributor", "Manager", "Site Administrator"])
+            roles = [
+                r["name"]
+                for r in self.portal.rolesOfPermission(permission)
+                if r["selected"]
+            ]
+            self.assertEqual(
+                sorted(roles), ["Contributor", "Manager", "Site Administrator"]
+            )
             self.assertTrue(self.portal.acquiredRolesAreUsedBy(permission))
         # a contributor can add mails, a member (owner of the folder) cannot
         # (local roles set before any check: borg.localrole caches them in the request)
-        folder2 = api.content.create(container=self.portal, type="Folder", id="folder2", title="Folder 2")
+        folder2 = api.content.create(
+            container=self.portal, type="Folder", id="folder2", title="Folder 2"
+        )
         folder2.manage_setLocalRoles(TEST_USER_ID, ["Owner", "Contributor"])
         setRoles(self.portal, TEST_USER_ID, ["Member"])
         allowed = [t.getId() for t in self.folder.allowedContentTypes()]

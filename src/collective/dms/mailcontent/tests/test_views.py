@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
 """browser/views.py"""
+
 from collective.dms.mailcontent.browser.views import AddOM
 from collective.dms.mailcontent.browser.views import DmsOutgoingMailUpdateWidgets
 from collective.dms.mailcontent.browser.views import OMCustomAddForm
@@ -33,8 +33,12 @@ class ViewsTestCase(unittest.TestCase):
         self.portal = self.layer["portal"]
         self.request = self.layer["request"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
-        self.folder = api.content.create(container=self.portal, type="Folder", id="folder", title="Folder")
-        self.om = api.content.create(container=self.folder, type="dmsoutgoingmail", id="om", title="O mail")
+        self.folder = api.content.create(
+            container=self.portal, type="Folder", id="folder", title="Folder"
+        )
+        self.om = api.content.create(
+            container=self.folder, type="dmsoutgoingmail", id="om", title="O mail"
+        )
         setRoles(self.portal, TEST_USER_ID, ["Contributor", "Editor"])
 
     def settings(self, edit_irn, increment=True):
@@ -83,7 +87,9 @@ class TestViews(ViewsTestCase):
             widget = form.widgets["internal_reference_no"]
             self.request["_hide_irn"] = True
             DmsOutgoingMailUpdateWidgets(form)
-            self.assertEqual((widget.mode, widget.value), ("input", "test-out/11"), role)
+            self.assertEqual(
+                (widget.mode, widget.value), ("input", "test-out/11"), role
+            )
 
 
 class TestOMEdit(ViewsTestCase):
@@ -93,7 +99,9 @@ class TestOMEdit(ViewsTestCase):
         # no workflow
         self.assertEqual(self.portal.portal_workflow.getWorkflowsFor(self.om), [])
         self.assertTrue(form.is_initial_state())
-        self.portal.portal_workflow.setChainForPortalTypes(["dmsoutgoingmail"], "intranet_workflow")
+        self.portal.portal_workflow.setChainForPortalTypes(
+            ["dmsoutgoingmail"], "intranet_workflow"
+        )
         self.assertEqual(api.content.get_state(self.om), "internal")
         self.assertTrue(form.is_initial_state())
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
@@ -119,7 +127,9 @@ class TestOMEdit(ViewsTestCase):
         self.settings("reply", increment=False)
         self.edit_form()
         self.assertEqual(self.irn_flags(), (None, False))
-        self.portal.portal_workflow.setChainForPortalTypes(["dmsoutgoingmail"], "intranet_workflow")
+        self.portal.portal_workflow.setChainForPortalTypes(
+            ["dmsoutgoingmail"], "intranet_workflow"
+        )
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
         api.content.transition(self.om, "submit")
         self.settings("reply", increment=False)
@@ -162,7 +172,9 @@ class TestOMCustomAddForm(ViewsTestCase):
         self.settings("show", increment=False)
         form = self.add_form()
         self.assertIsInstance(form, OMCustomAddForm)
-        form.add(createContent("dmsoutgoingmail", title="Out", internal_reference_no="S1"))
+        form.add(
+            createContent("dmsoutgoingmail", title="Out", internal_reference_no="S1")
+        )
         om = self.folder["out"]
         self.assertFalse(om._auto_ref)
         self.assertEqual(api.portal.get_registry_record(OM_NUMBER), 11)
@@ -183,7 +195,9 @@ class TestAddOM(unittest.TestCase):
     def test_add_view(self):
         portal = self.layer["portal"]
         setRoles(portal, TEST_USER_ID, ["Manager"])
-        folder = api.content.create(container=portal, type="Folder", id="folder", title="Folder")
+        folder = api.content.create(
+            container=portal, type="Folder", id="folder", title="Folder"
+        )
         folder.manage_setLocalRoles(TEST_USER_ID, ["Contributor"])
         setRoles(portal, TEST_USER_ID, ["Member"])
         view = folder.restrictedTraverse("++add++dmsoutgoingmail")
@@ -192,13 +206,24 @@ class TestAddOM(unittest.TestCase):
         transaction.commit()
         browser = Browser(self.layer["app"])
         browser.handleErrors = False
-        browser.addHeader("Authorization", "Basic %s:%s" % (TEST_USER_NAME, TEST_USER_PASSWORD))
+        browser.addHeader(
+            "Authorization", f"Basic {TEST_USER_NAME}:{TEST_USER_PASSWORD}"
+        )
         # Plone 6: without the plone.protect auto CSRF check: the first render of a new site writes (dependencies:
         # dexterity.localroles fti localroles, imio.helpers volatile cache keys), the confirm form would be shown
         with patch("plone.protect.auto.CSRF_DISABLED", True):
             # a contributor opens the add form
             browser.open("%s/++add++dmsoutgoingmail" % folder.absolute_url())
-            self.assertEqual(browser.getControl(name="form.widgets.internal_reference_no").value, "test-out/10")
-            self.assertIn('id="form-widgets-recipients-widgets-query"', browser.contents)
+            self.assertEqual(
+                browser.getControl(name="form.widgets.internal_reference_no").value,
+                "test-out/10",
+            )
+            self.assertIn(
+                'id="form-widgets-recipients-widgets-query"', browser.contents
+            )
             # the add permission is required
-            self.assertRaises(Unauthorized, browser.open, "%s/++add++dmsoutgoingmail" % portal.absolute_url())
+            self.assertRaises(
+                Unauthorized,
+                browser.open,
+                "%s/++add++dmsoutgoingmail" % portal.absolute_url(),
+            )

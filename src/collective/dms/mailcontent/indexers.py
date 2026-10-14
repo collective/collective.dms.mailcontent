@@ -62,7 +62,9 @@ def relations_index(obj, attr):
         value = [value]
     for rel in value:
         related = rel.to_object
-        if related is None:  # broken, or dangling (relations of a deleted contact unindexed by contact.core)
+        if (
+            related is None
+        ):  # broken, or dangling (relations of a deleted contact unindexed by contact.core)
             continue
         index.append(related.UID())
 

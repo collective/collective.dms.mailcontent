@@ -1,4 +1,3 @@
-# -*- coding: utf8 -*-
 from collective.dms.mailcontent.behaviors import ISendingType
 from collective.dms.mailcontent.behaviors import sending_types
 from collective.dms.mailcontent.testing import INTEGRATION
@@ -21,7 +20,7 @@ class TestBehaviors(unittest.TestCase, BaseTest):
     layer = INTEGRATION
 
     def setUp(self):
-        super(TestBehaviors, self).setUp()
+        super().setUp()
         self.portal = self.layer["portal"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
         self.login(TEST_USER_NAME)
@@ -29,7 +28,9 @@ class TestBehaviors(unittest.TestCase, BaseTest):
         self.testitem = self.portal["testitem"]
 
     def test_behaviors_installation(self):
-        sending_type_behavior = getUtility(IBehavior, name="collective.dms.mailcontent.behaviors.ISendingType")
+        sending_type_behavior = getUtility(
+            IBehavior, name="collective.dms.mailcontent.behaviors.ISendingType"
+        )
         self.assertEqual(sending_type_behavior.interface, ISendingType)
         self.assertTrue(IFormFieldProvider.providedBy(sending_type_behavior.interface))
         self.assertEqual(sending_type_behavior.title, "SendingType")
@@ -50,13 +51,20 @@ class TestBehaviors(unittest.TestCase, BaseTest):
         widget = form.widgets["ISendingType.sending_type"]
         self.assertIsInstance(widget, RadioWidget)
         self.assertEqual(widget.value, ["normal"])
-        self.assertEqual([(i["value"], i["checked"]) for i in widget.items], [("normal", True), ("registered", False)])
+        self.assertEqual(
+            [(i["value"], i["checked"]) for i in widget.items],
+            [("normal", True), ("registered", False)],
+        )
 
     def test_sending_types(self):
         self.assertEqual(
             [(t.value, t.token, translate(t.title)) for t in sending_types],
-            [("normal", "normal", "Normal"), ("registered", "registered", "Registered")],
+            [
+                ("normal", "normal", "Normal"),
+                ("registered", "registered", "Registered"),
+            ],
         )
         self.assertEqual(
-            [translate(t.title, target_language="fr") for t in sending_types], ["Normal", "Par recommand\xe9"]
+            [translate(t.title, target_language="fr") for t in sending_types],
+            ["Normal", "Par recommand\xe9"],  # codespell:ignore recommand
         )

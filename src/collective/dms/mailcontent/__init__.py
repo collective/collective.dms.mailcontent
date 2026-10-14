@@ -3,7 +3,6 @@ from zope.component import getUtility
 from zope.i18n import ITranslationDomain
 from zope.i18nmessageid import MessageFactory
 
-
 _ = MessageFactory("collective.dms.mailcontent")
 
 
@@ -14,5 +13,9 @@ def initialize(context):
 def _tr(msgid, domain="collective.dms.mailcontent", mapping=None):
     translation_domain = getUtility(ITranslationDomain, domain)
     return translation_domain.translate(
-        msgid, target_language=api.portal.get_registry_record("plone.default_language", default="fr"), mapping=mapping
+        msgid,
+        target_language=api.portal.get_registry_record(
+            "plone.default_language", default="fr"
+        ),
+        mapping=mapping,
     )
