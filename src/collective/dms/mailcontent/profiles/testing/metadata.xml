@@ -1,8 +1,8 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <metadata>
   <version>0.1</version>
   <dependencies>
-  	<dependency>profile-collective.dms.mailcontent:default</dependency>
-  	<dependency>profile-collective.dms.mailcontent:testing</dependency>
+    <dependency>profile-collective.dms.mailcontent:default</dependency>
+    <dependency>profile-collective.dms.mailcontent:testing</dependency>
   </dependencies>
 </metadata>

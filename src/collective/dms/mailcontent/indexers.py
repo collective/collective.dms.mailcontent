@@ -1,9 +1,9 @@
 from collective.dms.basecontent.dmsdocument import IDmsDocument
 from collective.dms.mailcontent.dmsmail import IDmsIncomingMail
 from collective.dms.mailcontent.dmsmail import IDmsOutgoingMail
+from plone.base.utils import base_hasattr
 from plone.indexer import indexer
-from Products.CMFPlone.utils import base_hasattr
-from Products.PluginIndexes.common.UnIndex import _marker
+from Products.PluginIndexes.unindex import _marker
 
 
 @indexer(IDmsIncomingMail)
@@ -61,9 +61,11 @@ def relations_index(obj, attr):
     if not isinstance(value, list):
         value = [value]
     for rel in value:
-        if rel.isBroken():
-            continue
         related = rel.to_object
+        if (
+            related is None
+        ):  # broken, or dangling (relations of a deleted contact unindexed by contact.core)
+            continue
         index.append(related.UID())
 
         if related.portal_type == "organization":

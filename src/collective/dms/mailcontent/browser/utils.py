@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 from collective.dms.mailcontent.dmsmail import IDmsIncomingMail
 from Products.Five import BrowserView
 
