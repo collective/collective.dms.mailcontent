@@ -31,7 +31,6 @@ test_deps_additional = """
     horse-with-no-namespace
     collective.compoundcriterion @ file://{toxinidir}/sources/collective.compoundcriterion
     collective.contact.core @ file://{toxinidir}/sources/collective.contact.core
-    collective.contact.widget @ file://{toxinidir}/sources/collective.contact.widget
     collective.dms.basecontent @ file://{toxinidir}/sources/collective.dms.basecontent
     collective.dms.scanbehavior @ file://{toxinidir}/sources/collective.dms.scanbehavior
     collective.eeafaceted.batchactions @ file://{toxinidir}/sources/collective.eeafaceted.batchactions
