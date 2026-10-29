@@ -1,15 +1,19 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <rolemap>
   <permissions>
-    <permission name="collective.dms.mailcontent: Add Incoming Mail" acquire="True">
-      <role name="Manager"/>
-      <role name="Contributor"/>
-      <role name="Site Administrator"/>
+    <permission acquire="True"
+                name="collective.dms.mailcontent: Add Incoming Mail"
+    >
+      <role name="Manager" />
+      <role name="Contributor" />
+      <role name="Site Administrator" />
     </permission>
-    <permission name="collective.dms.mailcontent: Add Outgoing Mail" acquire="True">
-      <role name="Manager"/>
-      <role name="Contributor"/>
-      <role name="Site Administrator"/>
+    <permission acquire="True"
+                name="collective.dms.mailcontent: Add Outgoing Mail"
+    >
+      <role name="Manager" />
+      <role name="Contributor" />
+      <role name="Site Administrator" />
     </permission>
   </permissions>
 </rolemap>
