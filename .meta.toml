@@ -29,6 +29,8 @@ test_environment_variables = """
     # Playwright (rfbrowser init) does not know ubuntu-latest 26.04 yet
     PLAYWRIGHT_HOST_PLATFORM_OVERRIDE=ubuntu24.04-x64
 """
+# horse-with-no-namespace: the collective -nspkg.pth of the released collective.behavior.talcondition,
+# collective.excelexport and collective.quickupload freeze collective.__path__ and hide src/collective
 test_deps_additional = """
     horse-with-no-namespace
     collective.compoundcriterion @ file://{toxinidir}/sources/collective.compoundcriterion

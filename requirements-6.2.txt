@@ -1,4 +1,6 @@
 -c https://dist.plone.org/release/6.2-latest/requirements.txt
+# collective.behavior.talcondition, collective.excelexport and collective.quickupload
+# still declare pkg_resources namespaces
 horse-with-no-namespace
 setuptools
 zc.buildout
