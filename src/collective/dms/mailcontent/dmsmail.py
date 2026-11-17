@@ -1,32 +1,36 @@
-from . import _
-from collective import dexteritytextindexer
 from collective.contact.widget.schema import ContactChoice
 from collective.contact.widget.schema import ContactList
 from collective.dms.basecontent.dmsdocument import DmsDocument
 from collective.dms.basecontent.dmsdocument import IDmsDocument
-from collective.dms.basecontent.relateddocs import RelatedDocs
+from collective.dms.basecontent.relateddocs import RelatedDocsFieldWidget
+from collective.dms.mailcontent import _
 from imio.helpers.content import get_relations
 from imio.helpers.emailer import validate_email_address
 from imio.helpers.emailer import validate_email_addresses
 from plone import api
+from plone.app.dexterity import textindexer
 from plone.app.textfield import RichText
+from plone.app.vocabularies.catalog import CatalogSource
+from plone.app.z3cform.widgets.datetime import DateFieldWidget
+from plone.app.z3cform.widgets.datetime import DatetimeFieldWidget
 from plone.autoform import directives as form
 from plone.dexterity.schema import DexteritySchemaPolicy
-from plone.directives.form.value import default_value
-from plone.formwidget.datetime.z3cform.widget import DateFieldWidget
-from plone.formwidget.datetime.z3cform.widget import DatetimeFieldWidget
 from plone.registry.interfaces import IRegistry
 from plone.supermodel import model
 from plone.supermodel.directives import fieldset
-from Products.CMFPlone.utils import getToolByName
+from Products.CMFCore.utils import getToolByName
 from z3c.form import validator
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
+from z3c.form.widget import ComputedWidgetAttribute
+from z3c.relationfield import RelationChoice
+from z3c.relationfield import RelationList
 from zope import schema
 from zope.component import getMultiAdapter
 from zope.component import getUtility
-from zope.component.interfaces import ComponentLookupError
-from zope.interface import implements
+from zope.globalrequest import getRequest
+from zope.interface import implementer
 from zope.interface import Invalid
+from zope.interface.interfaces import ComponentLookupError
 
 import datetime
 
@@ -43,12 +47,12 @@ def validateIndexValueUniqueness(context, type_interface, index_name, value):
     if not type_interface.providedBy(context):
         # we create the dmsincomingmail, the context is the container
         if brains:
-            raise Invalid(_(u"This value is already used"))
+            raise Invalid(_("This value is already used"))
     else:
         # we edit the type, the context is itself
         # if multiple brains (normally not possible), we are sure there are other objects with same index value
         if len(brains) > 1 or (len(brains) == 1 and brains[0].UID != context.UID()):
-            raise Invalid(_(u"This value is already used"))
+            raise Invalid(_("This value is already used"))
 
 
 class InternalReferenceBaseValidator(validator.SimpleFieldValidator):
@@ -62,11 +66,13 @@ class InternalReferenceBaseValidator(validator.SimpleFieldValidator):
         # we call the already defined validators
         # super(InternalReferenceValidator, self).validate(value)
         try:
-            validateIndexValueUniqueness(self.context, self.type_interface, "internal_reference_number", value)
+            validateIndexValueUniqueness(
+                self.context, self.type_interface, "internal_reference_number", value
+            )
         except Invalid:
             raise Invalid(
                 _(
-                    u"This value is already used. A good value would be: ${good_value}",
+                    "This value is already used. A good value would be: ${good_value}",
                     mapping={"good_value": self.good_value()},
                 )
             )
@@ -77,24 +83,46 @@ class ReplyToValidator(validator.SimpleFieldValidator):
 
     def validate(self, value, force=False):
         # we call the already defined validators
-        super(ReplyToValidator, self).validate(value, force=force)
+        super().validate(value, force=force)
         # value contains a list of linked objects
         # on reply, self.context is an incomingmail and future outgoingmail cannot be selected
         if self.view.__name__ == "reply":
             return
-        if self.context in value or []:
+        if self.context in (value or []):
             raise Invalid(
                 _(
-                    u"You cannot choose the current object as a reply to.",
+                    "You cannot choose the current object as a reply to.",
                 )
             )
+
+
+def receptionDateDefaultValue(data):
+    # return the current datetime
+    return datetime.datetime.now()
+
+
+def originalMailDateDefaultValue(data):
+    # return 3 days before
+    return datetime.date.today() - datetime.timedelta(days=3)
+
+
+def internalReferenceIncomingMailDefaultValue(data):
+    """
+    Default value of internal_reference_no for dmsincomingmail
+    """
+    return evaluateInternalReference(
+        data.context,
+        data.request,
+        "collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number",
+        "collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_talexpression",
+    )
 
 
 class IDmsIncomingMail(IDmsDocument):
     """ """
 
     original_mail_date = schema.Date(
-        title=_(u"Original Mail Date"),
+        title=_("Original Mail Date"),
         required=False,
         min=datetime.date(1990, 1, 1),
         max=datetime.date.today() + datetime.timedelta(days=7),
@@ -102,37 +130,42 @@ class IDmsIncomingMail(IDmsDocument):
     form.widget(original_mail_date=DateFieldWidget)
 
     reception_date = schema.Datetime(
-        title=_(u"Reception Date"),
+        title=_("Reception Date"),
         required=False,
         min=datetime.datetime(1990, 1, 1),
         max=datetime.datetime.today() + datetime.timedelta(days=7),
     )
-    form.widget("reception_date", DatetimeFieldWidget, show_time=True)
+    form.widget(reception_date=DatetimeFieldWidget)
 
     external_reference_no = schema.TextLine(
-        title=_(u"External Reference Number"),
+        title=_("External Reference Number"),
         required=False,
     )
 
-    dexteritytextindexer.searchable("internal_reference_no")
+    textindexer.searchable("internal_reference_no")
     internal_reference_no = schema.TextLine(
-        title=_(u"Internal Reference Number"),
+        title=_("Internal Reference Number"),
         required=False,
     )
 
-    sender = ContactList(title=_(u"Sender"), required=True)
+    sender = ContactList(title=_("Sender"), required=True)
 
-    recipients = ContactList(title=_(u"Recipients"), required=False)
+    recipients = ContactList(title=_("Recipients"), required=False)
 
-    reply_to = RelatedDocs(
-        title=_(u"In Reply To"),
+    reply_to = RelationList(
+        title=_("In Reply To"),
         required=False,
-        object_provides=(
-            "collective.dms.mailcontent.dmsmail.IDmsIncomingMail",
-            "collective.dms.mailcontent.dmsmail.IDmsOutgoingMail",
+        value_type=RelationChoice(
+            title="",
+            source=CatalogSource(
+                object_provides=(
+                    "collective.dms.mailcontent.dmsmail.IDmsIncomingMail",
+                    "collective.dms.mailcontent.dmsmail.IDmsOutgoingMail",
+                )
+            ),
         ),
-        display_backrefs=True,
     )
+    form.widget(reply_to=RelatedDocsFieldWidget)
 
     form.order_before(sender="treating_groups")
     form.order_after(recipients="sender")
@@ -159,63 +192,59 @@ class IMReplyToValidator(ReplyToValidator):
 
 
 validator.WidgetValidatorDiscriminators(
-    InternalReferenceIncomingMailValidator, field=IDmsIncomingMail["internal_reference_no"]
+    InternalReferenceIncomingMailValidator,
+    field=IDmsIncomingMail["internal_reference_no"],
 )
-validator.WidgetValidatorDiscriminators(IMReplyToValidator, field=IDmsIncomingMail["reply_to"])
+validator.WidgetValidatorDiscriminators(
+    IMReplyToValidator, field=IDmsIncomingMail["reply_to"]
+)
+
+# form defaults (add forms), as Plone 4 plone.directives.form default_value: no value on attribute access
+ReceptionDateDefault = ComputedWidgetAttribute(
+    receptionDateDefaultValue, field=IDmsIncomingMail["reception_date"]
+)
+OriginalMailDateDefault = ComputedWidgetAttribute(
+    originalMailDateDefaultValue, field=IDmsIncomingMail["original_mail_date"]
+)
+InternalReferenceIncomingMailDefault = ComputedWidgetAttribute(
+    internalReferenceIncomingMailDefaultValue,
+    field=IDmsIncomingMail["internal_reference_no"],
+)
 
 
-@default_value(field=IDmsIncomingMail["reception_date"])
-def receptionDateDefaultValue(data):
-    # return the current datetime
-    return datetime.datetime.now()
-
-
-@default_value(field=IDmsIncomingMail["original_mail_date"])
-def originalMailDateDefaultValue(data):
-    # return 3 days before
-    return datetime.date.today() - datetime.timedelta(days=3)
-
-
-def evaluateInternalReference(context, request, number_registry_name, talexpression_registry_name):
-    # return a generated internal reference number
+def evaluateInternalReference(
+    context, request, number_registry_name, talexpression_registry_name
+):
+    """Return a generated internal reference number"""
     registry = getUtility(IRegistry)
     # we get the following mail number, stored in registry
     number = registry.get(number_registry_name) or 1
     # we get the portal
     try:
-        portal_state = getMultiAdapter((context, request), name=u"plone_portal_state")
-        settings_view = getMultiAdapter((portal_state.portal(), request), name=u"dmsmailcontent-settings")
+        portal = api.portal.get()
+        settings_view = getMultiAdapter(
+            (portal, request), name="dmsmailcontent-settings"
+        )
     except ComponentLookupError:
         return "Error getting view..."
     # we evaluate the expression
     expression = registry.get(talexpression_registry_name)
-    value = settings_view.evaluateTalExpression(expression, context, request, portal_state.portal(), number)
+    value = settings_view.evaluateTalExpression(
+        expression, context, request, portal, number
+    )
     return value
 
 
-@default_value(field=IDmsIncomingMail["internal_reference_no"])
-def internalReferenceIncomingMailDefaultValue(data):
-    """
-    Default value of internal_reference_no for dmsincomingmail
-    """
-    return evaluateInternalReference(
-        data.context,
-        data.request,
-        "collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number",
-        "collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_talexpression",
-    ).decode("utf8")
-
-
+@implementer(IDmsIncomingMail)
 class DmsIncomingMail(DmsDocument):
     """ """
 
-    implements(IDmsIncomingMail)
     __ac_local_roles_block__ = False
 
     def Title(self):
         if self.internal_reference_no is None:
-            return self.title.encode("utf8")
-        return "%s - %s" % (self.internal_reference_no.encode("utf8"), self.title.encode("utf8"))
+            return self.title
+        return f"{self.internal_reference_no} - {self.title}"
 
 
 def incrementIncomingMailNumber(incomingmail, event):
@@ -227,48 +256,83 @@ def incrementIncomingMailNumber(incomingmail, event):
     if not incomingmail.internal_reference_no:
         internal_reference_no = evaluateInternalReference(
             incomingmail,
-            incomingmail.REQUEST,
+            getRequest(),
             "collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number",
             "collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_talexpression",
         )
         incomingmail.internal_reference_no = internal_reference_no
-        incomingmail.reindexObject(idxs=("Title", "internal_reference_number", "SearchableText", "sortable_title"))
+        incomingmail.reindexObject(
+            idxs=(
+                "Title",
+                "internal_reference_number",
+                "SearchableText",
+                "sortable_title",
+            )
+        )
     registry = getUtility(IRegistry)
-    registry["collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number"] += 1
+    registry[
+        "collective.dms.mailcontent.browser.settings.IDmsMailConfig.incomingmail_number"
+    ] += 1
+
+
+def mailDateDefaultValue(data):
+    # return the day date
+    today = api.portal.get_registry_record(
+        "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_today_mail_date"
+    )
+    if today:
+        return datetime.date.today()
+
+
+def internalReferenceOutgoingMailDefaultValue(data):
+    """
+    Default value of internal_reference_no for dmsoutgoingmail
+    """
+    return evaluateInternalReference(
+        data.context,
+        data.request,
+        "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number",
+        "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_talexpression",
+    )
 
 
 class IDmsOutgoingMail(IDmsDocument):
     """ """
 
     mail_date = schema.Date(
-        title=_(u"Mail Date"),
+        title=_("Mail Date"),
         required=False,
         min=datetime.date(1990, 1, 1),
         max=datetime.date(datetime.date.today().year + 1, 12, 31),
     )
 
-    dexteritytextindexer.searchable("internal_reference_no")
+    textindexer.searchable("internal_reference_no")
     internal_reference_no = schema.TextLine(
-        title=_(u"Internal Reference Number"),
+        title=_("Internal Reference Number"),
         required=False,
     )
 
-    sender = ContactChoice(title=_(u"Sender"), required=False)
+    sender = ContactChoice(title=_("Sender"), required=False)
 
-    recipients = ContactList(title=_(u"Recipients"), required=True)
+    recipients = ContactList(title=_("Recipients"), required=True)
 
-    reply_to = RelatedDocs(
-        title=_(u"In Reply To"),
+    reply_to = RelationList(
+        title=_("In Reply To"),
         required=False,
-        object_provides=(
-            "collective.dms.mailcontent.dmsmail.IDmsIncomingMail",
-            "collective.dms.mailcontent.dmsmail.IDmsOutgoingMail",
+        value_type=RelationChoice(
+            title="",
+            source=CatalogSource(
+                object_provides=(
+                    "collective.dms.mailcontent.dmsmail.IDmsIncomingMail",
+                    "collective.dms.mailcontent.dmsmail.IDmsOutgoingMail",
+                )
+            ),
         ),
-        display_backrefs=True,
     )
+    form.widget(reply_to=RelatedDocsFieldWidget)
 
     external_reference_no = schema.TextLine(
-        title=_(u"External Reference Number"),
+        title=_("External Reference Number"),
         required=False,
     )
 
@@ -283,29 +347,6 @@ class IDmsOutgoingMail(IDmsDocument):
     form.order_after(notes="related_docs")
 
 
-@default_value(field=IDmsOutgoingMail["mail_date"])
-def mailDateDefaultValue(data):
-    # return the day date
-    today = api.portal.get_registry_record(
-        "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_today_mail_date"
-    )
-    if today:
-        return datetime.date.today()
-
-
-@default_value(field=IDmsOutgoingMail["internal_reference_no"])
-def internalReferenceOutgoingMailDefaultValue(data):
-    """
-    Default value of internal_reference_no for dmsoutgoingmail
-    """
-    return evaluateInternalReference(
-        data.context,
-        data.request,
-        "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number",
-        "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_talexpression",
-    ).decode("utf8")
-
-
 class InternalReferenceOutgoingMailValidator(InternalReferenceBaseValidator):
     type_interface = IDmsOutgoingMail
 
@@ -318,9 +359,20 @@ class OMReplyToValidator(ReplyToValidator):
 
 
 validator.WidgetValidatorDiscriminators(
-    InternalReferenceOutgoingMailValidator, field=IDmsOutgoingMail["internal_reference_no"]
+    InternalReferenceOutgoingMailValidator,
+    field=IDmsOutgoingMail["internal_reference_no"],
 )
-validator.WidgetValidatorDiscriminators(OMReplyToValidator, field=IDmsOutgoingMail["reply_to"])
+validator.WidgetValidatorDiscriminators(
+    OMReplyToValidator, field=IDmsOutgoingMail["reply_to"]
+)
+
+MailDateDefault = ComputedWidgetAttribute(
+    mailDateDefaultValue, field=IDmsOutgoingMail["mail_date"]
+)
+InternalReferenceOutgoingMailDefault = ComputedWidgetAttribute(
+    internalReferenceOutgoingMailDefaultValue,
+    field=IDmsOutgoingMail["internal_reference_no"],
+)
 
 
 def incrementOutgoingMailNumber(outgoingmail, event):
@@ -332,30 +384,46 @@ def incrementOutgoingMailNumber(outgoingmail, event):
     if not outgoingmail.internal_reference_no:
         internal_reference_no = evaluateInternalReference(
             outgoingmail,
-            outgoingmail.REQUEST,
+            getRequest(),
             "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number",
             "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_talexpression",
         )
         outgoingmail.internal_reference_no = internal_reference_no
-        outgoingmail.reindexObject(idxs=("Title", "internal_reference_number", "SearchableText", "sortable_title"))
+        outgoingmail.reindexObject(
+            idxs=(
+                "Title",
+                "internal_reference_number",
+                "SearchableText",
+                "sortable_title",
+            )
+        )
     if getattr(outgoingmail, "_auto_ref", True):
         registry = getUtility(IRegistry)
-        registry["collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number"] += 1
+        registry[
+            "collective.dms.mailcontent.browser.settings.IDmsMailConfig.outgoingmail_number"
+        ] += 1
 
 
+@implementer(IDmsOutgoingMail)
 class DmsOutgoingMail(DmsDocument):
     """ """
 
-    implements(IDmsOutgoingMail)
-
     def Title(self):
         if self.internal_reference_no is None:
-            return self.title.encode("utf8")
-        return "%s - %s" % (self.internal_reference_no.encode("utf8"), self.title.encode("utf8"))
+            return self.title
+        return f"{self.internal_reference_no} - {self.title}"
 
     def get_replied(self, first=True, intf=IDmsIncomingMail):
-        normals = [obj for obj in get_relations(self, "reply_to", backrefs=False, as_obj=True) if intf.providedBy(obj)]
-        backs = [obj for obj in get_relations(self, "reply_to", backrefs=True, as_obj=True) if intf.providedBy(obj)]
+        normals = [
+            obj
+            for obj in get_relations(self, "reply_to", backrefs=False, as_obj=True)
+            if intf.providedBy(obj)
+        ]
+        backs = [
+            obj
+            for obj in get_relations(self, "reply_to", backrefs=True, as_obj=True)
+            if intf.providedBy(obj)
+        ]
         for obj in backs:
             if obj not in normals:
                 normals.append(obj)
@@ -369,50 +437,52 @@ class IOutgoingEmail(model.Schema):
     """ """
 
     email_status = schema.TextLine(
-        title=_(u"Email status"),
+        title=_("Email status"),
         required=False,
     )
     form.write_permission(email_status="cmf.ManagePortal")
 
     email_subject = schema.TextLine(
-        title=_(u"Email subject"),
+        title=_("Email subject"),
     )
 
     email_sender = schema.TextLine(
-        title=_(u"Email sender"),
+        title=_("Email sender"),
         constraint=validate_email_address,
     )
 
     email_recipient = schema.TextLine(
-        title=_(u"Email recipient"),
-        description=_(u"Multiple values must be separated by a comma."),
+        title=_("Email recipient"),
+        description=_("Multiple values must be separated by a comma."),
         constraint=validate_email_addresses,
     )
 
     email_cc = schema.TextLine(
-        title=_(u"Email cc"),
+        title=_("Email cc"),
         # description=_(u"Multiple values must be separated by a comma."),
         required=False,
         constraint=validate_email_addresses,
     )
 
     email_bcc = schema.TextLine(
-        title=_(u"Email bcc"),
+        title=_("Email bcc"),
         # description=_(u"Hidden emails."),
         required=False,
         constraint=validate_email_addresses,
     )
 
     email_attachments = schema.List(
-        title=_(u"Email attachments"),
+        title=_("Email attachments"),
         required=False,
-        value_type=schema.Choice(vocabulary=u"collective.dms.mailcontent.email_attachments_voc"),
+        value_type=schema.Choice(
+            vocabulary="collective.dms.mailcontent.email_attachments_voc"
+        ),
     )
     form.widget("email_attachments", CheckBoxFieldWidget, multiple="multiple", size=10)
 
     email_body = RichText(
-        title=_(u"Email body"),
-        allowed_mime_types=(u"text/html",),
+        title=_("Email body"),
+        allowed_mime_types=("text/html",),
     )
 
 
@@ -421,7 +491,7 @@ class IFieldsetOutgoingEmail(IOutgoingEmail):
 
     fieldset(
         "email",
-        label=_(u"Email"),
+        label=_("Email"),
         fields=[
             "email_status",
             "email_subject",

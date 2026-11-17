@@ -1,14 +1,15 @@
-#! -*- coding: utf8 -*-
-
-from setuptools import find_packages
 from setuptools import setup
 
-
-version = "1.17.2.dev0"
+version = "2.0.0.dev0"
 
 long_description = (
     open("README.rst").read() + "\n" + "Contributors\n"
-    "============\n" + "\n" + open("CONTRIBUTORS.rst").read() + "\n" + open("CHANGES.rst").read() + "\n"
+    "============\n"
+    + "\n"
+    + open("CONTRIBUTORS.rst").read()
+    + "\n"
+    + open("CHANGES.rst").read()
+    + "\n"
 )
 
 setup(
@@ -20,13 +21,16 @@ setup(
         "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
         "Framework :: Plone",
-        "Framework :: Plone :: 4.2",
-        "Framework :: Plone :: 4.3",
+        "Framework :: Plone :: 6.2",
         "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
+        "Programming Language :: Python :: 3.14",
         "Topic :: Software Development :: Libraries :: Python Modules",
     ],
     keywords="document management system dms mail",
@@ -35,30 +39,47 @@ setup(
     url="https://github.com/collective/collective.dms.mailcontent",
     download_url="https://pypi.org/project/collective.dms.mailcontent",
     license="gpl",
-    packages=find_packages("src"),
-    package_dir={"": "src"},
-    namespace_packages=["collective", "collective.dms"],
     include_package_data=True,
     zip_safe=False,
+    python_requires=">=3.10",
     install_requires=[
-        "Products.contentmigration",
-        "setuptools",
-        "plone.api",
-        "plone.app.dexterity",
-        "plone.directives.form",
         "collective.contact.core",
-        "collective.dexteritytextindexer",
+        "collective.contact.widget",
         "collective.dms.basecontent>1.99",
         "imio.helpers>=0.55",
-        "plone.formwidget.datetime",
-        # "plone.app.relationfield",
-        "five.grok",
+        "plone.api",
+        "plone.app.dexterity",
+        "plone.app.registry",
+        "plone.app.relationfield",
+        "plone.app.textfield",
+        "plone.app.vocabularies",
+        "plone.app.z3cform",
+        "plone.autoform",
+        "plone.base",
+        "plone.behavior",
+        "plone.dexterity",
+        "plone.indexer",
+        "plone.registry",
+        "plone.supermodel",
+        "plone.z3cform",
+        "Products.CMFCore",
+        "Products.CMFPlone",
+        "Products.ZCatalog",
+        "z3c.form",
+        "z3c.relationfield",
+        "zc.relation",
+        "Zope",
+        "zope.intid",
     ],
     extras_require={
         "test": [
-            "plone.app.testing",
-            "unittest2",
+            "collective.iconifiedcategory",
             "ecreall.helpers.testing",
+            "plone.app.robotframework",
+            "plone.app.testing",
+            "plone.namedfile",
+            "plone.testing",
+            "robotsuite",
         ],
     },
     entry_points="""

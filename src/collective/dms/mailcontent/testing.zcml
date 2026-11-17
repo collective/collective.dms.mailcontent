@@ -1,16 +1,18 @@
-<configure xmlns="http://namespaces.zope.org/zope"
-           xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-           i18n_domain="collective.dms.mailcontent">
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="collective.dms.mailcontent"
+    >
 
-   <include package="collective.dms.mailcontent"/>
-   <include file="configure.zcml"/>
+  <include package="collective.dms.mailcontent" />
+  <include file="configure.zcml" />
 
-    <genericsetup:registerProfile
+  <genericsetup:registerProfile
       name="testing"
       title="Collective Dms Mailcontent testing profile"
-      directory="profiles/testing"
       description="Collective Dms Mailcontent testing profile"
       provides="Products.GenericSetup.interfaces.EXTENSION"
-    />
+      directory="profiles/testing"
+      />
 
 </configure>
